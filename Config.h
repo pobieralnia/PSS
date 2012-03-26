@@ -24,31 +24,22 @@
 
 public class Config : private ConfigParser
 {
-	// TODO:
-	// 1. size of map a and b
-	// 2. name of object
-	// two and more objects
-	
 
 	// ------------------------------------------------------------------------------
 		
-		typedef std::tuple <std::string, std::map<int,int >, std::map<int,int > > m_config;
-		std::vector<m_config> m_vector_configs;
+		typedef std::tuple <std::string, std::map<int,int >, std::map<int,int >, int > m_config;		// container for current config
+		std::vector<m_config> m_vector_configs;		// container for all configs
 
-		int m_a_parameters_counter;		// counter for all a parameters
-		int m_b_parameters_counter;		// counter for all b parameters
-		int m_object_parameters_counter;
-
-		int m_tmp_parm_val;
-		int m_tmp_parm_key;
-		std::string m_tmp_parm_object;
+		int m_tmp_parm_val; // tmp variable
+		int m_tmp_parm_key; // tmp variable
+		std::string m_tmp_parm_object; // tmp variable
 
 		std::map<int,int > m_a_parameters;		// config - container for a - parameters
 		std::map<int,int > m_b_parameters;		// config - container for b - parameters
 		int	m_stationary;		// config - stationary or not
-		std::string m_object_name;
+		std::string m_object_name;		// config - object name
 
-		bool m_config_loaded;		// new config info
+		bool m_config_loaded;		// config flag
 
 	// ------------------------------------------------------------------------------
 
@@ -56,24 +47,31 @@ public class Config : private ConfigParser
 		Config(void) {};		// disable constructor
 		Config (const Config &);		// disable default copy
 		Config & operator = (const Config &);		// disable default copy
+		void clear(void);		// clear variables
 
 	// ------------------------------------------------------------------------------
 
 	public:
 		~Config(void) {}		// destructor
-		
-		bool check_if_config_loaded(void) { return this->m_config_loaded; };		// check if new config -> never useed
-		void set_config(void);
+
+		bool check_if_config_loaded(void) { return this->m_config_loaded; };		// check if config was loaded
+		void set_config(void);		// set config flag to true
 		void parse_file(std::string line);		// parse line
-		void clear(void);		// initialization
-		void clear_vector_config(void);
+		void clear_vector_config(void);			// clear all settings
 
-		int check_value_of_a_parm(void)	{ return this->m_a_parameters_counter; };
-		std::string check_value_of_a_parm(int);		// check how many a there is string
-		int check_value_of_b_parm(void)	{ return this->m_b_parameters_counter; };
-		std::string check_value_of_b_parm(int);		// check how many b there is string
-		std::string get_object_name_counter(int);		// check if stationary
+		/**
+		 * Get the size of all configs
+		 *
+		 * @return		int
+		 */
+		int get_size_of_configs(void) { return m_vector_configs.size(); };
 
+		std::string get_size_of_configs(int i);		// get string size of all configs which were loaded
+		void get_parameters(std::map<int, int> & parm, int object, int parameter);		// get parameters for current object;
+		bool check_object_stationarity(int object);
+		std::string get_object_name(int object);
+
+		/*
 		std::string print_ids()
 		{
 			std::string b;
@@ -94,12 +92,10 @@ public class Config : private ConfigParser
 			  std::stringstream ss;//create a stringstream
 			  ss << (*ii).first;
 			  c += ss.str();//return a string with the contents of the stream
-			
-
 		   }
 		   return c;
 		}
-
+		*/
 		// Instance of object
 		static Config & getInstance()
 		{

@@ -1,3 +1,5 @@
+Object-name:Object1;
+
 // -------------------------------------- A Parameters -------------------------------------------//
 
 a_parametr=1&1; // parameter - val & key
@@ -13,3 +15,25 @@ b_parametr=889&3; // parameter - val & key
 // -------------------------------------- Stationary -------------------------------------------//
 
 stationary=1; // First a - parameter
+
+END-OBJECT;
+
+Object-name:Object2;
+
+// -------------------------------------- A Parameters -------------------------------------------//
+
+a_parametr=1&1; // parameter - val & key
+a_parametr=899&2; // parameter - val & key
+a_parametr=889&4; // parameter - val & key
+
+// -------------------------------------- B Parameters -------------------------------------------//
+
+b_parametr=1&4; // parameter - val & key
+b_parametr=899&5; // parameter - val & key
+b_parametr=889&6; // parameter - val & key
+
+// -------------------------------------- Stationary -------------------------------------------//
+
+stationary=1; // First a - parameter
+
+END-OBJECT;

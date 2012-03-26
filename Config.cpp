@@ -19,9 +19,6 @@
  */
 void Config::clear(void)
 {
-	this->m_b_parameters_counter = 0;
-	this->m_a_parameters_counter = 0;
-	this->m_object_parameters_counter = 0;
 	this->m_stationary = 0;
 	this->m_a_parameters.clear();
 	this->m_b_parameters.clear();
@@ -70,12 +67,10 @@ void Config::parse_file(std::string line)
 		if(ConfigParser::regex_a_parameter(line, &m_tmp_parm_val, &m_tmp_parm_key))
 		{
 			this->m_a_parameters[m_tmp_parm_key] = m_tmp_parm_val;
-			this->m_a_parameters_counter++;
 		}
 		else if(ConfigParser::regex_b_parameter(line, &m_tmp_parm_val, &m_tmp_parm_key))
 		{
 			this->m_b_parameters[m_tmp_parm_key] = m_tmp_parm_val; // number
-			this->m_b_parameters_counter++;
 		}
 		else if(ConfigParser::regex_stationary(line))
 		{
@@ -84,12 +79,11 @@ void Config::parse_file(std::string line)
 		else if(ConfigParser::regex_object_name(line, m_tmp_parm_object))
 		{
 			this->m_object_name = m_tmp_parm_object;
-			this->m_object_parameters_counter++;
 		}
 		else if(ConfigParser::regex_end_of_config(line))
 		{
 			 // initialize a tuple and put in vector of configs
-			 m_vector_configs.push_back(make_tuple(this->m_object_name, this->m_b_parameters, this->m_a_parameters));
+			 m_vector_configs.push_back(make_tuple(this->m_object_name, this->m_b_parameters, this->m_a_parameters, this->m_stationary));
 
 			 // clear main variables
 			 this->clear();
@@ -97,41 +91,80 @@ void Config::parse_file(std::string line)
 	}
 }
 
+
 /**
- * Get the string value of the amount of a parameters
+ * Get the string of all configs
  *
  * @param		int i - flag
- * @return		string
+ * @return		string - size of configs
  */
-std::string Config::check_value_of_a_parm(int i)
+std::string Config::get_size_of_configs(int i)
 {
 	std::stringstream ss; //create a stringstream
-	ss << this->m_a_parameters_counter;
+	ss << m_vector_configs.size();
 	return ss.str(); //return a string with the contents of the stream
 }
 
 /**
- * Get the string value of the amount of b parameters
+ * Get a or b parameters for current object
  *
- * @param		int i - flag
- * @return		string
+ * @param		map parm - passed by reference
+ * @param		int object
+ * @param		int parameter - 1 for a parameters - 2 for b parameters
+ * @return		void
  */
-std::string Config::check_value_of_b_parm(int i)
+void Config::get_parameters(std::map<int, int> & parm, int object, int parameter)
 {
-	std::stringstream ss; //create a stringstream
-	ss << this->m_b_parameters_counter;
-	return ss.str(); //return a string with the contents of the stream
+	if(this->get_size_of_configs() > abs(object))
+	{
+		// todo - enum, albo rozbiæ to na dwie funkcje ?
+		if(parameter == 1)
+			parm = std::get<1>(this->m_vector_configs[abs(object)]);
+		else	
+			parm = std::get<2>(this->m_vector_configs[abs(object)]);
+	}
+	else
+	{
+		throw "Nie mo¿na pobraæ parametrów obiektu";
+	}
 }
 
 /**
- * Get the string value of the stationary parametr
+ * Check if current object is stationar
  *
- * @param		int i - flag
+ * @param		int object
+ * @return		bool
+ */
+bool Config::check_object_stationarity(int object)
+{
+	if(this->get_size_of_configs() > abs(object))
+	{
+		return std::get<3>(this->m_vector_configs[abs(object)]) & 1;
+	}
+	else
+	{
+		throw "Nie mo¿na pobraæ parametru obiektu - domyœlnie -> false";
+	}
+
+	return false;
+}
+
+/**
+ * Get object name
+ *
+ * @param		int object
  * @return		string
  */
-std::string Config::get_object_name_counter(int i)
+std::string Config::get_object_name(int object)
 {
-	std::stringstream ss; //create a stringstream
-	ss << this->m_object_parameters_counter;
-	return ss.str(); //return a string with the contents of the stream
+	if(this->get_size_of_configs() > abs(object))
+	{
+		return std::get<0>(this->m_vector_configs[abs(object)]);
+	}
+	else
+	{
+		throw "Nie mo¿na pobraæ parametru obiektu - domyœlnie -> No name";
+	}
+
+	return "No name";
 }
