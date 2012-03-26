@@ -41,6 +41,51 @@ bool ConfigParser::regex_b_parameter(std::string line, int * b_val, int * b_key)
 }
 
 /**
+ * Parse line to load b - parameter
+ *
+ * @param:		string line
+ * @return:		string
+ */
+bool ConfigParser::regex_object_name(std::string line, std::string & object_name)
+{
+    std::tr1::cmatch res;
+    std::tr1::regex rx("Object-name:([^<]+);");
+    if( std::tr1::regex_search(line.c_str(), res, rx) )
+	{
+		if(res[1] != "")
+		{
+			object_name = res[1];
+			return true;
+		}
+		
+	}
+
+	return false;
+
+}
+
+/**
+ * Parse line to load b - parameter
+ *
+ * @param:		string line
+ * @return:		bool
+ */
+bool ConfigParser::regex_end_of_config(std::string line)
+{
+    std::tr1::cmatch res;
+    std::tr1::regex rx("END-([^<]+);");
+    if( std::tr1::regex_search(line.c_str(), res, rx) )
+	{
+		if(res[1] == "OBJECT")
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+/**
  * Parse line to load a - parameter
  *
  * @param:		string line

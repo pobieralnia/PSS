@@ -20,6 +20,8 @@ private class ConfigParser
 		bool regex_b_parameter(std::string line, int * b_val, int * b_key);
 		bool regex_a_parameter(std::string line, int * a_val, int * a_key);
 		bool regex_stationary(std::string line);
+		bool regex_object_name(std::string line, std::string & object_name);
+		bool regex_end_of_config(std::string line);
 
 	public:
 		ConfigParser(void) {};
