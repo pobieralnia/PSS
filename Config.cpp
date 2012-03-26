@@ -7,45 +7,46 @@
 
 #include "stdafx.h"
 #include <string>
-#include <stdlib.h>
+#include <tuple>
+#include <sstream>
 #include "Config.h"
 
 
 /**
  * Init - filled main variables with default data
  *
- * @return:		void
+ * @return		void
  */
-void Config::init(void)
+void Config::clear(void)
 {
 	this->m_b_parameters_counter = 0;
 	this->m_a_parameters_counter = 0;
+	this->m_object_parameters_counter = 0;
 	this->m_stationary = 0;
 	this->m_a_parameters.clear();
 	this->m_b_parameters.clear();
 }
 
 /**
- * Set new config - config have never been used, addtionaly main variables are cleared
+ * Clear config vector
  *
- * @return:		void
+ * @return		void
  */
-void Config::set_new_config(void)
+void Config::clear_vector_config()
 {
-	this->init(); // clear all
-	this->m_new_config = true;
+	this->clear();
+	this->m_config_loaded = false;
+	this->m_vector_configs.clear();
 }
 
 /**
- * Disable new config - config now, was used
+ * Set new config - config have never been used, addtionaly main variables are cleared
  *
- * @return:		void
+ * @return		void
  */
-void Config::disable_new_config(void)
+void Config::set_config(void)
 {
-	// todo
-	// copy config
-	this->m_new_config = false;
+	this->m_config_loaded = true;
 }
 
 /**
@@ -63,6 +64,7 @@ void Config::parse_file(std::string line)
 		// Clean values
 		m_tmp_parm_val = 0;
 		m_tmp_parm_key = 0;
+		m_tmp_parm_object.clear();
 
 		// Check what kind of variables are in the line
 		if(ConfigParser::regex_a_parameter(line, &m_tmp_parm_val, &m_tmp_parm_key))
@@ -79,45 +81,57 @@ void Config::parse_file(std::string line)
 		{
 			this->m_stationary = 1;
 		}
+		else if(ConfigParser::regex_object_name(line, m_tmp_parm_object))
+		{
+			this->m_object_name = m_tmp_parm_object;
+			this->m_object_parameters_counter++;
+		}
+		else if(ConfigParser::regex_end_of_config(line))
+		{
+			 // initialize a tuple and put in vector of configs
+			 m_vector_configs.push_back(make_tuple(this->m_object_name, this->m_b_parameters, this->m_a_parameters));
 
+			 // clear main variables
+			 this->clear();
+		}
 	}
 }
 
 /**
  * Get the string value of the amount of a parameters
  *
- * @param:		int i - flag
- * @return:		string
+ * @param		int i - flag
+ * @return		string
  */
 std::string Config::check_value_of_a_parm(int i)
 {
-	std::string tmp;
-	itoa(this->m_a_parameters_counter, (char*)tmp.c_str(), 10);
-	return tmp.c_str();
+	std::stringstream ss; //create a stringstream
+	ss << this->m_a_parameters_counter;
+	return ss.str(); //return a string with the contents of the stream
 }
 
 /**
  * Get the string value of the amount of b parameters
  *
- * @param:		int i - flag
- * @return:		string
+ * @param		int i - flag
+ * @return		string
  */
 std::string Config::check_value_of_b_parm(int i)
 {
-	std::string tmp;
-	itoa(this->m_b_parameters_counter, (char*)tmp.c_str(), 10);
-	return tmp.c_str();
+	std::stringstream ss; //create a stringstream
+	ss << this->m_b_parameters_counter;
+	return ss.str(); //return a string with the contents of the stream
 }
 
 /**
  * Get the string value of the stationary parametr
  *
- * @param:		int i - flag
- * @return:		string
+ * @param		int i - flag
+ * @return		string
  */
-std::string Config::check_if_stationary_parm(int i)
+std::string Config::get_object_name_counter(int i)
 {
-	std::string tmp;
-	itoa(this->m_stationary, (char*)tmp.c_str(), 10);
-	return tmp.c_str();
+	std::stringstream ss; //create a stringstream
+	ss << this->m_object_parameters_counter;
+	return ss.str(); //return a string with the contents of the stream
 }
