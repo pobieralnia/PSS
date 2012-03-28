@@ -20,7 +20,8 @@ class SaveBase
 {
 	public:
 		virtual void save_online(std::string line) = 0;
-		virtual void save_static() = 0;
+		virtual bool open() = 0;
+		virtual void close() = 0;
 		virtual ~SaveBase() {};
 };
 
