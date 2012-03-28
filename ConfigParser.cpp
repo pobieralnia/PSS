@@ -115,6 +115,32 @@ bool ConfigParser::regex_a_parameter(std::string line, int * a_val, int * a_key)
 }
 
 /**
+ * Parse line to load k - parameter
+ *
+ * @param:		string line
+ * @param:		int k
+ * @return:		bool - True for success ? False if fail
+ */
+bool ConfigParser::regex_k(std::string line, int * k)
+{
+    std::tr1::cmatch res;
+    std::tr1::regex rx("k_parametr=([0-9]+);");
+    if( std::tr1::regex_search(line.c_str(), res, rx) )
+	{
+		if(res[1] != "")
+		{
+			std::string a = res[1];
+			* k = atoi(a.c_str());
+			
+			return true; // success
+		}
+		
+	}
+	
+	return false; // fail
+}
+
+/**
  * Parse lines to load stationary variable / parameter
  *
  * @param:		string line
