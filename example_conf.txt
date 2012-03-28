@@ -15,7 +15,7 @@ b_parametr=889&3; // parameter - val & key
 // -------------------------------------- Stationary -------------------------------------------//
 
 stationary=1; // First a - parameter
-
+k_parameter=1;
 END-OBJECT;
 
 Object-name:Object2;
@@ -35,5 +35,5 @@ b_parametr=889&6; // parameter - val & key
 // -------------------------------------- Stationary -------------------------------------------//
 
 stationary=1; // First a - parameter
-
+k_parameter=1;
 END-OBJECT;
