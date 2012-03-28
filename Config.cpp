@@ -20,6 +20,7 @@
 void Config::clear(void)
 {
 	this->m_stationary = 0;
+	this->m_k = 0;
 	this->m_a_parameters.clear();
 	this->m_b_parameters.clear();
 }
@@ -37,13 +38,16 @@ void Config::clear_vector_config()
 }
 
 /**
- * Set new config - config have never been used, addtionaly main variables are cleared
+ * Set flag to config, if configs are loaded we set flag to true
  *
  * @return		void
  */
 void Config::set_config(void)
 {
-	this->m_config_loaded = true;
+	if(this->get_size_of_configs() > 0)
+		this->m_config_loaded = true;
+	else
+		throw "Config nie zosta³ za³adowany";
 }
 
 /**
@@ -61,6 +65,7 @@ void Config::parse_file(std::string line)
 		// Clean values
 		m_tmp_parm_val = 0;
 		m_tmp_parm_key = 0;
+		m_tmp_k = 0;
 		m_tmp_parm_object.clear();
 
 		// Check what kind of variables are in the line
@@ -80,10 +85,14 @@ void Config::parse_file(std::string line)
 		{
 			this->m_object_name = m_tmp_parm_object;
 		}
+		else if(ConfigParser::regex_k(line, &m_tmp_k))
+		{
+			this->m_k = m_tmp_k; // bezsensu
+		}
 		else if(ConfigParser::regex_end_of_config(line))
 		{
 			 // initialize a tuple and put in vector of configs
-			 m_vector_configs.push_back(make_tuple(this->m_object_name, this->m_b_parameters, this->m_a_parameters, this->m_stationary));
+			 m_vector_configs.push_back(make_tuple(this->m_object_name, this->m_b_parameters, this->m_a_parameters, this->m_stationary, this->m_k));
 
 			 // clear main variables
 			 this->clear();
@@ -115,13 +124,18 @@ std::string Config::get_size_of_configs(int i)
  */
 void Config::get_parameters(std::map<int, int> & parm, int object, int parameter)
 {
-	if(this->get_size_of_configs() > abs(object))
+	// Check if config is loaded and if object may exists
+	if(this->m_config_loaded == true && this->get_size_of_configs() > abs(object))
 	{
 		// todo - enum, albo rozbiæ to na dwie funkcje ?
-		if(parameter == 1)
+		if(POLYNOMIAL_A == parameter)
 			parm = std::get<1>(this->m_vector_configs[abs(object)]);
-		else	
+		else if(POLYNOMIAL_B == parameter)	
 			parm = std::get<2>(this->m_vector_configs[abs(object)]);
+		else
+		{
+			throw "Brak takiego wielomianu";
+		}
 	}
 	else
 	{
@@ -137,7 +151,8 @@ void Config::get_parameters(std::map<int, int> & parm, int object, int parameter
  */
 bool Config::check_object_stationarity(int object)
 {
-	if(this->get_size_of_configs() > abs(object))
+	// Check if config is loaded and if object may exists
+	if(this->m_config_loaded == true && this->get_size_of_configs() > abs(object))
 	{
 		return std::get<3>(this->m_vector_configs[abs(object)]) & 1;
 	}
@@ -157,7 +172,9 @@ bool Config::check_object_stationarity(int object)
  */
 std::string Config::get_object_name(int object)
 {
-	if(this->get_size_of_configs() > abs(object))
+
+	// Check if config is loaded and if object may exists
+	if(this->m_config_loaded == true && this->get_size_of_configs() > abs(object))
 	{
 		return std::get<0>(this->m_vector_configs[abs(object)]);
 	}

@@ -2,14 +2,12 @@
 // Filename:	Config.h
 // Author:		Tomasz L.
 // Date:		2012-03-24
-// Package:		Config,ConfigParser
-// Usage:		
+// Package:		Config,ConfigParser	
+// TODO:		dB,dA - regex methods, default values ? , converter map -> deque,vector (fill with 0 empty keys, template member function get_parameters ???????)
+//				v.reserve(tmap.size());
+//				copy(tmap.begin(), tmap.begin() + tmap.size(), v.begin());
 //
-// Config::getInstance().init();
-// Config::getInstance().set_new_config();
-// Config::getInstance().parse_file( <string> );	
-//
-// Class for creating config object and storing main variables, after first use it creates a copy of it (nie zrobione)
+//	Progress	85% finish
 // ---------------------------------------------------------------------------------
 
 #ifndef __CONFIG_H__
@@ -19,27 +17,48 @@
 #include <string>
 #include <tuple>
 #include <map>
-#include <sstream>
 #include <vector>
 
+/**
+ * @class		Config Config.h
+ * @brief		Main class for keeping settings inside containers and variables
+ *
+ * It inherit from ConfigParser class where are stored methods for parsing values from string line. The main variables are k, polyniomal A,B, stationarity, object name.
+ *
+ * Simply usage:
+ * Config::getInstance().clear_vector_config();
+ * Config::getInstance().parse_file( <string> );		
+ * Config::getInstance().set_config();
+ *
+ * Exceptions:
+ * @see		set_config();
+ * @see		get_parameters();
+ * @see		check_object_stationarity();
+ * @see		get_object_name();
+ */
 public class Config : private ConfigParser
 {
 
 	// ------------------------------------------------------------------------------
 		
-		typedef std::tuple <std::string, std::map<int,int >, std::map<int,int >, int > m_config;		// container for current config
-		std::vector<m_config> m_vector_configs;		// container for all configs
+	typedef std::tuple <std::string, std::map<int,int >, std::map<int,int >, int, int > m_config;	// container for current config
+	std::vector<m_config> m_vector_configs;	// container for all configs
 
-		int m_tmp_parm_val; // tmp variable
-		int m_tmp_parm_key; // tmp variable
-		std::string m_tmp_parm_object; // tmp variable
+	static const int POLYNOMIAL_A = 0;
+	static const int POLYNOMIAL_B = 1;
 
-		std::map<int,int > m_a_parameters;		// config - container for a - parameters
-		std::map<int,int > m_b_parameters;		// config - container for b - parameters
-		int	m_stationary;		// config - stationary or not
-		std::string m_object_name;		// config - object name
+	int m_tmp_parm_val; // tmp variable
+	int m_tmp_parm_key; // tmp variable
+	int m_tmp_k;
+	std::string m_tmp_parm_object; // tmp variable
 
-		bool m_config_loaded;		// config flag
+	std::map<int,int > m_a_parameters;	// config - container for a - parameters
+	std::map<int,int > m_b_parameters;	// config - container for b - parameters
+	int	m_stationary;	// config - stationary or not
+	int m_k;	// config - k (delay)
+	std::string m_object_name;	// config - object name
+
+	bool m_config_loaded;	// config flag
 
 	// ------------------------------------------------------------------------------
 
@@ -49,12 +68,11 @@ public class Config : private ConfigParser
 		Config & operator = (const Config &);		// disable default copy
 		void clear(void);		// clear variables
 
-	// ------------------------------------------------------------------------------
 
 	public:
 		~Config(void) {}		// destructor
 
-		bool check_if_config_loaded(void) { return this->m_config_loaded; };		// check if config was loaded
+		bool check_if_config_loaded(void) { return this->m_config_loaded; };		// check if config was loaded properly
 		void set_config(void);		// set config flag to true
 		void parse_file(std::string line);		// parse line
 		void clear_vector_config(void);			// clear all settings
@@ -71,31 +89,6 @@ public class Config : private ConfigParser
 		bool check_object_stationarity(int object);
 		std::string get_object_name(int object);
 
-		/*
-		std::string print_ids()
-		{
-			std::string b;
-			for(std::vector<m_config>::const_iterator i = m_vector_configs.begin(); i != m_vector_configs.end(); ++i)
-			{
-				 b += print_idss(*i);
-			}
-			return b;
-		}
-
-		std::string print_idss(const m_config & i)
-		{
-		   std::string c;
-		   std::map<int,int> d;
-		   d = std::get<1>(i);
-		   for(std::map<int,int>::iterator ii=d.begin(); ii!=d.end(); ++ii)
-		   {
-			  std::stringstream ss;//create a stringstream
-			  ss << (*ii).first;
-			  c += ss.str();//return a string with the contents of the stream
-		   }
-		   return c;
-		}
-		*/
 		// Instance of object
 		static Config & getInstance()
 		{
