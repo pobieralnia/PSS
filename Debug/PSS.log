@@ -1,0 +1,49 @@
+﻿Build started 2012-04-17 19:15:58.
+     1>Project "C:\Users\Tomek\Documents\Visual Studio 2010\Projects\PSS\PSS\PSS\PSS.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "Debug\PSS.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       GenerateTargetFrameworkMonikerAttribute:
+       Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the input files.
+       ClCompile:
+         All outputs are up-to-date.
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0" /Zi /clr:pure /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _UNICODE /D UNICODE /EHa /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Debug\PSS.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /TP /FU"C:\Users\Tomek\Desktop\nplot-0.9.10.0\bin\net\2.0\release\NPlot.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Core.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Data.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Drawing.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Windows.Forms.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Xml.dll" /analyze- /errorReport:prompt Config.cpp ConfigObject.cpp PSS.cpp PlotSurface2DDemo.cpp /clr:nostdlib 
+         Config.cpp
+         ConfigObject.cpp
+         PSS.cpp
+         PlotSurface2DDemo.cpp
+         Generating Code...
+         All outputs are up-to-date.
+       CoreResGen:
+         All outputs are up-to-date.
+       ResourceCompile:
+         All outputs are up-to-date.
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Tomek\Documents\Visual Studio 2010\Projects\PSS\PSS\Debug\PSS.exe" /INCREMENTAL /NOLOGO /ASSEMBLYRESOURCE:light.wav /ASSEMBLYRESOURCE:pattern01.jpg /ASSEMBLYRESOURCE:asx_jbh.xml /ASSEMBLYRESOURCE:Debug\PSS.PlotSurface2DDemo.resources /MANIFEST /ManifestFile:"Debug\PSS.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Tomek\Documents\Visual Studio 2010\Projects\PSS\PSS\Debug\PSS.pdb" /ASSEMBLYDEBUG /SUBSYSTEM:WINDOWS /TLBID:1 /ENTRY:"main" /DYNAMICBASE /FIXED:NO /NXCOMPAT /MACHINE:X86 Debug\app.res
+         Debug\ARX.obj
+         Debug\AssemblyInfo.obj
+         Debug\Config.obj
+         Debug\ConfigObject.obj
+         Debug\ConfigParser.obj
+         Debug\PlotSurface2DDemo.obj
+         Debug\GeneratorRectangle.obj
+         Debug\GeneratorSinus.obj
+         Debug\GeneratorStep.obj
+         Debug\GeneratorTriangle.obj
+         Debug\PSS.obj
+         Debug\Regulator.obj
+         Debug\Save.obj
+         Debug\SaveFile.obj
+         Debug\SaveMysql.obj
+         Debug\stdafx.obj
+         "Debug\.NETFramework,Version=v4.0.AssemblyAttributes.obj"
+         PSS.vcxproj -> C:\Users\Tomek\Documents\Visual Studio 2010\Projects\PSS\PSS\Debug\PSS.exe
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"C:\Users\Tomek\Documents\Visual Studio 2010\Projects\PSS\PSS\Debug\PSS.exe;#1" /manifest Debug\PSS.exe.intermediate.manifest
+       FinalizeBuildStatus:
+         Deleting file "Debug\PSS.unsuccessfulbuild".
+         Touching "Debug\PSS.lastbuildstate".
+     1>Done Building Project "C:\Users\Tomek\Documents\Visual Studio 2010\Projects\PSS\PSS\PSS\PSS.vcxproj" (build target(s)).
+
+Kompilacja powiodła się.
+
+Time Elapsed 00:00:09.35

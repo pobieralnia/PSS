@@ -30,7 +30,16 @@ class ARX
 
 	public:
 		ARX() {};
-		ARX(const std::string & name, std::deque<double> A, std::deque<double> B, int delay, int stat) : m_object_name(name), m_A(A), m_B(B), m_delay(delay), m_stat(stat) { this->update_sample_size(); };
+		//ARX(const std::string & name, std::deque<double> A, std::deque<double> B, int delay, int stat) : m_object_name(name), m_A(A), m_B(B), m_delay(delay), m_stat(stat) { this->update_sample_size(); };
+		void get_parameters(const std::string & name, std::deque<double> A, std::deque<double> B, int delay, int stat)
+		{
+			m_object_name = name;
+			m_A = A;
+			m_B = B;
+			m_delay = delay;
+			m_stat = stat;
+			this->update_sample_size();
+		}
 		double simulate(double input);
 		virtual ~ARX(void) {};
 

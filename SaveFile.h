@@ -10,7 +10,6 @@
 
 #include <fstream>
 #include <typeinfo>
-
 #include "SaveBase.h"
 
 /**
@@ -27,6 +26,9 @@ class SaveFile : public SaveBase
 	bool m_open_flag;
 	std::ofstream m_FILE;
 	std::string m_name_file;
+	bool m_flag_saving;
+	static bool FLAG_WRITE_TO_END;
+	static bool FLAG_WRITE_TO_FIRST_LINE;
 
 	public:
 		SaveFile(void);
@@ -35,6 +37,9 @@ class SaveFile : public SaveBase
 
 		template <typename T>
 		void save_static(T data);
+
+		void write_from_end();
+		void write_from_begging();
 
 		bool open();
 		void set_name_for_file(std::string name);

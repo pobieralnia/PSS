@@ -7,7 +7,10 @@
 
 #include "stdafx.h"
 #include "ConfigParser.h"
+
 #include <regex>
+#include <sstream>
+#include <cstdlib>
 #include <string>
 
 /**
@@ -18,18 +21,19 @@
  * @param:		int b_key
  * @return:		bool - True for success ? False if fail
  */
-bool ConfigParser::regex_b_parameter(std::string line, int * b_val, int * b_key)
+bool ConfigParser::regex_b_parameter(std::string line, double * b_val, int * b_key)
 {
     std::tr1::cmatch res;
-    std::tr1::regex rx("b_parametr=([0-9]+)&([0-9]+);");
+    std::tr1::regex rx("b=([0-9]+)&([0-9]+);");
     if( std::tr1::regex_search(line.c_str(), res, rx) )
 	{
 		if(res[1] != "" && res[2] != "")
 		{
-			std::string b = res[1];
-			std::string c = res[2];
-			* b_val =  atoi(b.c_str());
-			* b_key =  atoi(c.c_str());
+			std::istringstream s_val(res[2]);
+			s_val >> * b_val;
+
+			std::istringstream s_key(res[1]);
+			s_key >> * b_key;
 
 			return true; // success
 		}
@@ -37,30 +41,6 @@ bool ConfigParser::regex_b_parameter(std::string line, int * b_val, int * b_key)
 	}
 
 	return false; // fail
-
-}
-
-/**
- * Parse line to load b - parameter
- *
- * @param:		string line
- * @return:		string
- */
-bool ConfigParser::regex_object_name(std::string line, std::string & object_name)
-{
-    std::tr1::cmatch res;
-    std::tr1::regex rx("Object-name:([^<]+);");
-    if( std::tr1::regex_search(line.c_str(), res, rx) )
-	{
-		if(res[1] != "")
-		{
-			object_name = res[1];
-			return true;
-		}
-		
-	}
-
-	return false;
 
 }
 
@@ -89,22 +69,23 @@ bool ConfigParser::regex_end_of_config(std::string line)
  * Parse line to load a - parameter
  *
  * @param:		string line
- * @param:		int a_val
- * @param:		int a_key
+ * @param:		double a_val
+ * @param:		double a_key
  * @return:		bool - True for success ? False if fail
  */
-bool ConfigParser::regex_a_parameter(std::string line, int * a_val, int * a_key)
+bool ConfigParser::regex_a_parameter(std::string line, double * a_val, int * a_key)
 {
     std::tr1::cmatch res;
-    std::tr1::regex rx("a_parametr=([0-9]+)&([0-9]+);");
+    std::tr1::regex rx("a=([0-9]+)&([0-9]+);");
     if( std::tr1::regex_search(line.c_str(), res, rx) )
 	{
 		if(res[1] != "" && res[2] != "")
 		{
-			std::string a = res[1];
-			std::string b = res[2];
-			* a_val = atoi(a.c_str());
-			* a_key = atoi(b.c_str()); 
+			std::istringstream s_val(res[2]);
+			s_val >> * a_val;
+
+			std::istringstream s_key(res[1]);
+			s_key >> * a_key;
 			
 			return true; // success
 		}
@@ -118,19 +99,19 @@ bool ConfigParser::regex_a_parameter(std::string line, int * a_val, int * a_key)
  * Parse line to load k - parameter
  *
  * @param:		string line
- * @param:		int k
+ * @param:		double k
  * @return:		bool - True for success ? False if fail
  */
-bool ConfigParser::regex_k(std::string line, int * k)
+bool ConfigParser::regex_k(std::string line, double * k)
 {
     std::tr1::cmatch res;
-    std::tr1::regex rx("k_parametr=([0-9]+);");
+    std::tr1::regex rx("k=([0-9]+);");
     if( std::tr1::regex_search(line.c_str(), res, rx) )
 	{
 		if(res[1] != "")
 		{
-			std::string a = res[1];
-			* k = atoi(a.c_str());
+			std::istringstream stm(res[1]);
+			stm >> * k;
 			
 			return true; // success
 		}
@@ -155,7 +136,55 @@ bool ConfigParser::regex_stationary(std::string line)
 		if(res[1] != "")
 		{
 			std::string b = res[1];
-			return  atoi(b.c_str()) & 1;
+			return  atoi(b.c_str()) && 1;
+		}
+	}
+	
+	return false; // fail
+}
+
+/**
+ * Get da parameters
+ *
+ * @param		string line
+ * @return		bool - True for success
+ */
+bool ConfigParser::regex_da(std::string line, int * da)
+{
+	std::tr1::cmatch res;
+	std::tr1::regex rx("da=([0-9]+);");
+    if( std::tr1::regex_search(line.c_str(), res, rx) )
+	{
+		if(res[1] != "")
+		{
+			std::istringstream s_da(res[1]);
+			s_da >> * da;
+			
+			return true; // success
+		}
+	}
+	
+	return false; // fail
+}
+
+/**
+ * Get da parameters
+ *
+ * @param		string line
+ * @return		bool - True for success
+ */
+bool ConfigParser::regex_db(std::string line, int * db)
+{
+	std::tr1::cmatch res;
+	std::tr1::regex rx("db=([0-9]+);");
+    if( std::tr1::regex_search(line.c_str(), res, rx) )
+	{
+		if(res[1] != "")
+		{
+			std::istringstream s_da(res[1]);
+			s_da >> * db;
+			
+			return true; // success
 		}
 	}
 	

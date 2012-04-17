@@ -46,7 +46,7 @@ double ARX::simulate(double input)
 										0.0
 									);
 
-    const double e = static_cast<double>(rand())/RAND_MAX*this->m_noise;
+    const double e = static_cast<double>(rand())/RAND_MAX*0.1;
 	const double output = -a_y + b_u + e;
 
 	// Removes the last element

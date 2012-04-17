@@ -1,9 +1,12 @@
 #include "stdafx.h"
 #include "SaveFile.h"
+#include <fstream>
 #include <ctime>
 
 /**
  * Constructor
+ *
+ * @return		void
  */
 SaveFile::SaveFile(void)
 {
@@ -15,8 +18,16 @@ SaveFile::SaveFile(void)
 
 	// clear file name
 	this->m_name_file = "example.txt";
+
+	// set default flag
+	this->m_flag_saving = FLAG_WRITE_TO_FIRST_LINE;
 }
 
+/** Flag for saving input data to file from last line */
+bool SaveFile::FLAG_WRITE_TO_END = false;
+
+/** Flag for saving input data to file from line */
+bool SaveFile::FLAG_WRITE_TO_FIRST_LINE = true;
 
 /**
  * Open file to do operation on it
@@ -28,7 +39,7 @@ bool SaveFile::open()
 	// if File is open close it
 	if(this->m_open_flag)		this->m_FILE.close();	
 
-	this->m_FILE.open(this->m_name_file);
+	this->m_FILE.open(this->m_name_file, this->m_flag_saving);
 
 	// Check if File was open properly
 	if (this->m_FILE.is_open())
@@ -109,6 +120,25 @@ void SaveFile::save_static(T data)
 		}
 		elseif(typeid(data).name() == "string")	
 			this->m_FILE << asctime(timeinfo) << data << "\r\n";
-		
 	}
 };
+
+/**
+ * Write data from last line
+ * 
+ * @return		void
+ */
+void SaveFile::write_from_end()
+{
+	this->m_flag_saving = FLAG_WRITE_TO_END;
+}
+
+/**
+ * Write data from last line
+ * 
+ * @return		void
+ */
+void SaveFile::write_from_begging()
+{
+	this->m_flag_saving = FLAG_WRITE_TO_FIRST_LINE;
+}

@@ -23,6 +23,8 @@ class SaveBase
 		virtual bool open() = 0;
 		virtual void close() = 0;
 		virtual ~SaveBase() {};
+
+		//static SaveBase * Create(std::string type);
 };
 
 #endif

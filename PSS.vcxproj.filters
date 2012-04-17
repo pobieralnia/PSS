@@ -1,0 +1,181 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Pliki nagłówkowe">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Pliki zasobów">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Pliki nagłówkowe\Class">
+      <UniqueIdentifier>{d66eef90-0858-42ef-81a3-69bd49c30da9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki nagłówkowe\Class\Save">
+      <UniqueIdentifier>{bec51aec-d383-4d88-b92b-f3b574961e80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki nagłówkowe\Class\Config">
+      <UniqueIdentifier>{6b0018cb-38e6-4740-a63a-96e811cb67d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki nagłówkowe\Class\Generator">
+      <UniqueIdentifier>{47296370-e28a-43df-aacb-76343d1c532c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki źródłowe">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Pliki źródłowe\Class">
+      <UniqueIdentifier>{fd904351-8c0a-4689-858d-732a3063a4ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki źródłowe\Class\Save">
+      <UniqueIdentifier>{e58cc9f4-d994-4d17-b869-578c83d8ff6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki źródłowe\Class\Config">
+      <UniqueIdentifier>{f430a3a3-183f-4a39-ac7c-c0ff3d5c7948}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki źródłowe\Class\Generator">
+      <UniqueIdentifier>{2bfe3bb5-a320-4de6-87a1-0426030ebdfd}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+    <None Include="app.ico">
+      <Filter>Pliki zasobów</Filter>
+    </None>
+    <None Include="asx_jbh.xml">
+      <Filter>Pliki zasobów</Filter>
+    </None>
+    <None Include="light.wav">
+      <Filter>Pliki zasobów</Filter>
+    </None>
+    <None Include="pattern01.jpg">
+      <Filter>Pliki zasobów</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="PSS.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="AssemblyInfo.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="ARX.cpp">
+      <Filter>Pliki źródłowe\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="SaveFile.cpp">
+      <Filter>Pliki źródłowe\Class\Save</Filter>
+    </ClCompile>
+    <ClCompile Include="Save.cpp">
+      <Filter>Pliki źródłowe\Class\Save</Filter>
+    </ClCompile>
+    <ClCompile Include="SaveMysql.cpp">
+      <Filter>Pliki źródłowe\Class\Save</Filter>
+    </ClCompile>
+    <ClCompile Include="ConfigParser.cpp">
+      <Filter>Pliki źródłowe\Class\Config</Filter>
+    </ClCompile>
+    <ClCompile Include="ConfigObject.cpp">
+      <Filter>Pliki źródłowe\Class\Config</Filter>
+    </ClCompile>
+    <ClCompile Include="Regulator.cpp">
+      <Filter>Pliki źródłowe\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratorRectangle.cpp">
+      <Filter>Pliki źródłowe\Class\Generator</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratorTriangle.cpp">
+      <Filter>Pliki źródłowe\Class\Generator</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratorStep.cpp">
+      <Filter>Pliki źródłowe\Class\Generator</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratorSinus.cpp">
+      <Filter>Pliki źródłowe\Class\Generator</Filter>
+    </ClCompile>
+    <ClCompile Include="Config.cpp">
+      <Filter>Pliki źródłowe\Class\Config</Filter>
+    </ClCompile>
+    <ClCompile Include="PlotSurface2DDemo.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>Pliki nagłówkowe\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="ARX.h">
+      <Filter>Pliki nagłówkowe\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Save.h">
+      <Filter>Pliki nagłówkowe\Class\Save</Filter>
+    </ClInclude>
+    <ClInclude Include="SaveFile.h">
+      <Filter>Pliki nagłówkowe\Class\Save</Filter>
+    </ClInclude>
+    <ClInclude Include="SaveBase.h">
+      <Filter>Pliki nagłówkowe\Class\Save</Filter>
+    </ClInclude>
+    <ClInclude Include="SaveMysql.h">
+      <Filter>Pliki nagłówkowe\Class\Save</Filter>
+    </ClInclude>
+    <ClInclude Include="Config.h">
+      <Filter>Pliki nagłówkowe\Class\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="ConfigParser.h">
+      <Filter>Pliki nagłówkowe\Class\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="ConfigObject.h">
+      <Filter>Pliki nagłówkowe\Class\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="Regulator.h">
+      <Filter>Pliki nagłówkowe\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Signal.h">
+      <Filter>Pliki nagłówkowe\Class\Generator</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratorRectangle.h">
+      <Filter>Pliki nagłówkowe\Class\Generator</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratorTriangle.h">
+      <Filter>Pliki nagłówkowe\Class\Generator</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratorStep.h">
+      <Filter>Pliki nagłówkowe\Class\Generator</Filter>
+    </ClInclude>
+    <ClInclude Include="ConfigBase.h">
+      <Filter>Pliki nagłówkowe\Class\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratorSinus.h">
+      <Filter>Pliki nagłówkowe\Class\Generator</Filter>
+    </ClInclude>
+    <ClInclude Include="PlotSurface2DDemo.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
+    <ClInclude Include="ConfigStruct.h">
+      <Filter>Pliki nagłówkowe\Class\Config</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Form1.resX">
+      <Filter>Pliki zasobów</Filter>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PlotSurface2DDemo.resx">
+      <Filter>Pliki nagłówkowe</Filter>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="app.rc">
+      <Filter>Pliki zasobów</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

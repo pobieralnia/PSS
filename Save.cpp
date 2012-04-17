@@ -1,4 +1,11 @@
-#include "stdafx.h"
+// ---------------------------------------------------------------------------------
+// Filename:	Save.cpp
+// Author:		Tomasz L.
+// Date:		2012-03-24
+// Package:		Save
+// ---------------------------------------------------------------------------------
+
+#include "StdAfx.h"
 #include "SaveFile.h"
 #include "SaveMysql.h"
 #include "Save.h"

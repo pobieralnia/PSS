@@ -2,22 +2,18 @@
 // Filename:	Config.h
 // Author:		Tomasz L.
 // Date:		2012-03-24
-// Package:		Config,ConfigParser	
-// TODO:		dB,dA - regex methods, default values ? , converter map -> deque,vector (fill with 0 empty keys, template member function get_parameters ???????)
-//				v.reserve(tmap.size());
-//				copy(tmap.begin(), tmap.begin() + tmap.size(), v.begin());
-//
-//	Progress	85% finish
+// Package:		Config
 // ---------------------------------------------------------------------------------
 
 #ifndef __CONFIG_H__
 #define __CONFIG_H__
 
-#include "ConfigParser.h"
 #include <string>
-#include <tuple>
-#include <map>
-#include <vector>
+
+#include "ConfigObject.h"
+#include "ConfigStruct.h"
+
+class ConfigBase; // forward declaration (ConfigObject)
 
 /**
  * @class		Config Config.h
@@ -26,76 +22,83 @@
  * It inherit from ConfigParser class where are stored methods for parsing values from string line. The main variables are k, polyniomal A,B, stationarity, object name.
  *
  * Simply usage:
- * Config::getInstance().clear_vector_config();
- * Config::getInstance().parse_file( <string> );		
+ * Config::getInstance().clear_all();	
  * Config::getInstance().set_config();
- *
- * Exceptions:
- * @see		set_config();
- * @see		get_parameters();
- * @see		check_object_stationarity();
- * @see		get_object_name();
  */
-public class Config : private ConfigParser
+class Config : someStruct
 {
+	bool m_config_object_loaded;	// object config flag
+	bool m_config_generator_loaded;	// generator config flag
+	bool m_config_regulator_loaded;	// regulator config flag
 
-	// ------------------------------------------------------------------------------
-		
-	typedef std::tuple <std::string, std::map<int,int >, std::map<int,int >, int, int > m_config;	// container for current config
-	std::vector<m_config> m_vector_configs;	// container for all configs
-
-	static const int POLYNOMIAL_A = 0;
-	static const int POLYNOMIAL_B = 1;
-
-	int m_tmp_parm_val; // tmp variable
-	int m_tmp_parm_key; // tmp variable
-	int m_tmp_k;
-	std::string m_tmp_parm_object; // tmp variable
-
-	std::map<int,int > m_a_parameters;	// config - container for a - parameters
-	std::map<int,int > m_b_parameters;	// config - container for b - parameters
-	int	m_stationary;	// config - stationary or not
-	int m_k;	// config - k (delay)
-	std::string m_object_name;	// config - object name
-
-	bool m_config_loaded;	// config flag
-
-	// ------------------------------------------------------------------------------
+	struct someStruct structo;
 
 	private:
-		Config(void) {};		// disable constructor
+		Config(void){ this->clear_flag(); };		// disable constructor
 		Config (const Config &);		// disable default copy
 		Config & operator = (const Config &);		// disable default copy
-		void clear(void);		// clear variables
-
 
 	public:
 		~Config(void) {}		// destructor
 
-		bool check_if_config_loaded(void) { return this->m_config_loaded; };		// check if config was loaded properly
-		void set_config(void);		// set config flag to true
-		void parse_file(std::string line);		// parse line
-		void clear_vector_config(void);			// clear all settings
+		// Interface
+		enum ConfigType
+		{
+			OBJECT = 0,
+			REGULATOR = 1,
+			GENERATOR = 2
+		};
+
+		bool get_flag(ConfigType cty);		// get flag status
+		void set_config(ConfigType cty);	// set exact config flag to true
+		void clear_flag(ConfigType cty);	// clear flag for exact config
+		void clear_flag();					// clear all flags
 
 		/**
-		 * Get the size of all configs
+		 * Template function to get config for exact type
 		 *
-		 * @return		int
+		 * @param	T & conf
+		 * @param	ConfigType cty
+		 * @return	void
 		 */
-		int get_size_of_configs(void) { return m_vector_configs.size(); };
+		template <typename T>
+		void get_config(T & conf, ConfigType cty)
+		{
+			if( this->structo.m_vector_objects.size() > 0 )
+			{
+				switch (cty)
+				{
+					case OBJECT:
+						conf = this->structo.m_vector_objects;
+						break;
+					case REGULATOR:
+						conf = this->structo.m_vector_objects;
+						break;
+					case GENERATOR:
+						conf = this->structo.m_vector_objects;
+						break;
+					default:
+						break;
+				}
+		
+			}
+		};
 
-		std::string get_size_of_configs(int i);		// get string size of all configs which were loaded
-		void get_parameters(std::map<int, int> & parm, int object, int parameter);		// get parameters for current object;
-		bool check_object_stationarity(int object);
-		std::string get_object_name(int object);
+		// ------------------------------------------------------------------------------
 
 		// Instance of object
 		static Config & getInstance()
 		{
 			static Config instance; 
 			return instance; 	
-		};		
-
+		};
+		
+		// Create static driver
+		ConfigBase * create(std::string type) {
+			if ( type == "object" ) return new ConfigObject(&structo);
+			return NULL;
+		}
+		
 };
 
 #endif

@@ -25,7 +25,7 @@
  *	SaveBase * File = object->createInstance("file");
  *
  *	cout << File->open() << endl;
- *	File->save_online("asddasd");
+ *	File->save_online("test");
  *
  *	delete File;
  *	delete object;
