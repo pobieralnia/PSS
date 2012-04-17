@@ -2,6 +2,7 @@
 
 #include "stdafx.h"
 #include "PlotSurface2DDemo.h"
+#include <vector>
 
 using namespace PSS;
 

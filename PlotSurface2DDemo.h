@@ -34,7 +34,6 @@
 #include "ARX.h"
 
 #include <sstream>
-#include <memory>
 #include <tuple>
 #include <map>
 #include <string>
@@ -81,7 +80,7 @@ namespace PSS {
 
 	public:
 		CPlotSurface2DDemo(void);
-		System::Void PlotSincFunction(array<double>^ managedValues, array<int>^ managedValuess);
+		System::Void PlotSincFunction(array<double>^ managedValues);
 		~CPlotSurface2DDemo();
 
 	// Note that a NPlot.Windows.PlotSurface2D class

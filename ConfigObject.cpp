@@ -91,7 +91,7 @@ void ConfigObject::parse_line(std::string line)
 	else if(ConfigParser::regex_end_of_config(line))
 	{
 		// initialize a tuple and put in vector of configs
-		m_vector_objects_ptr->push_back(make_tuple(this->m_b_parameters, this->m_a_parameters, this->m_other_parameters));
+		m_vector_objects_ptr->push_back(make_tuple(this->m_a_parameters, this->m_b_parameters, this->m_other_parameters));
 
 		// clear main variables
 		this->clear();

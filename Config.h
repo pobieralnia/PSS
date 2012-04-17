@@ -41,6 +41,8 @@ class Config : someStruct
 	public:
 		~Config(void) {}		// destructor
 
+		std::vector<double> m_ARX;
+
 		// Interface
 		enum ConfigType
 		{

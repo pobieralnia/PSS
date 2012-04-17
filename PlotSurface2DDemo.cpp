@@ -34,7 +34,8 @@
 #include "PlotSurface2DDemo.h"
 #include "ARX.h"
 
-#include <deque>
+#include <algorithm>
+#include <vector>
 
 namespace PSS {
 
@@ -52,6 +53,9 @@ namespace PSS {
 
 		config_object = NULL;
 		arx_object = NULL;
+
+		arx_object = new ARX();
+		config_object = Config::getInstance().create("object");
 	}
 
 	/**
@@ -68,6 +72,7 @@ namespace PSS {
 		}
 
 		delete config_object;
+		delete arx_object;
 	}
 
 	/**
@@ -167,80 +172,44 @@ namespace PSS {
 	void CPlotSurface2DDemo::backgroundWorker1_ProgressChanged( Object^ /*sender*/, ProgressChangedEventArgs^ e )
 	{
 		// Create config object driver
-		typedef std::tuple <std::map<int,double>, std::map<int,double>, std::map<std::string, double>> object_details;
-		std::vector<object_details> m_vector_objects_ptr;	// container for all configs
+		std::vector<std::tuple <std::map<int,double>, std::map<int,double>, std::map<std::string, double>>> m_vector_objects_ptr;	// container for all configs
 		Config::getInstance().get_config(m_vector_objects_ptr,Config::getInstance().OBJECT);
 
-		//	std::map<int,double> m_a_parameters;
-		//	m_a_parameters = std::get<1>(m_vector_objects_ptr[0]);
 
-		int c = 1;
-		//	for( auto it = m_a_parameters.begin(); it != m_a_parameters.end(); ++it ) {
-		//	   m_A.push_back( it->second );
-		//	  
-		//	    m_X.push_back( c );
-		//		 c++;
-		//	}
+		std::deque<double> m_A;
+		std::deque<double> m_B;
 
-		//	 array<double>^ managedValues = gcnew array<double>(m_A.size());
-		//	 array<int>^ managedValuess = gcnew array<int>(m_X.size());
-
-			 // cast to managed object type IntPtr representing an object pointer.
-		//	 System::IntPtr ptr = (System::IntPtr)&m_A[0];
-
-			  // cast to managed object type IntPtr representing an object pointer.
-		//	 System::IntPtr ptrx = (System::IntPtr)&m_X[0];
-
-			 // copy data to managed array using System::Runtime::Interopservices namespace
-		//	 Marshal::Copy(ptr, managedValues, 0, m_A.size());
-
-			 // copy data to managed array using System::Runtime::Interopservices namespace
-		//	 Marshal::Copy(ptrx, managedValuess, 0, m_X.size());
-
-			double myints[] = {-0.6};
-			std::deque<double> m_AA (myints, myints + sizeof(myints) / sizeof(double) );
-
-			double myintss[] = {0.4};
-			std::deque<double> m_B (myintss, myintss + sizeof(myintss) / sizeof(double) );
-
-			int m_delay = 2;
-			int m_stat = 1;
-			//arx_object->get_parameters("name", m_AA, m_B, m_delay, m_stat);
-
-			std::vector<int> m_X;
-			//std::vector<double> m_A;
-
-			 //m_A.push_back(arx_object->simulate(5));
-
-			// Removes the last element
-		//	Config::getInstance().m_ARX.pop_back();
-		//	Config::getInstance().m_ARX.pop_front(arx_object->simulate(5));
-
-		//	 m_X.clear();
-		//	for( auto it = Config::getInstance().m_ARX.begin(); it !=Config::getInstance().m_ARX.end(); ++it ) {
-		//	    m_X.push_back( c );
-		//		 c++;
-		//	 }
-
-		//	 array<double>^ managedValues = gcnew array<double>(Config::getInstance().m_ARX.size());
-		//	 array<int>^ managedValuess = gcnew array<int>(m_X.size());
-
-			 	 // cast to managed object type IntPtr representing an object pointer.
-		//	 System::IntPtr ptr = (System::IntPtr)&Config::getInstance().m_ARX[0];
-
-			  // cast to managed object type IntPtr representing an object pointer.
-		//	 System::IntPtr ptrx = (System::IntPtr)&m_X[0];
-
-			 // copy data to managed array using System::Runtime::Interopservices namespace
-		//	 Marshal::Copy(ptr, managedValues, 0, Config::getInstance().m_ARX.size());
-
-			 // copy data to managed array using System::Runtime::Interopservices namespace
-	//		 Marshal::Copy(ptrx, managedValuess, 0, m_X.size());
-	//		 CPlotSurface2DDemo::PlotSincFunction(managedValues, managedValuess);		
+		for( auto it =  std::get<0>(m_vector_objects_ptr[0]).begin(); it !=  std::get<0>(m_vector_objects_ptr[0]).end(); ++it ) {
+			   m_A.push_back( it->second );
 		}
+
+		for( auto ite = std::get<1>(m_vector_objects_ptr[0]).begin(); ite != std::get<1>(m_vector_objects_ptr[0]).end(); ++ite ) {
+			m_B.push_back( ite->second );
+		}
+
+		int m_delay = std::get<2>(m_vector_objects_ptr[0])["k"];
+		int m_stat = std::get<2>(m_vector_objects_ptr[0])["stationary"];
+
+		arx_object->get_parameters("name", m_A, m_B, m_delay, m_stat);
+			
+		Config::getInstance().m_ARX.push_back(arx_object->simulate(4));
+			
+		//arx_object->get_parameters("name", std::get<0>(m_vector_objects_ptr[0]), std::get<1>(m_vector_objects_ptr[0]), std::get<2>(m_vector_objects_ptr[0]));
+
+		array<double>^ managedValues = gcnew array<double>(Config::getInstance().m_ARX.size());
+	
+		// cast to managed object type IntPtr representing an object pointer.
+		System::IntPtr ptr = (System::IntPtr)&Config::getInstance().m_ARX[0];
+
+		// copy data to managed array using System::Runtime::Interopservices namespace
+		Marshal::Copy(ptr, managedValues, 0, Config::getInstance().m_ARX.size());
+
+		CPlotSurface2DDemo::PlotSincFunction(managedValues);
+		
+	}
 	
 	#pragma region PlotSincFunction
-	System::Void CPlotSurface2DDemo::PlotSincFunction(array<double>^ managedValues, array<int>^ managedValuess) 
+	System::Void CPlotSurface2DDemo::PlotSincFunction(array<double>^ managedValues) 
 	{
 		int n = 1000;
         plotSurface->Clear(); // clear everything. reset fonts. remove plot components etc.
@@ -272,7 +241,7 @@ namespace PSS {
 		LinePlot^ lp = gcnew LinePlot();
 		lp->OrdinateData = managedValues;
 		//lp->AbscissaData = gcnew StartStep( -500.0, 10.0 );
-		lp->AbscissaData = managedValuess;
+		//lp->AbscissaData = gcnew StartStep( min_x, max_x );
 		lp->Pen = gcnew Pen( Color::Blue, 1.0f );
 		plotSurface->Add(lp);
 

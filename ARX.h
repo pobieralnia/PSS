@@ -10,6 +10,7 @@
 
 #include <deque>
 #include <string>
+#include <map>
 
 /**
  * @class		ARX ARX.h
@@ -33,6 +34,8 @@ class ARX
 		//ARX(const std::string & name, std::deque<double> A, std::deque<double> B, int delay, int stat) : m_object_name(name), m_A(A), m_B(B), m_delay(delay), m_stat(stat) { this->update_sample_size(); };
 		void get_parameters(const std::string & name, std::deque<double> A, std::deque<double> B, int delay, int stat)
 		{
+			m_A.clear();
+
 			m_object_name = name;
 			m_A = A;
 			m_B = B;
@@ -40,6 +43,25 @@ class ARX
 			m_stat = stat;
 			this->update_sample_size();
 		}
+
+		void get_parameters(const std::string & name, std::map<int,double> A, std::map<int,double> B, std::map<std::string, double> others)
+		{
+			m_object_name = name;
+
+			for( auto it = A.begin(); it != A.end(); ++it ) {
+			   m_A.push_back( it->second );
+			}
+
+			for( auto ite = B.begin(); ite != B.end(); ++ite ) {
+			   m_B.push_back( ite->second );
+			}
+
+			m_delay = others["k"];
+			m_stat =  others["stationary"];
+
+			this->update_sample_size();
+		}
+
 		double simulate(double input);
 		virtual ~ARX(void) {};
 

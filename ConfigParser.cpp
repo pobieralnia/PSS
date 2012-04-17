@@ -24,7 +24,7 @@
 bool ConfigParser::regex_b_parameter(std::string line, double * b_val, int * b_key)
 {
     std::tr1::cmatch res;
-    std::tr1::regex rx("b=([0-9]+)&([0-9]+);");
+    std::tr1::regex rx("b=([0-9]+)&([^<]+);");
     if( std::tr1::regex_search(line.c_str(), res, rx) )
 	{
 		if(res[1] != "" && res[2] != "")
@@ -76,7 +76,7 @@ bool ConfigParser::regex_end_of_config(std::string line)
 bool ConfigParser::regex_a_parameter(std::string line, double * a_val, int * a_key)
 {
     std::tr1::cmatch res;
-    std::tr1::regex rx("a=([0-9]+)&([0-9]+);");
+    std::tr1::regex rx("a=([0-9]+)&([^<]+);");
     if( std::tr1::regex_search(line.c_str(), res, rx) )
 	{
 		if(res[1] != "" && res[2] != "")
