@@ -8,10 +8,10 @@
 class GeneratorSinus : public Signal {
 
 	double m_frequency;
-	double m_amplituda;
+	double m_amplitude;
 
 	public:
-		GeneratorSinus(std::map<std::string, double> parameters, int start, int stop);
+		GeneratorSinus(std::map<std::string, double> parameters);
 		virtual double simulate(int t);
 };
 #endif

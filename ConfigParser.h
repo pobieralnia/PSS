@@ -9,13 +9,14 @@
 #define __CONFIGPARSER_H__
 
 #include <string>
+#include <map>
 
 /**
  * @class ConfigParser ConfigParser.h
  * @brief Class for parsing from string line
  *
- * It has six hree methods regex_b_parameter, regex_a_parameter, regex_stationary, regex_k, regex_object_name, regex_end_of_config. 
- * Each method return bool - True if success, False for failure. For parsing is used regex library.
+ * Each method for object return bool - True if success, False for failure. For parsing is used regex library.
+ * Method for generator config return void, we pass by reference map to fill it
  */
 class ConfigParser
 {
@@ -27,6 +28,7 @@ class ConfigParser
 		bool regex_k(std::string line, double * k);
 		bool regex_da(std::string line, int * da);
 		bool regex_db(std::string line, int * db);
+		void regex_generator_parameter(std::string line, std::map<std::string, double > & parm);
 
 	public:
 		ConfigParser(void) {};

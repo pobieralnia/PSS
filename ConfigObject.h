@@ -46,16 +46,9 @@ class ConfigObject : public ConfigBase, private ConfigParser
 		ConfigObject(struct someStruct * state);
 		~ConfigObject(void) { this->clear_all(); };
 		void parse_line(std::string line);
-
-		/**
-		 * Get the size of all objects
-		 *
-		 * @return		int
-		 */
-		int get_size() { return m_vector_objects_ptr->size();  };
-		std::string get_size(int i);
-
 		void clear_all(void);
+		int get_size();
+		std::string get_size(int i);
 };
 
 #endif

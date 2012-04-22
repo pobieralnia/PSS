@@ -52,10 +52,14 @@ namespace PSS {
 			System::Windows::Forms::AnchorStyles::Bottom;
 
 		config_object = NULL;
+		config_generator = NULL;
 		arx_object = NULL;
+	//	s_signal = NULL;
+		simulate_counter = 1;
 
 		arx_object = new ARX();
 		config_object = Config::getInstance().create("object");
+		config_generator = Config::getInstance().create("generator");
 	}
 
 	/**
@@ -175,7 +179,6 @@ namespace PSS {
 		std::vector<std::tuple <std::map<int,double>, std::map<int,double>, std::map<std::string, double>>> m_vector_objects_ptr;	// container for all configs
 		Config::getInstance().get_config(m_vector_objects_ptr,Config::getInstance().OBJECT);
 
-
 		std::deque<double> m_A;
 		std::deque<double> m_B;
 
@@ -192,24 +195,33 @@ namespace PSS {
 
 		arx_object->get_parameters("name", m_A, m_B, m_delay, m_stat);
 			
-		Config::getInstance().m_ARX.push_back(arx_object->simulate(4));
-			
+		double ble = arx_object->simulate(4);
+		simulate_counter++;
+
+		Config::getInstance().m_ARX.push_back(ble);
+		
+		Config::getInstance().m_ARXe.push_back(4 - ble);
+
 		//arx_object->get_parameters("name", std::get<0>(m_vector_objects_ptr[0]), std::get<1>(m_vector_objects_ptr[0]), std::get<2>(m_vector_objects_ptr[0]));
 
 		array<double>^ managedValues = gcnew array<double>(Config::getInstance().m_ARX.size());
-	
 		// cast to managed object type IntPtr representing an object pointer.
 		System::IntPtr ptr = (System::IntPtr)&Config::getInstance().m_ARX[0];
-
 		// copy data to managed array using System::Runtime::Interopservices namespace
 		Marshal::Copy(ptr, managedValues, 0, Config::getInstance().m_ARX.size());
 
-		CPlotSurface2DDemo::PlotSincFunction(managedValues);
+		array<double>^ managedValuess = gcnew array<double>(Config::getInstance().m_ARXe.size());
+		// cast to managed object type IntPtr representing an object pointer.
+		System::IntPtr ptrr = (System::IntPtr)&Config::getInstance().m_ARXe[0];
+		// copy data to managed array using System::Runtime::Interopservices namespace
+		Marshal::Copy(ptrr, managedValuess, 0, Config::getInstance().m_ARXe.size());
+
+		CPlotSurface2DDemo::PlotSincFunction(managedValues, managedValuess);
 		
 	}
 	
 	#pragma region PlotSincFunction
-	System::Void CPlotSurface2DDemo::PlotSincFunction(array<double>^ managedValues) 
+	System::Void CPlotSurface2DDemo::PlotSincFunction(array<double>^ managedValues, array<double>^ uchyb) 
 	{
 		int n = 1000;
         plotSurface->Clear(); // clear everything. reset fonts. remove plot components etc.
@@ -219,31 +231,25 @@ namespace PSS {
 		fineGrid->HorizontalGridType = Grid::GridType::Fine;
 		plotSurface->Add( fineGrid );
 
-		System::Random^ r = gcnew Random();
-		array<double>^ b = gcnew array<double>(100);
-		
-		const int npt = 101;
-		array<float>^ x = gcnew array<float>(npt);
-		array<float>^ y = gcnew array<float>(npt);
-		float step = 0.1f;
-		for (int i=0; i<npt; ++i)
-		{
-			//x[i] = i*step - 5.0f;
-			//y[i] = (float)Math::Pow( 10.0, x[i] );
-		}
-
-		
-		//float xmin = x[0];
-		//float xmax = x[npt-1];
-		//float ymin = (float)Math::Pow( 10.0, xmin );
-		//float ymax = (float)Math::Pow( 10.0, xmax );
-
 		LinePlot^ lp = gcnew LinePlot();
 		lp->OrdinateData = managedValues;
 		//lp->AbscissaData = gcnew StartStep( -500.0, 10.0 );
 		//lp->AbscissaData = gcnew StartStep( min_x, max_x );
 		lp->Pen = gcnew Pen( Color::Blue, 1.0f );
+		
+		LinePlot^ top = gcnew LinePlot();
+		top->OrdinateData = uchyb;
+		top->Color = Color::LightSteelBlue;
+		top->Pen->Width = 2.0f;
+
 		plotSurface->Add(lp);
+		plotSurface->Add(top);
+
+		FilledRegion^ fr = gcnew FilledRegion(top, lp );
+		fr->RectangleBrush = gcnew RectangleBrushes::Vertical( Color::FromArgb(255,255,240), Color::FromArgb(240,255,255) );
+		plotSurface->SmoothingMode = System::Drawing::Drawing2D::SmoothingMode::AntiAlias;
+
+		plotSurface->Add( fr );
 
 		plotSurface->Title = "Wykres symulacji";
 		plotSurface->YAxis1->Label = "Y";
@@ -258,6 +264,7 @@ namespace PSS {
         plotSurface->Legend = legend;
 		plotSurface->LegendZOrder = 1; // default zorder for adding idrawables is 0, so this puts legend on top.
 
+		plotSurface->Title = "Wykres zale¿noœci\n test drugiej linii";
 		plotSurface->Refresh();
 	}
 	#pragma endregion

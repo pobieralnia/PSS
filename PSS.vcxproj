@@ -96,8 +96,10 @@
     <ClCompile Include="ARX.cpp" />
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="Config.cpp" />
+    <ClCompile Include="ConfigGenerator.cpp" />
     <ClCompile Include="ConfigObject.cpp" />
     <ClCompile Include="ConfigParser.cpp" />
+    <ClCompile Include="GeneratorDecorator.cpp" />
     <ClCompile Include="PlotSurface2DDemo.cpp" />
     <ClCompile Include="GeneratorRectangle.cpp" />
     <ClCompile Include="GeneratorSinus.cpp" />
@@ -117,9 +119,11 @@
     <ClInclude Include="ARX.h" />
     <ClInclude Include="Config.h" />
     <ClInclude Include="ConfigBase.h" />
+    <ClInclude Include="ConfigGenerator.h" />
     <ClInclude Include="ConfigObject.h" />
     <ClInclude Include="ConfigParser.h" />
     <ClInclude Include="ConfigStruct.h" />
+    <ClInclude Include="GeneratorDecorator.h" />
     <ClInclude Include="PlotSurface2DDemo.h">
       <FileType>CppForm</FileType>
     </ClInclude>

@@ -14,18 +14,9 @@
  */
 class Signal {
 
-	int s_start;
-	int s_stop;
-
 	public:
-		Signal(int start, int stop) : s_start(start), s_stop(stop) {};
+		Signal() {};
 		virtual double simulate(int t) = 0;
-
-	protected:
-		bool if_active(int t)
-			 {
-				return (t >= this->s_start && t<= this->s_stop) ? true : false;	
-			 };
+		virtual ~Signal() {};
 };
-
 #endif

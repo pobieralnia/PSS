@@ -58,9 +58,12 @@ namespace PSS {
 	 */
 	public ref class CPlotSurface2DDemo : public System::Windows::Forms::Form
 	{
+	private: int simulate_counter;
 	private: int n;
 	private: ARX * arx_object;
 	private: ConfigBase * config_object;
+	private: ConfigBase * config_generator;
+	//private: Signal * s_signal;
 	private: System::Windows::Forms::Button^  startAsyncButton;
 	private: System::Windows::Forms::Button^  cancelAsyncButton;
 	private: System::ComponentModel::BackgroundWorker^ backgroundWorker1;
@@ -76,11 +79,13 @@ namespace PSS {
 	private: System::Windows::Forms::ToolStripMenuItem^  zamknijToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^  pomocToolStripMenuItem;
 	private: System::Windows::Forms::Button^  button1;
+	private: System::Windows::Forms::Button^  button2;
+	private: System::Windows::Forms::CheckedListBox^  checkedListBox1;
 	private: System::Windows::Forms::OpenFileDialog^  openFileDialog1;
 
 	public:
 		CPlotSurface2DDemo(void);
-		System::Void PlotSincFunction(array<double>^ managedValues);
+		System::Void PlotSincFunction(array<double>^ managedValues, array<double>^ uchyb);
 		~CPlotSurface2DDemo();
 
 	// Note that a NPlot.Windows.PlotSurface2D class
@@ -122,6 +127,7 @@ namespace PSS {
 		this->tabControl1 = (gcnew System::Windows::Forms::TabControl());
 		this->Wykres = (gcnew System::Windows::Forms::TabPage());
 		this->tabPage2 = (gcnew System::Windows::Forms::TabPage());
+		this->button2 = (gcnew System::Windows::Forms::Button());
 		this->button1 = (gcnew System::Windows::Forms::Button());
 		this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
 		this->plikToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
@@ -129,6 +135,7 @@ namespace PSS {
 		this->zamknijToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 		this->pomocToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 		this->openFileDialog1 = (gcnew System::Windows::Forms::OpenFileDialog());
+		this->checkedListBox1 = (gcnew System::Windows::Forms::CheckedListBox());
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->trackBar1))->BeginInit();
 		this->tabControl1->SuspendLayout();
 		this->Wykres->SuspendLayout();
@@ -231,6 +238,8 @@ namespace PSS {
 		// 
 		// tabPage2
 		// 
+		this->tabPage2->Controls->Add(this->checkedListBox1);
+		this->tabPage2->Controls->Add(this->button2);
 		this->tabPage2->Controls->Add(this->button1);
 		this->tabPage2->Location = System::Drawing::Point(4, 22);
 		this->tabPage2->Name = L"tabPage2";
@@ -239,6 +248,16 @@ namespace PSS {
 		this->tabPage2->TabIndex = 1;
 		this->tabPage2->Text = L"Konfiguracja";
 		this->tabPage2->UseVisualStyleBackColor = true;
+		// 
+		// button2
+		// 
+		this->button2->Location = System::Drawing::Point(19, 71);
+		this->button2->Name = L"button2";
+		this->button2->Size = System::Drawing::Size(75, 23);
+		this->button2->TabIndex = 1;
+		this->button2->Text = L"Generator";
+		this->button2->UseVisualStyleBackColor = true;
+		this->button2->Click += gcnew System::EventHandler(this, &CPlotSurface2DDemo::button2_Click);
 		// 
 		// button1
 		// 
@@ -291,6 +310,14 @@ namespace PSS {
 		// 
 		this->openFileDialog1->FileName = L"openFileDialog1";
 		// 
+		// checkedListBox1
+		// 
+		this->checkedListBox1->FormattingEnabled = true;
+		this->checkedListBox1->Location = System::Drawing::Point(113, 71);
+		this->checkedListBox1->Name = L"checkedListBox1";
+		this->checkedListBox1->Size = System::Drawing::Size(120, 94);
+		this->checkedListBox1->TabIndex = 2;
+		// 
 		// CPlotSurface2DDemo
 		// 
 		this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -311,7 +338,7 @@ namespace PSS {
 		this->ResumeLayout(false);
 		this->PerformLayout();
 
-			 }
+	 }
 #pragma endregion
 
 	// Handle the TrackBar.ValueChanged event by calculating a value for
@@ -364,7 +391,6 @@ namespace PSS {
 				try
 				{
 					String^ line;
-
 					// Read and display lines from the file until the end of 
 					// the file is reached.
 					while ( line = sr->ReadLine() )
@@ -390,5 +416,41 @@ namespace PSS {
 		
 	}
 
-	}; // END OF CLASS
-}
+	private: System::Void button2_Click(System::Object^  sender, System::EventArgs^  e)
+	{
+		// Check if dialog is open correct
+		if(openFileDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK)
+		{
+			try
+			{
+				// Create an instance of StreamReader to read from a file.
+				StreamReader^ sr = gcnew StreamReader( this->openFileDialog1->FileName );
+				try
+				{
+					String^ line;
+					// Read and display lines from the file until the end of 
+					// the file is reached.
+					while ( line = sr->ReadLine() )
+					{
+						config_generator->parse_line( msclr::interop::marshal_as< std::string >( line )  );
+					}
+
+				}
+				finally
+				{
+					if ( sr )
+					delete (IDisposable^)sr;
+				}
+
+			}
+			catch ( Exception^ e ) 
+			{
+				// Let the user know what went wrong.
+				MessageBox::Show( e->Message, "The file could not be read");
+			}
+		}
+	}
+
+}; // END OF CLASS
+
+} // END OF NAMESPACE

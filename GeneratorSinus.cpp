@@ -1,21 +1,14 @@
 #include "stdafx.h"
-/*
-#include "StdAfx.h"
 #include "GeneratorSinus.h"
 #include <cmath>
 
-GeneratorSinus::GeneratorSinus(std::map<std::string, double> parameters, int start, int stop)
+GeneratorSinus::GeneratorSinus(std::map<std::string, double> parameters)
 {
-	//Signal(start,stop);
-	this->m_frequency = parameters['sinus_freq'];
-	this->m_amplituda = parameters['sinus_amp'];
+	this->m_frequency = parameters["sinus_freq"];
+	this->m_amplitude = parameters["sinus_amp"];
 }
 
-double simulate(int t)
+double GeneratorSinus::simulate(int t)
 {
-	if(Signal::if_active(t))
-	{
-		return this->amplitude * sin(this->m_time*this->frequency);
-	}
+	return this->m_amplitude*std::sin((static_cast<double>(t % static_cast<int>(this->m_frequency)) / this->m_frequency) * 6.28);
 }
-*/

@@ -56,7 +56,7 @@ bool ConfigParser::regex_end_of_config(std::string line)
     std::tr1::regex rx("END-([^<]+);");
     if( std::tr1::regex_search(line.c_str(), res, rx) )
 	{
-		if(res[1] == "OBJECT")
+		if(res[1] == "CONFIG")
 		{
 			return true;
 		}
@@ -189,4 +189,31 @@ bool ConfigParser::regex_db(std::string line, int * db)
 	}
 	
 	return false; // fail
+}
+
+/**
+ * Fill parameters for generator
+ *
+ * @param		string line
+ * @param		map<string,double> & parm
+ * @return		void
+ */
+void ConfigParser::regex_generator_parameter(std::string line, std::map<std::string, double> & parm)
+{
+	double val;
+	std::string name;
+
+	std::tr1::cmatch res;
+	std::tr1::regex rx("param=([^<]+)&([0-9]+);");
+    if( std::tr1::regex_search(line.c_str(), res, rx) )
+	{
+		if(res[1] != "" && res[2] != "")
+		{
+			std::string name = res[1];
+			std::istringstream s_val(res[2]);
+			s_val >> val;
+
+			parm[name] = val;
+		}
+	}
 }

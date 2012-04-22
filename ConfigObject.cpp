@@ -16,6 +16,13 @@
 #include "Config.h"
 #include "ConfigObject.h"
 
+/**
+ * Constructor
+ * clear all main variables
+ * 
+ * @param	struct someStruct * state - struct with config variables
+ * @return	void
+ */
 ConfigObject::ConfigObject(struct someStruct * state)
 {
 	m_vector_objects_ptr = &state->m_vector_objects;
@@ -23,7 +30,7 @@ ConfigObject::ConfigObject(struct someStruct * state)
 }
 
 /**
- * Init - filled main variables with default data
+ * Clear all main variables
  *
  * @return		void
  */
@@ -109,4 +116,14 @@ std::string ConfigObject::get_size(int i)
 	std::stringstream ss; //create a stringstream
 	ss << m_vector_objects_ptr->size();
 	return ss.str(); //return a string with the contents of the stream
+}
+
+/**
+ * Get the size of all objects
+ *
+ * @return		int
+ */
+int ConfigObject::get_size()
+{ 
+	return m_vector_objects_ptr->size(); 
 }

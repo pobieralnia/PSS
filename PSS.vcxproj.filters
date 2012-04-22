@@ -102,6 +102,12 @@
     <ClCompile Include="PlotSurface2DDemo.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratorDecorator.cpp">
+      <Filter>Pliki źródłowe\Class\Generator</Filter>
+    </ClCompile>
+    <ClCompile Include="ConfigGenerator.cpp">
+      <Filter>Pliki źródłowe\Class\Config</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -164,11 +170,14 @@
     <ClInclude Include="ConfigStruct.h">
       <Filter>Pliki nagłówkowe\Class\Config</Filter>
     </ClInclude>
+    <ClInclude Include="GeneratorDecorator.h">
+      <Filter>Pliki nagłówkowe\Class\Generator</Filter>
+    </ClInclude>
+    <ClInclude Include="ConfigGenerator.h">
+      <Filter>Pliki nagłówkowe\Class\Config</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Form1.resX">
-      <Filter>Pliki zasobów</Filter>
-    </EmbeddedResource>
     <EmbeddedResource Include="PlotSurface2DDemo.resx">
       <Filter>Pliki nagłówkowe</Filter>
     </EmbeddedResource>
