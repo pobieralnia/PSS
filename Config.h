@@ -11,6 +11,7 @@
 #include <string>
 
 #include "ConfigObject.h"
+#include "ConfigGenerator.h"
 #include "ConfigStruct.h"
 
 class ConfigBase; // forward declaration (ConfigObject)
@@ -57,34 +58,22 @@ class Config : someStruct
 		void clear_flag(ConfigType cty);	// clear flag for exact config
 		void clear_flag();					// clear all flags
 
-		/**
-		 * Template function to get config for exact type
-		 *
-		 * @param	T & conf
-		 * @param	ConfigType cty
-		 * @return	void
-		 */
-		template <typename T>
+		template<typename T>
 		void get_config(T & conf, ConfigType cty)
 		{
 			if( this->structo.m_vector_objects.size() > 0 )
 			{
-				switch (cty)
+				if(cty == OBJECT)
 				{
-					case OBJECT:
-						conf = this->structo.m_vector_objects;
-						break;
-					case REGULATOR:
-						conf = this->structo.m_vector_objects;
-						break;
-					case GENERATOR:
-						conf = this->structo.m_vector_objects;
-						break;
-					default:
-						break;
+					conf = this->structo.m_vector_objects;
 				}
-		
 			}
+		};
+
+		template<typename T>
+		void get_configg(T & conf)
+		{
+			conf = this->structo.m_vector_generator;
 		};
 
 		// ------------------------------------------------------------------------------
@@ -99,8 +88,9 @@ class Config : someStruct
 		// Create static driver
 		ConfigBase * create(std::string type) {
 			if ( type == "object" ) return new ConfigObject(&structo);
+			else if ( type == "generator" ) return new ConfigGenerator(structo);
 			return NULL;
-		}
+		};
 		
 };
 

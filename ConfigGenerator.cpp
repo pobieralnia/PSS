@@ -20,9 +20,9 @@
  * @param	struct someStruct * state - struct with config variables
  * @return	void
  */
-ConfigGenerator::ConfigGenerator(struct someStruct * state)
+ConfigGenerator::ConfigGenerator(struct someStruct & state)
 {
-	m_vector_generator_ptr = &state->m_vector_generator;
+	m_vector_generator_ptr = &state.m_vector_generator;
 	this->clear();
 }
 
@@ -34,6 +34,9 @@ ConfigGenerator::ConfigGenerator(struct someStruct * state)
 ConfigGenerator::~ConfigGenerator(void)
 {
 	this->clear_all();
+
+	m_vector_generator_ptr = NULL;
+	delete m_vector_generator_ptr;
 }
 
 /**
@@ -54,10 +57,7 @@ void ConfigGenerator::clear(void)
 void ConfigGenerator::clear_all()
 {
 	this->clear();
-
 	m_vector_generator_ptr->clear();
-	m_vector_generator_ptr = NULL;
-	delete m_vector_generator_ptr;
 }
 
 /**
@@ -68,7 +68,6 @@ void ConfigGenerator::clear_all()
  */
 void ConfigGenerator::parse_line(std::string line)
 {
-	
 	if(ConfigParser::regex_end_of_config(line))
 	{
 		// initialize a tuple and put in vector of configs

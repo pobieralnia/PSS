@@ -18,9 +18,8 @@
  * @brief	Structure for all main configs
  */
 struct someStruct {
-		std::vector<std::tuple <std::map<int,double>, std::map<int,double>, std::map<std::string, double>>> m_vector_objects;
-		std::vector<std::map<std::string,double>> m_vector_regulator;
-		std::vector<std::map<std::string,double>> m_vector_generator;
-	};
-
+		std::vector<std::tuple <std::map<int,double>, std::map<int,double>, std::map<std::string, double>> > m_vector_objects;
+		std::vector<std::map<std::string,double> > m_vector_regulator;
+		std::vector<std::map<std::string,double> > m_vector_generator;
+};
 #endif

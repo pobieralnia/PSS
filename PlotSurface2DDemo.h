@@ -80,7 +80,10 @@ namespace PSS {
 	private: System::Windows::Forms::ToolStripMenuItem^  pomocToolStripMenuItem;
 	private: System::Windows::Forms::Button^  button1;
 	private: System::Windows::Forms::Button^  button2;
-	private: System::Windows::Forms::CheckedListBox^  checkedListBox1;
+	private: System::Windows::Forms::Label^  label1;
+	private: System::Windows::Forms::Button^  button3;
+	private: System::Windows::Forms::ListBox^  listBox1;
+
 	private: System::Windows::Forms::OpenFileDialog^  openFileDialog1;
 
 	public:
@@ -127,6 +130,8 @@ namespace PSS {
 		this->tabControl1 = (gcnew System::Windows::Forms::TabControl());
 		this->Wykres = (gcnew System::Windows::Forms::TabPage());
 		this->tabPage2 = (gcnew System::Windows::Forms::TabPage());
+		this->button3 = (gcnew System::Windows::Forms::Button());
+		this->label1 = (gcnew System::Windows::Forms::Label());
 		this->button2 = (gcnew System::Windows::Forms::Button());
 		this->button1 = (gcnew System::Windows::Forms::Button());
 		this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
@@ -135,7 +140,7 @@ namespace PSS {
 		this->zamknijToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 		this->pomocToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 		this->openFileDialog1 = (gcnew System::Windows::Forms::OpenFileDialog());
-		this->checkedListBox1 = (gcnew System::Windows::Forms::CheckedListBox());
+		this->listBox1 = (gcnew System::Windows::Forms::ListBox());
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->trackBar1))->BeginInit();
 		this->tabControl1->SuspendLayout();
 		this->Wykres->SuspendLayout();
@@ -238,7 +243,9 @@ namespace PSS {
 		// 
 		// tabPage2
 		// 
-		this->tabPage2->Controls->Add(this->checkedListBox1);
+		this->tabPage2->Controls->Add(this->listBox1);
+		this->tabPage2->Controls->Add(this->button3);
+		this->tabPage2->Controls->Add(this->label1);
 		this->tabPage2->Controls->Add(this->button2);
 		this->tabPage2->Controls->Add(this->button1);
 		this->tabPage2->Location = System::Drawing::Point(4, 22);
@@ -248,6 +255,26 @@ namespace PSS {
 		this->tabPage2->TabIndex = 1;
 		this->tabPage2->Text = L"Konfiguracja";
 		this->tabPage2->UseVisualStyleBackColor = true;
+		// 
+		// button3
+		// 
+		this->button3->Location = System::Drawing::Point(19, 100);
+		this->button3->Name = L"button3";
+		this->button3->Size = System::Drawing::Size(75, 23);
+		this->button3->TabIndex = 3;
+		this->button3->Text = L"czyœæ tablicê";
+		this->button3->UseVisualStyleBackColor = true;
+		this->button3->Click += gcnew System::EventHandler(this, &CPlotSurface2DDemo::button3_Click);
+		// 
+		// label1
+		// 
+		this->label1->AutoSize = true;
+		this->label1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.25F));
+		this->label1->Location = System::Drawing::Point(110, 87);
+		this->label1->Name = L"label1";
+		this->label1->Size = System::Drawing::Size(101, 17);
+		this->label1->TabIndex = 2;
+		this->label1->Text = L"Za³adowono: 0";
 		// 
 		// button2
 		// 
@@ -310,13 +337,17 @@ namespace PSS {
 		// 
 		this->openFileDialog1->FileName = L"openFileDialog1";
 		// 
-		// checkedListBox1
+		// listBox1
 		// 
-		this->checkedListBox1->FormattingEnabled = true;
-		this->checkedListBox1->Location = System::Drawing::Point(113, 71);
-		this->checkedListBox1->Name = L"checkedListBox1";
-		this->checkedListBox1->Size = System::Drawing::Size(120, 94);
-		this->checkedListBox1->TabIndex = 2;
+		this->listBox1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.25F));
+		this->listBox1->FormattingEnabled = true;
+		this->listBox1->ItemHeight = 17;
+		listBox1->Items->Add( String::Format( "Dodaj obiekt", 1 ) );
+	//	this->listBox1->Items->AddRange(gcnew cli::array< System::Object^  >(1) {L"Alo"});
+		this->listBox1->Location = System::Drawing::Point(113, 25);
+		this->listBox1->Name = L"listBox1";
+		this->listBox1->Size = System::Drawing::Size(120, 21);
+		this->listBox1->TabIndex = 4;
 		// 
 		// CPlotSurface2DDemo
 		// 
@@ -333,12 +364,13 @@ namespace PSS {
 		this->Wykres->ResumeLayout(false);
 		this->Wykres->PerformLayout();
 		this->tabPage2->ResumeLayout(false);
+		this->tabPage2->PerformLayout();
 		this->menuStrip1->ResumeLayout(false);
 		this->menuStrip1->PerformLayout();
 		this->ResumeLayout(false);
 		this->PerformLayout();
 
-	 }
+			 }
 #pragma endregion
 
 	// Handle the TrackBar.ValueChanged event by calculating a value for
@@ -398,6 +430,17 @@ namespace PSS {
 						config_object->parse_line( msclr::interop::marshal_as< std::string >( line )  );
 					}
 
+					// Shutdown the painting of the ListBox as items are added.
+					listBox1->BeginUpdate();
+
+					// Loop through and add 50 items to the ListBox.
+					for ( int x = 1; x <= 50; x++ )
+					{
+						listBox1->Items->Add( String::Format( "Item {0}", x ) );
+
+					}
+					listBox1->EndUpdate();
+
 				}
 				finally
 				{
@@ -440,6 +483,16 @@ namespace PSS {
 				{
 					if ( sr )
 					delete (IDisposable^)sr;
+
+				//	std::vector<std::map<std::string,double> > m_vector_regulator;
+				//	Config::getInstance().get_configg(m_vector_regulator);
+					
+				//	std::stringstream ss; //create a stringstream
+				//	ss << m_vector_regulator.size();
+					//std::string aa = m_vector_regulator.size();
+					//MessageBox::Show( msclr::interop::marshal_as< String ^ >( ss.str() ) );
+					
+					this->label1->Text =  L"Za³adowano: " + msclr::interop::marshal_as< String ^ >( config_generator->get_size(1) );
 				}
 
 			}
@@ -451,6 +504,15 @@ namespace PSS {
 		}
 	}
 
+	private: System::Void button3_Click(System::Object^  sender, System::EventArgs^  e)
+	{
+		config_generator->clear_all();
+		this->label1->Text =  L"Za³adowano: 0";
+	//	int b = listBox1->SelectedValue->ToString();
+		 if ( listBox1->SelectedIndex != -1 )
+			MessageBox::Show( listBox1->SelectedValue->ToString(), "The file could not be read");
+	}
+			 
 }; // END OF CLASS
 
 } // END OF NAMESPACE

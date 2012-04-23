@@ -176,8 +176,8 @@ namespace PSS {
 	void CPlotSurface2DDemo::backgroundWorker1_ProgressChanged( Object^ /*sender*/, ProgressChangedEventArgs^ e )
 	{
 		// Create config object driver
-		std::vector<std::tuple <std::map<int,double>, std::map<int,double>, std::map<std::string, double>>> m_vector_objects_ptr;	// container for all configs
-		Config::getInstance().get_config(m_vector_objects_ptr,Config::getInstance().OBJECT);
+		std::vector<std::tuple <std::map<int,double>, std::map<int,double>, std::map<std::string, double>> > m_vector_objects_ptr;	// container for all configs
+		Config::getInstance().get_config(m_vector_objects_ptr, Config::getInstance().OBJECT);
 
 		std::deque<double> m_A;
 		std::deque<double> m_B;
@@ -217,7 +217,7 @@ namespace PSS {
 		Marshal::Copy(ptrr, managedValuess, 0, Config::getInstance().m_ARXe.size());
 
 		CPlotSurface2DDemo::PlotSincFunction(managedValues, managedValuess);
-		
+
 	}
 	
 	#pragma region PlotSincFunction

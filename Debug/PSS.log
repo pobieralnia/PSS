@@ -1,4 +1,4 @@
-﻿Build started 2012-04-22 10:40:30.
+﻿Build started 2012-04-24 01:32:29.
      1>Project "C:\Users\Tomek\Documents\Visual Studio 2010\Projects\PSS\PSS\PSS\PSS.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\PSS.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -6,8 +6,16 @@
        Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the input files.
        ClCompile:
          All outputs are up-to-date.
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0" /Zi /clr:pure /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _UNICODE /D UNICODE /EHa /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Debug\PSS.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /TP /FU"C:\Users\Tomek\Desktop\nplot-0.9.10.0\bin\net\2.0\release\NPlot.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Core.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Data.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Drawing.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Windows.Forms.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Xml.dll" /analyze- /errorReport:prompt ConfigParser.cpp /clr:nostdlib 
-         ConfigParser.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0" /Zi /clr:pure /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _UNICODE /D UNICODE /EHa /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Debug\PSS.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /TP /FU"C:\Users\Tomek\Desktop\nplot-0.9.10.0\bin\net\2.0\release\NPlot.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Core.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Data.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Drawing.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Windows.Forms.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Xml.dll" /analyze- /errorReport:prompt PSS.cpp PlotSurface2DDemo.cpp /clr:nostdlib 
+         PSS.cpp
+     1>c:\users\tomek\documents\visual studio 2010\projects\pss\pss\pss\ARX.h(59): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\tomek\documents\visual studio 2010\projects\pss\pss\pss\ARX.h(60): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+         PlotSurface2DDemo.cpp
+     1>c:\users\tomek\documents\visual studio 2010\projects\pss\pss\pss\ARX.h(59): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\tomek\documents\visual studio 2010\projects\pss\pss\pss\ARX.h(60): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>PlotSurface2DDemo.cpp(193): warning C4244: 'initializing' : conversion from 'double' to 'int', possible loss of data
+     1>PlotSurface2DDemo.cpp(194): warning C4244: 'initializing' : conversion from 'double' to 'int', possible loss of data
+         Generating Code...
          All outputs are up-to-date.
        CoreResGen:
          All outputs are up-to-date.
@@ -44,4 +52,4 @@
 
 Kompilacja powiodła się.
 
-Time Elapsed 00:00:05.34
+Time Elapsed 00:00:07.39

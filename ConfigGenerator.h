@@ -24,7 +24,7 @@ class ConfigGenerator : public ConfigBase, private ConfigParser
 	std::map<std::string, double> m_parameters;
 
 	public:
-		ConfigGenerator(struct someStruct * state);
+		ConfigGenerator(struct someStruct & state);
 		~ConfigGenerator(void);
 		void parse_line(std::string line);
 		void clear_all(void);
