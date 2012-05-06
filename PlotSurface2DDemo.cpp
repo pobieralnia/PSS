@@ -33,7 +33,11 @@
 #include "Config.h"
 #include "PlotSurface2DDemo.h"
 #include "ARX.h"
-
+#include "Signal.h"
+#include "SingalDecorator.h"
+#include "Regulator.h"
+#include "RegulatorManager.h"
+#include "Loop.h"
 #include <algorithm>
 #include <vector>
 
@@ -54,10 +58,16 @@ namespace PSS {
 		config_object = NULL;
 		config_generator = NULL;
 		arx_object = NULL;
-	//	s_signal = NULL;
+		m_REGULATOR = NULL;
+		m_config_regulator = NULL;
+		m_REGULATORMANAGER = NULL;
 		simulate_counter = 1;
 
+		m_REGULATORMANAGER = new RegulatorManager();
 		arx_object = new ARX();
+
+		// Config
+		m_config_regulator = Config::getInstance().create("regulator");
 		config_object = Config::getInstance().create("object");
 		config_generator = Config::getInstance().create("generator");
 	}
@@ -193,8 +203,9 @@ namespace PSS {
 		int m_delay = std::get<2>(m_vector_objects_ptr[0])["k"];
 		int m_stat = std::get<2>(m_vector_objects_ptr[0])["stationary"];
 
-		arx_object->get_parameters("name", m_A, m_B, m_delay, m_stat);
-			
+		arx_object->get_parameters(m_A, m_B, std::get<2>(m_vector_objects_ptr[0]));
+		//arx_object->get_parameters( std::get<0>(m_vector_objects_ptr[0]), std::get<1>(m_vector_objects_ptr[0]), std::get<2>(m_vector_objects_ptr[0]) );
+		
 		double ble = arx_object->simulate(4);
 		simulate_counter++;
 
@@ -215,6 +226,18 @@ namespace PSS {
 		System::IntPtr ptrr = (System::IntPtr)&Config::getInstance().m_ARXe[0];
 		// copy data to managed array using System::Runtime::Interopservices namespace
 		Marshal::Copy(ptrr, managedValuess, 0, Config::getInstance().m_ARXe.size());
+
+
+	//double myintsss[] = {0.1,0.2};
+	//std::deque<double> m_AA (myintsss, myintsss + sizeof(myintsss) / sizeof(double) );
+
+	//objecta.set_initial_state(m_AA, m_AA);
+	//for(int i = 0 ;i<=5;i++)
+	//{
+	//std::cout << objecta->simulate(5) << std::endl;
+	//}
+	//delete objecta;
+
 
 		CPlotSurface2DDemo::PlotSincFunction(managedValues, managedValuess);
 

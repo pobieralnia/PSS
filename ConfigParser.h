@@ -29,6 +29,7 @@ class ConfigParser
 		bool regex_da(std::string line, int * da);
 		bool regex_db(std::string line, int * db);
 		void regex_generator_parameter(std::string line, std::map<std::string, double > & parm);
+		void regex_regulator_parameter(std::string line, std::map<std::string, double > & parm);
 
 	public:
 		ConfigParser(void) {};

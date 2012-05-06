@@ -32,6 +32,8 @@
 
 #include "Config.h"
 #include "ARX.h"
+#include "Regulator.h"
+#include "RegulatorManager.h"
 
 #include <sstream>
 #include <tuple>
@@ -63,7 +65,9 @@ namespace PSS {
 	private: ARX * arx_object;
 	private: ConfigBase * config_object;
 	private: ConfigBase * config_generator;
-	//private: Signal * s_signal;
+	private: ConfigBase * m_config_regulator;
+	private: Regulator * m_REGULATOR;
+	private: RegulatorManager * m_REGULATORMANAGER;
 	private: System::Windows::Forms::Button^  startAsyncButton;
 	private: System::Windows::Forms::Button^  cancelAsyncButton;
 	private: System::ComponentModel::BackgroundWorker^ backgroundWorker1;
@@ -83,6 +87,10 @@ namespace PSS {
 	private: System::Windows::Forms::Label^  label1;
 	private: System::Windows::Forms::Button^  button3;
 	private: System::Windows::Forms::ListBox^  listBox1;
+	private: System::Windows::Forms::ListBox^  listBox2;
+	private: System::Windows::Forms::Button^  button5;
+	private: System::Windows::Forms::Button^  button4;
+	private: System::Windows::Forms::Button^  button6;
 
 	private: System::Windows::Forms::OpenFileDialog^  openFileDialog1;
 
@@ -130,6 +138,10 @@ namespace PSS {
 		this->tabControl1 = (gcnew System::Windows::Forms::TabControl());
 		this->Wykres = (gcnew System::Windows::Forms::TabPage());
 		this->tabPage2 = (gcnew System::Windows::Forms::TabPage());
+		this->listBox2 = (gcnew System::Windows::Forms::ListBox());
+		this->button5 = (gcnew System::Windows::Forms::Button());
+		this->button4 = (gcnew System::Windows::Forms::Button());
+		this->listBox1 = (gcnew System::Windows::Forms::ListBox());
 		this->button3 = (gcnew System::Windows::Forms::Button());
 		this->label1 = (gcnew System::Windows::Forms::Label());
 		this->button2 = (gcnew System::Windows::Forms::Button());
@@ -140,7 +152,7 @@ namespace PSS {
 		this->zamknijToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 		this->pomocToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 		this->openFileDialog1 = (gcnew System::Windows::Forms::OpenFileDialog());
-		this->listBox1 = (gcnew System::Windows::Forms::ListBox());
+		this->button6 = (gcnew System::Windows::Forms::Button());
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->trackBar1))->BeginInit();
 		this->tabControl1->SuspendLayout();
 		this->Wykres->SuspendLayout();
@@ -243,6 +255,10 @@ namespace PSS {
 		// 
 		// tabPage2
 		// 
+		this->tabPage2->Controls->Add(this->button6);
+		this->tabPage2->Controls->Add(this->listBox2);
+		this->tabPage2->Controls->Add(this->button5);
+		this->tabPage2->Controls->Add(this->button4);
 		this->tabPage2->Controls->Add(this->listBox1);
 		this->tabPage2->Controls->Add(this->button3);
 		this->tabPage2->Controls->Add(this->label1);
@@ -256,9 +272,46 @@ namespace PSS {
 		this->tabPage2->Text = L"Konfiguracja";
 		this->tabPage2->UseVisualStyleBackColor = true;
 		// 
+		// listBox2
+		// 
+		this->listBox2->FormattingEnabled = true;
+		this->listBox2->Location = System::Drawing::Point(113, 185);
+		this->listBox2->Name = L"listBox2";
+		this->listBox2->Size = System::Drawing::Size(120, 56);
+		this->listBox2->TabIndex = 7;
+		// 
+		// button5
+		// 
+		this->button5->Location = System::Drawing::Point(19, 218);
+		this->button5->Name = L"button5";
+		this->button5->Size = System::Drawing::Size(75, 23);
+		this->button5->TabIndex = 6;
+		this->button5->Text = L"czyœæ";
+		this->button5->UseVisualStyleBackColor = true;
+		this->button5->Click += gcnew System::EventHandler(this, &CPlotSurface2DDemo::button5_Click);
+		// 
+		// button4
+		// 
+		this->button4->Location = System::Drawing::Point(19, 185);
+		this->button4->Name = L"button4";
+		this->button4->Size = System::Drawing::Size(75, 23);
+		this->button4->TabIndex = 5;
+		this->button4->Text = L"Regulator";
+		this->button4->UseVisualStyleBackColor = true;
+		this->button4->Click += gcnew System::EventHandler(this, &CPlotSurface2DDemo::button4_Click);
+		// 
+		// listBox1
+		// 
+		this->listBox1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F));
+		this->listBox1->FormattingEnabled = true;
+		this->listBox1->Location = System::Drawing::Point(113, 25);
+		this->listBox1->Name = L"listBox1";
+		this->listBox1->Size = System::Drawing::Size(120, 56);
+		this->listBox1->TabIndex = 4;
+		// 
 		// button3
 		// 
-		this->button3->Location = System::Drawing::Point(19, 100);
+		this->button3->Location = System::Drawing::Point(19, 135);
 		this->button3->Name = L"button3";
 		this->button3->Size = System::Drawing::Size(75, 23);
 		this->button3->TabIndex = 3;
@@ -270,7 +323,7 @@ namespace PSS {
 		// 
 		this->label1->AutoSize = true;
 		this->label1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.25F));
-		this->label1->Location = System::Drawing::Point(110, 87);
+		this->label1->Location = System::Drawing::Point(110, 121);
 		this->label1->Name = L"label1";
 		this->label1->Size = System::Drawing::Size(101, 17);
 		this->label1->TabIndex = 2;
@@ -278,7 +331,7 @@ namespace PSS {
 		// 
 		// button2
 		// 
-		this->button2->Location = System::Drawing::Point(19, 71);
+		this->button2->Location = System::Drawing::Point(19, 106);
 		this->button2->Name = L"button2";
 		this->button2->Size = System::Drawing::Size(75, 23);
 		this->button2->TabIndex = 1;
@@ -337,17 +390,14 @@ namespace PSS {
 		// 
 		this->openFileDialog1->FileName = L"openFileDialog1";
 		// 
-		// listBox1
+		// button6
 		// 
-		this->listBox1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.25F));
-		this->listBox1->FormattingEnabled = true;
-		this->listBox1->ItemHeight = 17;
-		listBox1->Items->Add( String::Format( "Dodaj obiekt", 1 ) );
-	//	this->listBox1->Items->AddRange(gcnew cli::array< System::Object^  >(1) {L"Alo"});
-		this->listBox1->Location = System::Drawing::Point(113, 25);
-		this->listBox1->Name = L"listBox1";
-		this->listBox1->Size = System::Drawing::Size(120, 21);
-		this->listBox1->TabIndex = 4;
+		this->button6->Location = System::Drawing::Point(19, 58);
+		this->button6->Name = L"button6";
+		this->button6->Size = System::Drawing::Size(75, 23);
+		this->button6->TabIndex = 8;
+		this->button6->Text = L"button6";
+		this->button6->UseVisualStyleBackColor = true;
 		// 
 		// CPlotSurface2DDemo
 		// 
@@ -383,16 +433,43 @@ namespace PSS {
 
 	private: System::Void startAsyncButton_Click( System::Object^ /*sender*/, System::EventArgs^ /*e*/ )
 	{
-		// Disable the Start button until 
-		// the asynchronous operation is done.
-		this->startAsyncButton->Enabled = false;
+		// Check if object was selected
+		// ----------------------------------------------------------------------------------------------------------
+		if ( listBox1->SelectedIndex != -1 )
+		{
 
-		// Enable the Cancel button while 
-		// the asynchronous operation runs.
-		this->cancelAsyncButton->Enabled = true;
+			// Check if generator was uploaded
+			// ----------------------------------------------------------------------------------------------------------
+			if(config_generator->get_size() > 0)
+			{
+				 String^ curItem = listBox1->SelectedItem->ToString();
+			 		std::stringstream ss; //create a stringstream
+						ss << listBox1->SelectedIndex;
+				
+				MessageBox::Show( curItem, "The file could not be read");
+				MessageBox::Show( msclr::interop::marshal_as< String ^ >( ss.str() ), "The file could not be read");
 
-		// Start the asynchronous operation.
-		backgroundWorker1->RunWorkerAsync();
+				// Disable the Start button until 
+				// the asynchronous operation is done.
+				this->startAsyncButton->Enabled = false;
+
+				// Enable the Cancel button while 
+				// the asynchronous operation runs.
+				this->cancelAsyncButton->Enabled = true;
+
+				// Start the asynchronous operation.
+				backgroundWorker1->RunWorkerAsync();
+			}
+			else
+			{
+				MessageBox::Show("Nie wybrano generatora sygna³ów", "Konfiguracja");
+			}
+		}
+		else
+		{
+			MessageBox::Show("Obiekt nie zosta³ zaznaczony", "Konfiguracja");
+		}
+		
 	}
 
 	private: System::Void cancelAsyncButton_Click( System::Object^ /*sender*/, System::EventArgs^ /*e*/ )
@@ -422,6 +499,8 @@ namespace PSS {
 				StreamReader^ sr = gcnew StreamReader( this->openFileDialog1->FileName );
 				try
 				{
+					// TODO clear all
+
 					String^ line;
 					// Read and display lines from the file until the end of 
 					// the file is reached.
@@ -433,10 +512,10 @@ namespace PSS {
 					// Shutdown the painting of the ListBox as items are added.
 					listBox1->BeginUpdate();
 
-					// Loop through and add 50 items to the ListBox.
-					for ( int x = 1; x <= 50; x++ )
+					// Loop through and add config to the ListBox.
+					for ( int x = 1; x <= config_object->get_size(); x++ )
 					{
-						listBox1->Items->Add( String::Format( "Item {0}", x ) );
+						listBox1->Items->Add( String::Format( "Obiekt {0}", x ) );
 
 					}
 					listBox1->EndUpdate();
@@ -508,11 +587,66 @@ namespace PSS {
 	{
 		config_generator->clear_all();
 		this->label1->Text =  L"Za³adowano: 0";
-	//	int b = listBox1->SelectedValue->ToString();
-		 if ( listBox1->SelectedIndex != -1 )
-			MessageBox::Show( listBox1->SelectedValue->ToString(), "The file could not be read");
 	}
 			 
+	private: System::Void button4_Click(System::Object^  sender, System::EventArgs^  e)
+	{
+		// Check if dialog is open correct
+		if(openFileDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK)
+		{
+			try
+			{
+				// Create an instance of StreamReader to read from a file.
+				StreamReader^ sr = gcnew StreamReader( this->openFileDialog1->FileName );
+				try
+				{
+					// TODO clear all
+
+					String^ line;
+					// Read and display lines from the file until the end of 
+					// the file is reached.
+					while ( line = sr->ReadLine() )
+					{
+						m_config_regulator->parse_line( msclr::interop::marshal_as< std::string >( line )  );
+					}
+
+					// Shutdown the painting of the ListBox as items are added.
+					listBox2->BeginUpdate();
+
+					// Loop through and add config to the ListBox.
+					for ( int x = 1; x <= m_config_regulator->get_size(); x++ )
+					{
+						listBox2->Items->Add( String::Format( "Regulator {0}", x ) );
+
+					}
+					listBox2->EndUpdate();
+
+				}
+				finally
+				{
+					if ( sr )
+					delete (IDisposable^)sr;
+				}
+
+			}
+			catch ( Exception^ e ) 
+			{
+				// Let the user know what went wrong.
+				MessageBox::Show( e->Message, "The file could not be read");
+			}
+				
+		}
+	}
+
+	private: System::Void button5_Click(System::Object^  sender, System::EventArgs^  e)
+	{
+		// Clear all selections in the ListBox and clear from app
+		listBox2->ClearSelected();
+		listBox2->Items->Clear();
+
+		// Clear config for regulator
+		m_config_regulator->clear_all();
+	}
 }; // END OF CLASS
 
 } // END OF NAMESPACE

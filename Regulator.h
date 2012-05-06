@@ -10,24 +10,29 @@
 
 #include "Object.h"
 
+#include <map>
+#include <string>
 
-public class Regulator : public Object
+class SignalBase;
+
+/**
+ * @class	Regulator Regulator.
+ * @brief	Abstract class Regulator
+ *  
+ * Interface for regulator object, inherits Object SISO interface
+ */
+class Regulator : public Object
 {
-	double m_deviation;
-
 	public:
 		virtual double simulate(double objectOutput) = 0;
-		virtual ~Regulator(void);
-
-		double get_setpoint();
-		void update(  );
-
-		/**
-		 * Get deviation
-		 *
-		 * @return		double
-		 */
-		double get_deviation() { return this->m_deviation; };
+		virtual ~Regulator(void) {};
+		virtual double get_setpoint() = 0;
+		virtual void set_setpoint(SignalBase * proces) = 0;
+		virtual double get_error() = 0;
+		virtual void set_parameters(std::map<std::string, double> & parm) = 0;
+		virtual void set_parameters(const std::string & param_name, double value) = 0;
+		virtual void get_parameters(std::map<std::string, double> & parm) const = 0;
+		virtual Regulator * clone () const = 0;
 };
 
 #endif

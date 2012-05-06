@@ -51,6 +51,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
+      <AdditionalOptions>/clr %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -58,7 +59,7 @@
       </AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
       <EntryPointSymbol>main</EntryPointSymbol>
-      <EmbedManagedResourceFile>light.wav;pattern01.jpg;asx_jbh.xml;%(EmbedManagedResourceFile)</EmbedManagedResourceFile>
+      <EmbedManagedResourceFile>asx_jbh.xml;%(EmbedManagedResourceFile)</EmbedManagedResourceFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -88,8 +89,6 @@
   <ItemGroup>
     <None Include="app.ico" />
     <None Include="asx_jbh.xml" />
-    <None Include="light.wav" />
-    <None Include="pattern01.jpg" />
     <None Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -99,17 +98,20 @@
     <ClCompile Include="ConfigGenerator.cpp" />
     <ClCompile Include="ConfigObject.cpp" />
     <ClCompile Include="ConfigParser.cpp" />
-    <ClCompile Include="GeneratorDecorator.cpp" />
+    <ClCompile Include="ConfigRegulator.cpp" />
+    <ClCompile Include="Identification.cpp" />
+    <ClCompile Include="Loop.cpp" />
     <ClCompile Include="PlotSurface2DDemo.cpp" />
-    <ClCompile Include="GeneratorRectangle.cpp" />
-    <ClCompile Include="GeneratorSinus.cpp" />
-    <ClCompile Include="GeneratorStep.cpp" />
-    <ClCompile Include="GeneratorTriangle.cpp" />
     <ClCompile Include="PSS.cpp" />
     <ClCompile Include="Regulator.cpp" />
+    <ClCompile Include="RegulatorGPC.cpp" />
+    <ClCompile Include="RegulatorManager.cpp" />
+    <ClCompile Include="RegulatorP.cpp" />
+    <ClCompile Include="RegulatorPID.cpp" />
     <ClCompile Include="Save.cpp" />
     <ClCompile Include="SaveFile.cpp" />
     <ClCompile Include="SaveMysql.cpp" />
+    <ClCompile Include="SingalDecorator.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -122,23 +124,26 @@
     <ClInclude Include="ConfigGenerator.h" />
     <ClInclude Include="ConfigObject.h" />
     <ClInclude Include="ConfigParser.h" />
+    <ClInclude Include="ConfigRegulator.h" />
     <ClInclude Include="ConfigStruct.h" />
-    <ClInclude Include="GeneratorDecorator.h" />
+    <ClInclude Include="Identification.h" />
+    <ClInclude Include="Loop.h" />
     <ClInclude Include="PlotSurface2DDemo.h">
       <FileType>CppForm</FileType>
     </ClInclude>
-    <ClInclude Include="GeneratorRectangle.h" />
-    <ClInclude Include="GeneratorSinus.h" />
-    <ClInclude Include="GeneratorStep.h" />
-    <ClInclude Include="GeneratorTriangle.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Regulator.h" />
+    <ClInclude Include="RegulatorGPC.h" />
+    <ClInclude Include="RegulatorManager.h" />
+    <ClInclude Include="RegulatorP.h" />
+    <ClInclude Include="RegulatorPID.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Save.h" />
     <ClInclude Include="SaveBase.h" />
     <ClInclude Include="SaveFile.h" />
     <ClInclude Include="SaveMysql.h" />
     <ClInclude Include="Signal.h" />
+    <ClInclude Include="SingalDecorator.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>

@@ -14,9 +14,6 @@
     <Filter Include="Pliki nagłówkowe\Class\Config">
       <UniqueIdentifier>{6b0018cb-38e6-4740-a63a-96e811cb67d1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Pliki nagłówkowe\Class\Generator">
-      <UniqueIdentifier>{47296370-e28a-43df-aacb-76343d1c532c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Pliki źródłowe">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
@@ -30,12 +27,21 @@
     <Filter Include="Pliki źródłowe\Class\Config">
       <UniqueIdentifier>{f430a3a3-183f-4a39-ac7c-c0ff3d5c7948}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Pliki źródłowe\Class\Generator">
-      <UniqueIdentifier>{2bfe3bb5-a320-4de6-87a1-0426030ebdfd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Pliki zasobów">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Pliki nagłówkowe\Class\Signal">
+      <UniqueIdentifier>{aa7c0347-6a0c-422d-8229-748a25fc6626}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki nagłówkowe\Class\Regulator">
+      <UniqueIdentifier>{0a358b33-cc42-4eeb-ad34-405825abd1f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki źródłowe\Class\Regulator">
+      <UniqueIdentifier>{2e7fa095-1264-4634-84b9-da50be307ff6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki źródłowe\Class\Signal">
+      <UniqueIdentifier>{e5005546-f329-49e1-8aca-82b3d7de497b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -44,12 +50,6 @@
       <Filter>Pliki zasobów</Filter>
     </None>
     <None Include="asx_jbh.xml">
-      <Filter>Pliki zasobów</Filter>
-    </None>
-    <None Include="light.wav">
-      <Filter>Pliki zasobów</Filter>
-    </None>
-    <None Include="pattern01.jpg">
       <Filter>Pliki zasobów</Filter>
     </None>
   </ItemGroup>
@@ -62,9 +62,6 @@
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>Pliki źródłowe</Filter>
-    </ClCompile>
-    <ClCompile Include="ARX.cpp">
-      <Filter>Pliki źródłowe\Class</Filter>
     </ClCompile>
     <ClCompile Include="SaveFile.cpp">
       <Filter>Pliki źródłowe\Class\Save</Filter>
@@ -81,31 +78,43 @@
     <ClCompile Include="ConfigObject.cpp">
       <Filter>Pliki źródłowe\Class\Config</Filter>
     </ClCompile>
-    <ClCompile Include="Regulator.cpp">
-      <Filter>Pliki źródłowe\Class</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratorRectangle.cpp">
-      <Filter>Pliki źródłowe\Class\Generator</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratorTriangle.cpp">
-      <Filter>Pliki źródłowe\Class\Generator</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratorStep.cpp">
-      <Filter>Pliki źródłowe\Class\Generator</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratorSinus.cpp">
-      <Filter>Pliki źródłowe\Class\Generator</Filter>
-    </ClCompile>
     <ClCompile Include="Config.cpp">
       <Filter>Pliki źródłowe\Class\Config</Filter>
     </ClCompile>
     <ClCompile Include="PlotSurface2DDemo.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratorDecorator.cpp">
-      <Filter>Pliki źródłowe\Class\Generator</Filter>
-    </ClCompile>
     <ClCompile Include="ConfigGenerator.cpp">
+      <Filter>Pliki źródłowe\Class\Config</Filter>
+    </ClCompile>
+    <ClCompile Include="RegulatorGPC.cpp">
+      <Filter>Pliki źródłowe\Class\Regulator</Filter>
+    </ClCompile>
+    <ClCompile Include="RegulatorManager.cpp">
+      <Filter>Pliki źródłowe\Class\Regulator</Filter>
+    </ClCompile>
+    <ClCompile Include="RegulatorPID.cpp">
+      <Filter>Pliki źródłowe\Class\Regulator</Filter>
+    </ClCompile>
+    <ClCompile Include="RegulatorP.cpp">
+      <Filter>Pliki źródłowe\Class\Regulator</Filter>
+    </ClCompile>
+    <ClCompile Include="Regulator.cpp">
+      <Filter>Pliki źródłowe\Class\Regulator</Filter>
+    </ClCompile>
+    <ClCompile Include="SingalDecorator.cpp">
+      <Filter>Pliki źródłowe\Class\Signal</Filter>
+    </ClCompile>
+    <ClCompile Include="ARX.cpp">
+      <Filter>Pliki źródłowe\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Identification.cpp">
+      <Filter>Pliki źródłowe\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Loop.cpp">
+      <Filter>Pliki źródłowe\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="ConfigRegulator.cpp">
       <Filter>Pliki źródłowe\Class\Config</Filter>
     </ClCompile>
   </ItemGroup>
@@ -117,9 +126,6 @@
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
     <ClInclude Include="Object.h">
-      <Filter>Pliki nagłówkowe\Class</Filter>
-    </ClInclude>
-    <ClInclude Include="ARX.h">
       <Filter>Pliki nagłówkowe\Class</Filter>
     </ClInclude>
     <ClInclude Include="Save.h">
@@ -143,26 +149,8 @@
     <ClInclude Include="ConfigObject.h">
       <Filter>Pliki nagłówkowe\Class\Config</Filter>
     </ClInclude>
-    <ClInclude Include="Regulator.h">
-      <Filter>Pliki nagłówkowe\Class</Filter>
-    </ClInclude>
-    <ClInclude Include="Signal.h">
-      <Filter>Pliki nagłówkowe\Class\Generator</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratorRectangle.h">
-      <Filter>Pliki nagłówkowe\Class\Generator</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratorTriangle.h">
-      <Filter>Pliki nagłówkowe\Class\Generator</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratorStep.h">
-      <Filter>Pliki nagłówkowe\Class\Generator</Filter>
-    </ClInclude>
     <ClInclude Include="ConfigBase.h">
       <Filter>Pliki nagłówkowe\Class\Config</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratorSinus.h">
-      <Filter>Pliki nagłówkowe\Class\Generator</Filter>
     </ClInclude>
     <ClInclude Include="PlotSurface2DDemo.h">
       <Filter>Pliki nagłówkowe</Filter>
@@ -170,10 +158,40 @@
     <ClInclude Include="ConfigStruct.h">
       <Filter>Pliki nagłówkowe\Class\Config</Filter>
     </ClInclude>
-    <ClInclude Include="GeneratorDecorator.h">
-      <Filter>Pliki nagłówkowe\Class\Generator</Filter>
-    </ClInclude>
     <ClInclude Include="ConfigGenerator.h">
+      <Filter>Pliki nagłówkowe\Class\Config</Filter>
+    </ClInclude>
+    <ClInclude Include="Signal.h">
+      <Filter>Pliki nagłówkowe\Class\Signal</Filter>
+    </ClInclude>
+    <ClInclude Include="SingalDecorator.h">
+      <Filter>Pliki nagłówkowe\Class\Signal</Filter>
+    </ClInclude>
+    <ClInclude Include="RegulatorGPC.h">
+      <Filter>Pliki nagłówkowe\Class\Regulator</Filter>
+    </ClInclude>
+    <ClInclude Include="Regulator.h">
+      <Filter>Pliki nagłówkowe\Class\Regulator</Filter>
+    </ClInclude>
+    <ClInclude Include="RegulatorManager.h">
+      <Filter>Pliki nagłówkowe\Class\Regulator</Filter>
+    </ClInclude>
+    <ClInclude Include="RegulatorP.h">
+      <Filter>Pliki nagłówkowe\Class\Regulator</Filter>
+    </ClInclude>
+    <ClInclude Include="RegulatorPID.h">
+      <Filter>Pliki nagłówkowe\Class\Regulator</Filter>
+    </ClInclude>
+    <ClInclude Include="ARX.h">
+      <Filter>Pliki nagłówkowe\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Identification.h">
+      <Filter>Pliki nagłówkowe\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Loop.h">
+      <Filter>Pliki nagłówkowe\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="ConfigRegulator.h">
       <Filter>Pliki nagłówkowe\Class\Config</Filter>
     </ClInclude>
   </ItemGroup>

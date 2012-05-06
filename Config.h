@@ -12,6 +12,7 @@
 
 #include "ConfigObject.h"
 #include "ConfigGenerator.h"
+#include "ConfigRegulator.h"
 #include "ConfigStruct.h"
 
 class ConfigBase; // forward declaration (ConfigObject)
@@ -89,6 +90,7 @@ class Config : someStruct
 		ConfigBase * create(std::string type) {
 			if ( type == "object" ) return new ConfigObject(&structo);
 			else if ( type == "generator" ) return new ConfigGenerator(structo);
+			else if ( type == "regulator" ) return new ConfigRegulator(structo);
 			return NULL;
 		};
 		
