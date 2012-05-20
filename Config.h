@@ -29,22 +29,10 @@ class ConfigBase; // forward declaration (ConfigObject)
  */
 class Config : someStruct
 {
-	bool m_config_object_loaded;	// object config flag
-	bool m_config_generator_loaded;	// generator config flag
-	bool m_config_regulator_loaded;	// regulator config flag
-
-	struct someStruct structo;
-
 	private:
-		Config(void){ this->clear_flag(); };		// disable constructor
-		Config (const Config &);		// disable default copy
-		Config & operator = (const Config &);		// disable default copy
-
-	public:
-		~Config(void) {}		// destructor
-
-		std::vector<double> m_ARX;
-		std::vector<double> m_ARXe;
+		bool m_config_object_loaded;	// object config flag
+		bool m_config_generator_loaded;	// generator config flag
+		bool m_config_regulator_loaded;	// regulator config flag
 
 		// Interface
 		enum ConfigType
@@ -54,27 +42,42 @@ class Config : someStruct
 			GENERATOR = 2
 		};
 
+		struct someStruct structo;
+
+	private:
+		Config(void){ this->clear_flag(); };		// disable constructor
+		Config (const Config &);		// disable default copy
+		Config & operator = (const Config &);		// disable default copy
+
+	public:
+		~Config(void) {}		// destructor
+
 		bool get_flag(ConfigType cty);		// get flag status
 		void set_config(ConfigType cty);	// set exact config flag to true
 		void clear_flag(ConfigType cty);	// clear flag for exact config
 		void clear_flag();					// clear all flags
-
-		template<typename T>
-		void get_config(T & conf, ConfigType cty)
+		void get_config(std::tuple <std::map<int,double>, std::map<int,double>, std::map<std::string, double>> & conf, int unsigned i)
 		{
-			if( this->structo.m_vector_objects.size() > 0 )
+			if( this->structo.m_vector_objects.size() > 0 && i <= this->structo.m_vector_objects.size())
 			{
-				if(cty == OBJECT)
-				{
-					conf = this->structo.m_vector_objects;
-				}
+				conf = this->structo.m_vector_objects[i];
 			}
 		};
 
-		template<typename T>
-		void get_configg(T & conf)
+		void get_config_generator(std::vector<std::map<std::string,double>> & conf)
 		{
-			conf = this->structo.m_vector_generator;
+			if( this->structo.m_vector_generator.size() > 0)
+			{
+				conf = this->structo.m_vector_generator;
+			}
+		};
+
+		void get_config_regulator(std::map<std::string,double> & conf, int unsigned i)
+		{
+			if( this->structo.m_vector_regulator.size() > 0 && i <= this->structo.m_vector_regulator.size())
+			{
+				conf = this->structo.m_vector_regulator[i];
+			}
 		};
 
 		// ------------------------------------------------------------------------------

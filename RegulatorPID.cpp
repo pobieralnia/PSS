@@ -17,6 +17,7 @@ RegulatorPID::RegulatorPID(void) : m_Tp(1), m_b(1), m_k(1), m_Ti(2), m_e(0), m_N
 {
 	m_history_Y.push_front(0.0);
 	m_history_U.push_front(0.0);
+	m_history_E.push_front(0.0);
 	m_history_Integral.push_front(0.0);
 	m_history_Proportional.push_front(0.0);
 	m_history_Differential.push_front(0.0);
@@ -121,12 +122,7 @@ void RegulatorPID::set_parameters(std::map<std::string, double> & parm)
 	// Clear all tmp values
 	m_tmp_parameter.clear();
 
-	m_tmp_parameter["k"] = parm["k"];
-	m_tmp_parameter["Td"] = parm["k"];
-	m_tmp_parameter["N"] = parm["k"];
-	m_tmp_parameter["Tp"] = parm["k"];
-	m_tmp_parameter["b"] = parm["k"];
-	m_tmp_parameter["Ti"] = parm["k"];
+	m_tmp_parameter =  parm;
 
 	// Check parameters if they are correct
 	try
@@ -224,6 +220,20 @@ double RegulatorPID::get_error()
 	return m_history_E.front();
 }
 
+/** 
+ * Get error for all simulation steps
+ *
+ * @return	double
+ */
+void RegulatorPID::get_error(std::vector<double> & err)
+{
+	std::vector<double> v;
+	for(auto it =  m_history_E.rbegin(); it != m_history_E.rend() ; it++)
+		v.push_back(*it);
+	
+	err = v;
+}
+
 /**
  * Get set point value
  *
@@ -258,6 +268,7 @@ bool RegulatorPID::check_parameters()
 		if(itr->second < 0)
 		{
 			throw std::string("Parametry musz¹ byæ dodatnie");
+
 			return false;
 		}
 	}

@@ -12,6 +12,7 @@
 #include "Signal.h"
 #include "Identification.h"
 #include <deque>
+#include <vector>
 
 /**
  * @class	RegulatorGPC	RegulatorGPC.h
@@ -31,7 +32,7 @@ class RegulatorGPC : public Regulator
 		double m_alpha, m_ro, m_w;
 		int m_initial_steps;
 		int m_initial_steps_left;
-		std::deque<double> m_history_U, m_history_Y, m_history_E;
+		std::deque<double> m_history_U, m_history_Y, m_history_E, m_history_DU;
 		std::deque<double> m_poly_A;		// container for A polynomial
 		std::deque<double> m_poly_B;		// container for B polynomial
 		std::map<std::string, double> m_tmp_parameter;
@@ -55,6 +56,7 @@ class RegulatorGPC : public Regulator
 		virtual RegulatorGPC * clone () const;
 		void set_setpoint(SignalBase * proces);
 		double get_error(void);
+		void get_error(std::vector<double> & err);
 		double get_setpoint(void);
 	private:
 		bool check_parameters(void);

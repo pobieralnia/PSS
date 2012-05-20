@@ -30,14 +30,7 @@
  */
 
 #include "StdAfx.h"
-#include "Config.h"
 #include "PlotSurface2DDemo.h"
-#include "ARX.h"
-#include "Signal.h"
-#include "SingalDecorator.h"
-#include "Regulator.h"
-#include "RegulatorManager.h"
-#include "Loop.h"
 #include <algorithm>
 #include <vector>
 
@@ -45,7 +38,10 @@ namespace PSS {
 
 	CPlotSurface2DDemo::CPlotSurface2DDemo(void)
 	{
-		this->n = 1000;
+		m_regulator_selected_flag = false;
+		m_save_file_flag = false;
+
+		this->n = 500;
 		InitializeComponent();
 		InitializeBackgoundWorker();
 		
@@ -58,13 +54,16 @@ namespace PSS {
 		config_object = NULL;
 		config_generator = NULL;
 		arx_object = NULL;
-		m_REGULATOR = NULL;
+		m_regulator = NULL;
 		m_config_regulator = NULL;
-		m_REGULATORMANAGER = NULL;
-		simulate_counter = 1;
+		m_proces = NULL;
+		m_loop = NULL;
+		m_save = NULL;
+		m_save_file = NULL;
 
-		m_REGULATORMANAGER = new RegulatorManager();
-		arx_object = new ARX();
+		m_loop = new Loop;
+		arx_object = new ARX;
+		m_save = new Save;
 
 		// Config
 		m_config_regulator = Config::getInstance().create("regulator");
@@ -85,8 +84,35 @@ namespace PSS {
 			delete components;
 		}
 
-		delete config_object;
-		delete arx_object;
+		if(config_object)
+		{
+			delete config_object;
+		}
+
+		if(arx_object)
+		{
+			delete arx_object;
+		}
+
+		if(m_config_regulator)
+		{
+			delete m_config_regulator;
+		}
+
+		if(m_regulator)
+		{
+			delete m_regulator;
+		}
+
+		if(m_loop)
+		{
+			delete m_loop;
+		}
+
+		if(m_proces)
+		{
+			delete m_proces;
+		}
 	}
 
 	/**
@@ -142,7 +168,6 @@ namespace PSS {
 	 */
 	void CPlotSurface2DDemo::backgroundWorker1_RunWorkerCompleted( Object^ /* sender */, RunWorkerCompletedEventArgs^ e )
 	{
-
 		// First, handle the case where an exception was thrown.
 		if ( e->Error != nullptr )
 		{
@@ -152,20 +177,19 @@ namespace PSS {
 		{
 			if ( e->Cancelled )
 			{
-				
 				// Next, handle the case where the user cancelled 
 				// the operation.
 				// Note that due to a race condition in 
 				// the DoWork event handler, the Cancelled
 				// flag may not have been set, even though
 				// CancelAsync was called.
-			// resultLabel->Text = "Cancelled";
+				// resultLabel->Text = "Cancelled";
 			}
 			else
 			{
 				// Finally, handle the case where the operation 
 				// succeeded.
-			//   resultLabel->Text = e->Result->ToString();
+				//   resultLabel->Text = e->Result->ToString();
 			}
 
 			// Enable the Start button.
@@ -185,59 +209,42 @@ namespace PSS {
 	 */
 	void CPlotSurface2DDemo::backgroundWorker1_ProgressChanged( Object^ /*sender*/, ProgressChangedEventArgs^ e )
 	{
-		// Create config object driver
-		std::vector<std::tuple <std::map<int,double>, std::map<int,double>, std::map<std::string, double>> > m_vector_objects_ptr;	// container for all configs
-		Config::getInstance().get_config(m_vector_objects_ptr, Config::getInstance().OBJECT);
-
-		std::deque<double> m_A;
-		std::deque<double> m_B;
-
-		for( auto it =  std::get<0>(m_vector_objects_ptr[0]).begin(); it !=  std::get<0>(m_vector_objects_ptr[0]).end(); ++it ) {
-			   m_A.push_back( it->second );
+		if(m_regulator_selected_flag)
+		{
+			m_loop->set_regulator(m_regulator);
+			m_regulator->set_setpoint(m_proces);
+			m_regulator_selected_flag = false;
 		}
 
-		for( auto ite = std::get<1>(m_vector_objects_ptr[0]).begin(); ite != std::get<1>(m_vector_objects_ptr[0]).end(); ++ite ) {
-			m_B.push_back( ite->second );
+		const double y = m_loop->simulation_step();
+		std::vector<double> tmp_outputs;
+		m_loop->get_outputs(tmp_outputs);
+
+		if(m_save_file_flag)
+		{
+			if(m_save_file)
+				m_save_file->save_online(y);
 		}
 
-		int m_delay = std::get<2>(m_vector_objects_ptr[0])["k"];
-		int m_stat = std::get<2>(m_vector_objects_ptr[0])["stationary"];
-
-		arx_object->get_parameters(m_A, m_B, std::get<2>(m_vector_objects_ptr[0]));
-		//arx_object->get_parameters( std::get<0>(m_vector_objects_ptr[0]), std::get<1>(m_vector_objects_ptr[0]), std::get<2>(m_vector_objects_ptr[0]) );
+		std::vector<double> tmp_errors;
+		m_loop->get_errors(tmp_errors);
 		
-		double ble = arx_object->simulate(4);
-		simulate_counter++;
 
-		Config::getInstance().m_ARX.push_back(ble);
-		
-		Config::getInstance().m_ARXe.push_back(4 - ble);
-
-		//arx_object->get_parameters("name", std::get<0>(m_vector_objects_ptr[0]), std::get<1>(m_vector_objects_ptr[0]), std::get<2>(m_vector_objects_ptr[0]));
-
-		array<double>^ managedValues = gcnew array<double>(Config::getInstance().m_ARX.size());
+		// Outputs conversion
+		// ----------------------------------------------------------------------------------------------------------------------------------------------
+		array<double>^ managedValues = gcnew array<double>(tmp_outputs.size());
 		// cast to managed object type IntPtr representing an object pointer.
-		System::IntPtr ptr = (System::IntPtr)&Config::getInstance().m_ARX[0];
+		System::IntPtr ptr = (System::IntPtr)&tmp_outputs[0];
 		// copy data to managed array using System::Runtime::Interopservices namespace
-		Marshal::Copy(ptr, managedValues, 0, Config::getInstance().m_ARX.size());
+		Marshal::Copy(ptr, managedValues, 0, tmp_outputs.size());
 
-		array<double>^ managedValuess = gcnew array<double>(Config::getInstance().m_ARXe.size());
+		// Error conversion
+		// ----------------------------------------------------------------------------------------------------------------------------------------------
+		array<double>^ managedValuess = gcnew array<double>(tmp_errors.size());
 		// cast to managed object type IntPtr representing an object pointer.
-		System::IntPtr ptrr = (System::IntPtr)&Config::getInstance().m_ARXe[0];
+		System::IntPtr ptrr = (System::IntPtr)&tmp_errors[0];
 		// copy data to managed array using System::Runtime::Interopservices namespace
-		Marshal::Copy(ptrr, managedValuess, 0, Config::getInstance().m_ARXe.size());
-
-
-	//double myintsss[] = {0.1,0.2};
-	//std::deque<double> m_AA (myintsss, myintsss + sizeof(myintsss) / sizeof(double) );
-
-	//objecta.set_initial_state(m_AA, m_AA);
-	//for(int i = 0 ;i<=5;i++)
-	//{
-	//std::cout << objecta->simulate(5) << std::endl;
-	//}
-	//delete objecta;
-
+		Marshal::Copy(ptrr, managedValuess, 0, tmp_errors.size());
 
 		CPlotSurface2DDemo::PlotSincFunction(managedValues, managedValuess);
 
@@ -246,7 +253,6 @@ namespace PSS {
 	#pragma region PlotSincFunction
 	System::Void CPlotSurface2DDemo::PlotSincFunction(array<double>^ managedValues, array<double>^ uchyb) 
 	{
-		int n = 1000;
         plotSurface->Clear(); // clear everything. reset fonts. remove plot components etc.
 
 		Grid^ fineGrid = gcnew Grid();
@@ -258,21 +264,17 @@ namespace PSS {
 		lp->OrdinateData = managedValues;
 		//lp->AbscissaData = gcnew StartStep( -500.0, 10.0 );
 		//lp->AbscissaData = gcnew StartStep( min_x, max_x );
-		lp->Pen = gcnew Pen( Color::Blue, 1.0f );
-		
+		lp->Pen = gcnew Pen( Color::Blue, 2.0f );
+		lp->Label = L"OdpowiedŸ obiektu";
+
 		LinePlot^ top = gcnew LinePlot();
 		top->OrdinateData = uchyb;
-		top->Color = Color::LightSteelBlue;
+		top->Color = Color::Red;
 		top->Pen->Width = 2.0f;
+		top->Label = L"Uchyb";
 
 		plotSurface->Add(lp);
 		plotSurface->Add(top);
-
-		FilledRegion^ fr = gcnew FilledRegion(top, lp );
-		fr->RectangleBrush = gcnew RectangleBrushes::Vertical( Color::FromArgb(255,255,240), Color::FromArgb(240,255,255) );
-		plotSurface->SmoothingMode = System::Drawing::Drawing2D::SmoothingMode::AntiAlias;
-
-		plotSurface->Add( fr );
 
 		plotSurface->Title = "Wykres symulacji";
 		plotSurface->YAxis1->Label = "Y";
@@ -287,7 +289,7 @@ namespace PSS {
         plotSurface->Legend = legend;
 		plotSurface->LegendZOrder = 1; // default zorder for adding idrawables is 0, so this puts legend on top.
 
-		plotSurface->Title = "Wykres zale¿noœci\n test drugiej linii";
+		plotSurface->Title = "Wykres symulacji";
 		plotSurface->Refresh();
 	}
 	#pragma endregion

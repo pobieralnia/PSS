@@ -44,6 +44,7 @@ class RegulatorPID : public Regulator
 		~RegulatorPID(void);
 		double simulate(double input);
 		double get_error(void);
+		void get_error(std::vector<double> & err);
 		void set_parameters(std::map<std::string, double> & parm);
 		void set_parameters(const std::string & param_name, double value);
 		void get_parameters(std::map<std::string, double> & parm) const;

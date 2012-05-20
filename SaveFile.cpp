@@ -60,7 +60,7 @@ bool SaveFile::open()
 void SaveFile::save_online(std::string line)
 {
 	// If open save to file
-	if(this->m_open_flag)
+	if(this->m_open_flag && this->m_FILE)
 	{
 		// Time
 		time_t rawtime;
@@ -72,6 +72,26 @@ void SaveFile::save_online(std::string line)
 	}
 }
 
+/**
+ * Save one value to file
+ *
+ * @param		string line
+ * @return		void
+ */
+void SaveFile::save_online(double line)
+{
+	// If open save to file
+	if(this->m_open_flag)
+	{
+		// Time
+		time_t rawtime;
+		struct tm * timeinfo;
+		time ( &rawtime );
+		timeinfo = localtime ( &rawtime );
+
+		this->m_FILE << asctime(timeinfo) << line << "\r\n";
+	}
+}
 
 /**
  * Close file

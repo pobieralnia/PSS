@@ -142,7 +142,8 @@ void ARX::set_parameters(std::deque<double> A, std::deque<double> B, std::map<st
 
 	this->m_A = A;
 	this->m_B = B;
-	this->m_delay = others["k"];
+	if(m_Y.empty())
+		this->m_delay = others["k"];
 	this->m_stat = others["stationary"];
 	this->m_noise = others["noise"];
 

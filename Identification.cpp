@@ -1,9 +1,7 @@
 #include "StdAfx.h"
 #include "Identification.h"
-#include <iostream>
 #include <algorithm>
 
-using namespace std;
 /**
  * Constructor - set variables with initial data
  *
@@ -65,13 +63,13 @@ void Identification::identify()
 {
 	if(m_loaded_flag == true || m_loaded_flag_identity == false)
 	{
-		m_Q.setZero(m_rankB+1 + m_rankA);
-		m_Fi.setZero(m_rankB+1 + m_rankA);
-		m_P.setIdentity(m_rankB+1 + m_rankA, m_rankB+1 + m_rankA);
+		m_Q.setZero(m_rankB +1 + m_rankA);
+		m_Fi.setZero(m_rankB +1 + m_rankA);
+		m_P.setIdentity(m_rankB +1 + m_rankA, m_rankB+1 + m_rankA);
 		m_P *= 1000;
 
-		m_IM.setIdentity(m_rankB+1 + m_rankA,m_rankB+1 + m_rankA);
-		m_history_U.resize(m_rankB+1 + m_delay);
+		m_IM.setIdentity(m_rankB +1 + m_rankA,m_rankB+1 + m_rankA);
+		m_history_U.resize(m_rankB +1 + m_delay);
 		m_history_Y.resize(m_rankA);
 
 		m_loaded_flag_identity = true;
@@ -97,6 +95,7 @@ void Identification::add_sample(double y, double u)
 		calculating_fi();
 		calculating_pi(y);
 		calculating_covariance_matrix();
+		//calculating_changeable_weights();
 		minimizing_quality_pointer();
 
 		m_history_Y.push_front(y);
@@ -130,6 +129,22 @@ void Identification::calculating_covariance_matrix()
 	const double q = (m_delta_max - m_delta_min) / m_delta_max;
 	const double r = m_delta_min;
 	m_P = q * m_P + r * m_IM;
+}
+
+/**
+ * Calculating changeable weights for RMNK
+ * dr. Dariusz Bismor - PSS [32.22], [32.23], [32.24]
+ * 
+ * @return		void
+ */
+void Identification::calculating_changeable_weights()
+{
+	const double lam = 1 -  ( (m_epsilon * m_epsilon) / (1 + m_Fi.transpose() * m_P * m_Fi) * 1000 * 2 );
+	Eigen::VectorXd k = m_P * m_Fi;
+	m_P = k*m_Fi.transpose() * m_P;
+	Eigen::MatrixXd m_PP = m_P/lam;
+	if(m_PP.trace() <= 1000)
+		m_P = m_PP;
 }
 
 /**
@@ -175,9 +190,9 @@ void Identification::calculating_pi(double y)
 void Identification::update_history(void)
 {
 	int i = 0;
-	for(; i<m_rankB+1 ; i++)			m_history_poly_B.push_front(m_Q[i]);
+	for(; i<m_rankB +1 ; i++)			m_history_poly_B.push_front(m_Q[i]);
 
-	for(; i<m_rankB+1+m_rankA ; i++)	m_history_poly_A.push_front(m_Q[i]);
+	for(; i<m_rankB +1 + m_rankA ; i++)	m_history_poly_A.push_front(m_Q[i]);
 }
 
 /**

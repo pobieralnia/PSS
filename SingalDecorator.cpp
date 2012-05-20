@@ -79,3 +79,77 @@ bool SignalStep::active (int inp)
 	else
 		return true;
 }
+
+// --------------------------------------------------------------------------------------------------------------------------
+
+SignalTriangle::SignalTriangle (SignalBase * p, double frequency, double amplitude)  : Dekorator(p), m_frequency(frequency), m_amplitude(amplitude), m_start(0), m_end(0)
+{
+	m_continues = true;
+}
+ 
+SignalTriangle::SignalTriangle (SignalBase * p, double frequency, double amplitude, int start, int end)  : Dekorator(p), m_frequency(frequency), m_amplitude(amplitude), m_start(start), m_end(end)
+{
+	m_continues = false;
+}
+
+double SignalTriangle::simulate ()
+{
+	double triangle = 0.0;
+	int inp = s_simulation_step.back();
+
+	if (active(inp))
+	{
+		const long triTime = static_cast<int>(1.0/m_frequency)+1;
+        const double halfTime = triTime/2.0;
+
+        if (inp <= halfTime)
+            triangle = (inp/halfTime) * m_amplitude;
+        else
+            triangle = (1 - (inp-halfTime)/halfTime) * m_amplitude;
+	}
+
+	s_simulation_step.push_back(inp + 1);
+	return s_proc->simulate() + triangle;
+}
+
+bool SignalTriangle::active (int inp)
+{
+	if(!m_continues)
+		return (inp >= m_start && inp <= m_end) ? true : false;
+	else
+		return true;
+}
+
+// --------------------------------------------------------------------------------------------------------------------------
+
+SignalSinus::SignalSinus (SignalBase * p, int period, double amplitude)  : Dekorator(p), m_period(period), m_amplitude(amplitude), m_start(0), m_end(0)
+{
+	m_continues = true;
+}
+ 
+SignalSinus::SignalSinus (SignalBase * p, int period, double amplitude, int start, int end)  : Dekorator(p), m_period(period), m_amplitude(amplitude), m_start(start), m_end(end)
+{
+	m_continues = false;
+}
+
+double SignalSinus::simulate ()
+{
+	double sinus = 0.0;
+	int inp = s_simulation_step.back();
+
+	if (active(inp))
+	{
+		sinus = m_amplitude*std::sin((static_cast<double>(inp % m_period) / m_period) * 6.28);
+	}
+
+	s_simulation_step.push_back(inp + 1);
+	return s_proc->simulate() + sinus;
+}
+
+bool SignalSinus::active (int inp)
+{
+	if(!m_continues)
+		return (inp >= m_start && inp <= m_end) ? true : false;
+	else
+		return true;
+}

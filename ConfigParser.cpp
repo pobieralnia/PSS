@@ -204,7 +204,7 @@ void ConfigParser::regex_generator_parameter(std::string line, std::map<std::str
 	std::string name;
 
 	std::tr1::cmatch res;
-	std::tr1::regex rx("param=([^<]+)&([0-9]+);");
+	std::tr1::regex rx("param=([^<]+)&([^<]+);");
     if( std::tr1::regex_search(line.c_str(), res, rx) )
 	{
 		if(res[1] != "" && res[2] != "")
@@ -231,7 +231,7 @@ void ConfigParser::regex_regulator_parameter(std::string line, std::map<std::str
 	std::string name;
 
 	std::tr1::cmatch res;
-	std::tr1::regex rx("param=([^<]+)&([0-9]+);");
+	std::tr1::regex rx("param=([^<]+)&([^<]+);");
     if( std::tr1::regex_search(line.c_str(), res, rx) )
 	{
 		if(res[1] != "" && res[2] != "")

@@ -46,4 +46,33 @@ class SignalStep : public Dekorator
 		bool m_continues;
 };
  
+class SignalTriangle : public Dekorator
+{
+	public:
+		SignalTriangle (SignalBase * p, double frequency, double amplitude);
+		SignalTriangle (SignalBase * p, double frequency, double amplitude, int start, int end);
+		virtual double simulate (void);
+		virtual bool active (int inp);
+	private:
+		double m_amplitude;
+		double m_frequency;
+		int m_start;
+		int m_end;
+		bool m_continues;
+};
+
+class SignalSinus : public Dekorator
+{
+	public:
+		SignalSinus (SignalBase * p, int period, double amplitude);
+		SignalSinus (SignalBase * p, int period, double amplitude, int start, int end);
+		virtual double simulate (void);
+		virtual bool active (int inp);
+	private:
+		double m_amplitude;
+		int m_period;
+		int m_start;
+		int m_end;
+		bool m_continues;
+};
 #endif

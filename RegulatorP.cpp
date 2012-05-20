@@ -121,6 +121,20 @@ double RegulatorP::get_error()
 	return m_history_E.front(); 
 }
 
+/** 
+ * Get error for all simulation steps
+ *
+ * @return	double
+ */
+void RegulatorP::get_error(std::vector<double> & err)
+{
+	std::vector<double> v;
+	for(auto it =  m_history_E.rbegin(); it != m_history_E.rend() ; it++)
+		v.push_back(*it);
+	
+	err = v;
+}
+
 /**
  * Get set point value
  *

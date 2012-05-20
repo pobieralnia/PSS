@@ -1,4 +1,4 @@
-﻿Build started 2012-05-06 20:56:18.
+﻿Build started 2012-05-20 15:18:18.
      1>Project "C:\Users\Tomek\Documents\Visual Studio 2010\Projects\PSS\PSS\PSS\PSS.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\PSS.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -6,17 +6,25 @@
        Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the input files.
        ClCompile:
          All outputs are up-to-date.
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0" /Zi /clr:pure /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _UNICODE /D UNICODE /EHa /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Debug\PSS.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /TP /FU"C:\Users\Tomek\Desktop\nplot-0.9.10.0\bin\net\2.0\release\NPlot.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Core.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Data.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Drawing.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Windows.Forms.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Xml.dll" /analyze- /errorReport:prompt PSS.cpp PlotSurface2DDemo.cpp /clr:nostdlib /clr 
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /AI"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0" /Zi /clr:pure /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _UNICODE /D UNICODE /EHa /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Debug\PSS.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /TP /FU"C:\Users\Tomek\Desktop\nplot-0.9.10.0\bin\net\2.0\release\NPlot.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Core.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Data.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Drawing.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Windows.Forms.dll" /FU"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Xml.dll" /analyze- /errorReport:prompt RegulatorGPC.cpp /clr:nostdlib /clr 
      1>cl : Command line warning D9025: overriding '/clr:pure' with '/clr'
-         PSS.cpp
-         PlotSurface2DDemo.cpp
-     1>PlotSurface2DDemo.cpp(203): warning C4244: 'initializing' : conversion from 'double' to 'int', possible loss of data
-     1>PlotSurface2DDemo.cpp(204): warning C4244: 'initializing' : conversion from 'double' to 'int', possible loss of data
-         Generating Code...
+         RegulatorGPC.cpp
+     1>RegulatorGPC.cpp(186): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>RegulatorGPC.cpp(187): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>RegulatorGPC.cpp(190): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>RegulatorGPC.cpp(191): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>RegulatorGPC.cpp(195): warning C4101: 'e' : unreferenced local variable
+     1>RegulatorGPC.cpp(246): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>RegulatorGPC.cpp(248): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>RegulatorGPC.cpp(254): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>RegulatorGPC.cpp(256): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>RegulatorGPC.cpp(261): warning C4101: 'e' : unreferenced local variable
+     1>c:\users\tomek\documents\visual studio 2010\projects\pss\pss\pss\eigen\src\core\products\generalmatrixvector.h(554): warning C4793: 'Eigen::internal::general_matrix_vector_product<int,double,1,0,double,0>::run' : function compiled as native :
+         	Aligned data types not supported in managed code
+     1>c:\users\tomek\documents\visual studio 2010\projects\pss\pss\pss\regulatorgpc.cpp(165): warning C4715: 'RegulatorGPC::simulate' : not all control paths return a value
          All outputs are up-to-date.
        CoreResGen:
-         "c:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\NETFX 4.0 Tools\resgen.exe" /useSourcePath /r:C:\Users\Tomek\Desktop\nplot-0.9.10.0\bin\net\2.0\release\NPlot.dll /r:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Core.dll" /r:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Data.dll" /r:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.dll" /r:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Drawing.dll" /r:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Windows.Forms.dll" /r:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Xml.dll" /compile PlotSurface2DDemo.resx,Debug\PSS.PlotSurface2DDemo.resources
-         Processing resource file "PlotSurface2DDemo.resx" into "Debug\PSS.PlotSurface2DDemo.resources".
+         All outputs are up-to-date.
        ResourceCompile:
          All outputs are up-to-date.
        Link:
@@ -53,4 +61,4 @@
 
 Kompilacja powiodła się.
 
-Time Elapsed 00:00:08.46
+Time Elapsed 00:00:09.83

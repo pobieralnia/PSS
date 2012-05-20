@@ -9,7 +9,6 @@
 #include "RegulatorGPC.h"
 #include "ARX.h"
 #include <map>
-#include <iostream>
 #include "Eigen\Dense"
 
 /**
@@ -17,13 +16,13 @@
  *
  * @return		void
  */
-RegulatorGPC::RegulatorGPC(void) : m_H(4), m_L(3), m_alpha(0.3), m_ro(0.3), m_rankA(1), m_rankB(0), m_initial_steps(10), m_initial_steps_left(0)
+RegulatorGPC::RegulatorGPC(void) : m_H(3), m_L(2), m_alpha(0.3), m_ro(0.5), m_rankA(1), m_rankB(0), m_initial_steps(10), m_initial_steps_left(0), m_lambda(0.9)
 {
 	m_proces = NULL;
 	m_identify = NULL;
 	m_history_U.push_front(0);
     m_history_Y.push_front(0);
-	m_w = 0;
+	m_history_DU.push_front(0);
 	start_identification();
 }
 
@@ -72,9 +71,9 @@ double RegulatorGPC::simulate(double input)
 		// Return disruption
 		if (m_initial_steps_left > 0)
 		{
-			m_initial_steps_left--;
-			const double u = static_cast<double>(rand())/RAND_MAX*5.0;
+			const double u = static_cast<double>(rand())/RAND_MAX*m_w;
 			m_history_U.push_front(u);
+			m_initial_steps_left--;
 			return u;
 		}
     
@@ -82,6 +81,8 @@ double RegulatorGPC::simulate(double input)
 		// ------------------------------------------------------------------------------------------------------
 	
 		// 1. Calculating h initial conditions equal zero, delay = 0
+		// http://platforma.polsl.pl/rau1/file.php/62/Cz_4_regulacja_predykcyjna.pdf
+		// page 27
 		Eigen::VectorXd h(m_H);
 		{
 			std::map<std::string, double> others;
@@ -93,36 +94,38 @@ double RegulatorGPC::simulate(double input)
 			ob.set_parameters(m_poly_A,m_poly_B,others);
 			for(int i=0; i<m_H; i++)
 			{
-				// Odpowiedz skokowa - wymuszenie to same jedynki:
 				h[i] = ob.simulate(1.0);
 			}
 
 		}
 
 		// 2. Calculating Q:
+		// http://platforma.polsl.pl/rau1/file.php/62/Cz_4_regulacja_predykcyjna.pdf
+		// page 28
 		Eigen::MatrixXd Q;
 		Q.setZero(m_H, m_L);
-		for(int l=0; l<m_L; l++)
+		for(int j=0; j<m_L; j++)
 		{
-			for(int i=l; i<m_H; i++)
+			for(int i=j; i<m_H; i++)
 			{
-				Q(i, l) = h[i-l];
+				Q(i, j) = h[i-j];
 			}
 		}
 
 		// 3. Calculating w0
+		// http://platforma.polsl.pl/rau1/file.php/62/Cz_4_regulacja_predykcyjna.pdf
+		// page 8
 		Eigen::VectorXd w0(m_H);
-
 		w0[0] = (1-m_alpha)*m_w + m_alpha*y;
-		for(int i=1; i<m_H; i++)
-		{
-			w0[i] = (1-m_alpha)*m_w + m_alpha*w0[i-1];
-		}
+		for(int i=1; i<m_H; i++)		w0[i] = (1-m_alpha)*m_w + m_alpha*w0[i-1];
+		
 
 		// 4. Calculating q
+		// http://platforma.polsl.pl/rau1/file.php/62/Cz_4_regulacja_predykcyjna.pdf
+		// page 20
 		Eigen::VectorXd tmp;
 		tmp.setZero(m_L);
-		tmp[0] = 1; // Vector [1 0 0 0 0 ...]
+		tmp[0] = 1;
 		Eigen::MatrixXd mIdentity;
 		mIdentity.setIdentity(m_L,m_L);
 		Eigen::VectorXd q = (tmp.transpose()
@@ -131,6 +134,8 @@ double RegulatorGPC::simulate(double input)
 							).transpose();
 
 		// 5. Calculating y0
+		// http://platforma.polsl.pl/rau1/file.php/62/Cz_4_regulacja_predykcyjna.pdf
+		// page 31
 		Eigen::VectorXd y0(m_H);
 		{
 			ARX ob;
@@ -138,9 +143,8 @@ double RegulatorGPC::simulate(double input)
 			others["k"] = 0;
 			others["stationary"] = 0;
 			others["noise"] = 0;
-
 			ob.set_parameters(m_poly_A,m_poly_B,others);
-			ob.set_initial_state(m_history_U, m_history_Y);
+			ob.set_initial_state(m_history_DU, m_history_Y);
 			for (int i=0; i<m_H; i++)
 			{
 				y0[i] = ob.simulate(m_history_U.front());
@@ -148,9 +152,13 @@ double RegulatorGPC::simulate(double input)
 		}
 
 		// 6. Calculating final control
-		const double du = q.transpose()*(w0-y0);
+		// http://platforma.polsl.pl/rau1/file.php/62/Cz_4_regulacja_predykcyjna.pdf
+		// page 35
+		const double du = q.transpose() * (w0-y0);
 		const double u = m_history_U.front() + du;
+
 		m_history_U.push_front(u);
+		m_history_DU.push_front(du);
 
 		return u;
 	}
@@ -283,6 +291,20 @@ double RegulatorGPC::get_error()
 	return m_history_E.front();
 }
 
+/** 
+ * Get error for current simulation regulation
+ *
+ * @return	double
+ */
+void RegulatorGPC::get_error(std::vector<double> & err)
+{
+	std::vector<double> v;
+	for(auto it =  m_history_E.rbegin(); it != m_history_E.rend() ; it++)
+		v.push_back(*it);
+	
+	err = v;
+}
+
 /**
  * Get set point value
  *
@@ -322,9 +344,9 @@ bool RegulatorGPC::check_parameters()
 		}
 	}
 
-	if(m_tmp_parameter["H"] < 1)
+	if(m_tmp_parameter["H"] < 1 || m_tmp_parameter["H"] > 1000)
 	{
-		throw std::string("Parametr H mniejszy od 1");
+		throw std::string("Parametr H mniejszy od 1 lub wiêkszy od 1000");
 		return false;
 	}
 	else if(m_tmp_parameter["L"] < 1)
@@ -374,7 +396,7 @@ bool RegulatorGPC::check_parameters()
 void RegulatorGPC::start_identification()
 {
 	m_identify = new Identification;
-	m_identify->set_parameters(1,0,0.9,0.00001,100);
+	m_identify->set_parameters(m_rankA,m_rankB,0.9,0.00001,100);
 	m_identify->identify();
 	m_initial_steps_left = 1;
 }

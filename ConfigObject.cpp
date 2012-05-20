@@ -49,10 +49,7 @@ void ConfigObject::clear(void)
 void ConfigObject::clear_all()
 {
 	this->clear();
-
 	m_vector_objects_ptr->clear();
-	m_vector_objects_ptr = NULL;
-	delete m_vector_objects_ptr;
 }
 
 /**

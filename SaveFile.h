@@ -33,6 +33,7 @@ class SaveFile : public SaveBase
 	public:
 		SaveFile(void);
 		void save_online(std::string line);
+		void save_online(double line);
 		void close();
 
 		template <typename T>

@@ -32,6 +32,7 @@ class Identification
 		std::deque<double> m_history_U,m_history_Y;
 		bool m_loaded_flag_identity;	/*< flag for setting all matrix and vectors */
 		bool m_loaded_flag;		/*< flag for loading parameters to use only once */
+		std::deque<double> m_history_poly_A, m_history_poly_B;
 		Eigen::VectorXd m_Q, m_Fi;
 		Eigen::MatrixXd m_P, m_IM;
 	public:
@@ -40,12 +41,12 @@ class Identification
 		void add_sample(double y, double u);
 		void set_parameters(int rA, int rB, double l, double delta_min, double delta_max);
 		void identify(void);
-		 void get_polynomial_a(std::deque<double> & poly);
+		void get_polynomial_a(std::deque<double> & poly);
 		void get_polynomial_b(std::deque<double> & poly);
-		std::deque<double> m_history_poly_A, m_history_poly_B;
 	private:
 		void update_history(void);
 		void calculating_fi(void);
+		void calculating_changeable_weights(void);
 		void calculating_pi(double y);
 		void calculating_covariance_matrix(void);
 		void minimizing_quality_pointer(void);

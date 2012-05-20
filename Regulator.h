@@ -11,6 +11,7 @@
 #include "Object.h"
 
 #include <map>
+#include <vector>
 #include <string>
 
 class SignalBase;
@@ -29,6 +30,7 @@ class Regulator : public Object
 		virtual double get_setpoint() = 0;
 		virtual void set_setpoint(SignalBase * proces) = 0;
 		virtual double get_error() = 0;
+		virtual void get_error(std::vector<double> & err) = 0;
 		virtual void set_parameters(std::map<std::string, double> & parm) = 0;
 		virtual void set_parameters(const std::string & param_name, double value) = 0;
 		virtual void get_parameters(std::map<std::string, double> & parm) const = 0;

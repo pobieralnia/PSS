@@ -14,6 +14,7 @@ class SaveMysql : public SaveBase
 {
 	public:
 		void save_online(std::string line) {};
+		void save_online(double line) {};
 		bool open() { return true; };
 		void close() {};
 };
