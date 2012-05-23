@@ -7,9 +7,6 @@
 
 #include "StdAfx.h"
 #include "RegulatorGPC.h"
-#include "ARX.h"
-#include <map>
-#include "Eigen\Dense"
 
 /**
  * Constructor - set member variables with defualt values
@@ -22,7 +19,6 @@ RegulatorGPC::RegulatorGPC(void) : m_H(3), m_L(2), m_alpha(0.3), m_ro(0.5), m_ra
 	m_identify = NULL;
 	m_history_U.push_front(0);
     m_history_Y.push_front(0);
-	m_history_DU.push_front(0);
 	start_identification();
 }
 
@@ -62,8 +58,12 @@ double RegulatorGPC::simulate(double input)
 		m_history_Y.push_front(y);
 		m_identify->add_sample(input, m_history_U.front());
 
+		std::deque<double> A,B;
 		m_poly_A.clear();
 		m_poly_B.clear();
+
+		A.push_back(-0.6);
+		B.push_back(0.4);
 
 		m_identify->get_polynomial_a(m_poly_A);
 		m_identify->get_polynomial_b(m_poly_B);
@@ -96,7 +96,6 @@ double RegulatorGPC::simulate(double input)
 			{
 				h[i] = ob.simulate(1.0);
 			}
-
 		}
 
 		// 2. Calculating Q:
@@ -104,11 +103,18 @@ double RegulatorGPC::simulate(double input)
 		// page 28
 		Eigen::MatrixXd Q;
 		Q.setZero(m_H, m_L);
-		for(int j=0; j<m_L; j++)
+		for(int i=0; i<m_H; i++)
 		{
-			for(int i=j; i<m_H; i++)
+			for(int j=0; j<m_L; j++)
 			{
-				Q(i, j) = h[i-j];
+				if(i-j<0)
+				{
+					Q(i,j) = 0;
+				}
+				else
+				{
+					Q(i,j) = h[i-j];
+				}
 			}
 		}
 
@@ -116,8 +122,28 @@ double RegulatorGPC::simulate(double input)
 		// http://platforma.polsl.pl/rau1/file.php/62/Cz_4_regulacja_predykcyjna.pdf
 		// page 8
 		Eigen::VectorXd w0(m_H);
-		w0[0] = (1-m_alpha)*m_w + m_alpha*y;
-		for(int i=1; i<m_H; i++)		w0[i] = (1-m_alpha)*m_w + m_alpha*w0[i-1];
+
+		std::map<std::string, double> others;
+		others["k"] = 0;
+		others["stationary"] = 0;
+		others["noise"] = 0;
+
+		std::deque<double> AA,BB;
+		AA.push_back(0);
+		BB.push_back(1);
+
+		ARX ob3;
+		ob3.set_parameters(AA,BB,others);
+		ob3.set_initial_state(m_history_U, m_history_Y);
+	//	w0[0] = (1-m_alpha)*m_w + m_alpha*y;
+	//	for(int i=1; i<m_H; i++)
+		//{
+		//	w0[i] = (1-m_alpha)*m_w + m_alpha*w0[i-1];
+		//}
+		for(int i=0; i<m_H; i++)
+		{
+			 w0[i] = ob3.simulate(m_w);
+	}
 		
 
 		// 4. Calculating q
@@ -144,7 +170,8 @@ double RegulatorGPC::simulate(double input)
 			others["stationary"] = 0;
 			others["noise"] = 0;
 			ob.set_parameters(m_poly_A,m_poly_B,others);
-			ob.set_initial_state(m_history_DU, m_history_Y);
+			ob.set_initial_state(m_history_U, m_history_Y);
+			ob.simulate(m_history_U.front());
 			for (int i=0; i<m_H; i++)
 			{
 				y0[i] = ob.simulate(m_history_U.front());
@@ -158,10 +185,11 @@ double RegulatorGPC::simulate(double input)
 		const double u = m_history_U.front() + du;
 
 		m_history_U.push_front(u);
-		m_history_DU.push_front(du);
 
 		return u;
 	}
+	else
+		return 0.0;
 }
 
 /**
@@ -396,7 +424,7 @@ bool RegulatorGPC::check_parameters()
 void RegulatorGPC::start_identification()
 {
 	m_identify = new Identification;
-	m_identify->set_parameters(m_rankA,m_rankB,0.9,0.00001,100);
+	m_identify->set_parameters(m_rankA,m_rankB,m_lambda,0.00001,100);
 	m_identify->identify();
 	m_initial_steps_left = 1;
 }

@@ -10,6 +10,10 @@
 
 #include "SaveBase.h"
 
+/**
+ * @class	SaveMysql SaveMysql.h
+ * @brief	SQL driver for saving data
+ */
 class SaveMysql : public SaveBase
 {
 	public:

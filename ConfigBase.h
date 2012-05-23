@@ -5,6 +5,10 @@
 #include <tuple>
 #include <map>
 
+/**
+ * Abstract class
+ * @brief Interface for Class Config
+ */
 class ConfigBase {
 
 	public:

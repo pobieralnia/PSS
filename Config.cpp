@@ -94,3 +94,47 @@ void Config::clear_flag()
 	this->m_config_regulator_loaded = false;
 	this->m_config_generator_loaded = false;
 }
+
+/**
+ * Get config for object
+ *
+ * @param		std::tuple <std::map<int,double>, std::map<int,double>, std::map<std::string, double>> conf
+ * @param		int unsigned i
+ * @return		void
+ */
+void Config::get_config(std::tuple <std::map<int,double>, std::map<int,double>, std::map<std::string, double>> & conf, int unsigned i)
+{
+	if( this->structo.m_vector_objects.size() > 0 && i <= this->structo.m_vector_objects.size())
+	{
+		conf = this->structo.m_vector_objects[i];
+	}
+};
+
+/**
+ * Get config for generator
+ *
+ * @param		std::vector<std::map<std::string,double>> & conf
+ * @return		void
+ */
+void Config::get_config_generator(std::vector<std::map<std::string,double>> & conf)
+{
+	if( this->structo.m_vector_generator.size() > 0)
+	{
+		conf = this->structo.m_vector_generator;
+	}
+};
+
+/**
+ * Get config for regulator
+ *
+ * @param		std::map<std::string,double> conf
+ * @param		int unsigned i
+ * @return		void
+ */
+void Config::get_config_regulator(std::map<std::string,double> & conf, int unsigned i)
+{
+	if( this->structo.m_vector_regulator.size() > 0 && i <= this->structo.m_vector_regulator.size())
+	{
+		conf = this->structo.m_vector_regulator[i];
+	}
+};

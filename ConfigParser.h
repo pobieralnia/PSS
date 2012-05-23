@@ -28,6 +28,7 @@ class ConfigParser
 		bool regex_k(std::string line, double * k);
 		bool regex_da(std::string line, int * da);
 		bool regex_db(std::string line, int * db);
+		bool regex_noise(std::string line, double * noise);
 		void regex_generator_parameter(std::string line, std::map<std::string, double > & parm);
 		void regex_regulator_parameter(std::string line, std::map<std::string, double > & parm);
 

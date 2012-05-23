@@ -9,10 +9,13 @@
 #define __REGULATORGPC_H__
 
 #include "Regulator.h"
+#include "ARX.h"
 #include "Signal.h"
 #include "Identification.h"
 #include <deque>
 #include <vector>
+#include <map>
+#include "Eigen\Dense"
 
 /**
  * @class	RegulatorGPC	RegulatorGPC.h
@@ -33,13 +36,13 @@ class RegulatorGPC : public Regulator
 		int m_initial_steps;
 		int m_initial_steps_left;
 		std::deque<double> m_history_U, m_history_Y, m_history_E, m_history_DU;
-		std::deque<double> m_poly_A;		// container for A polynomial
-		std::deque<double> m_poly_B;		// container for B polynomial
-		std::map<std::string, double> m_tmp_parameter;
+		std::deque<double> m_poly_A;		/*< container for A polynomial */
+		std::deque<double> m_poly_B;		/*< container for B polynomial */
+		std::map<std::string, double> m_tmp_parameter;		/*< container for other parameters */
 
-		// Parameters for identification
-		int m_rankA,m_rankB;
-		double m_lambda;
+		// identification
+		int m_rankA,m_rankB;	/*< Parameters for identification */
+		double m_lambda;		/*< Parameters for identification */
 
 		// Signal Proces Gerenator
 		SignalBase * m_proces;

@@ -23,7 +23,7 @@ ARX::ARX(void)
 	this->m_B.push_back(0.4);
 	this->m_delay = 1;
 	this->m_stat = 0;
-	this->m_noise = 0;
+	this->m_noise = 0.0;
 
 }
 /**
@@ -142,8 +142,7 @@ void ARX::set_parameters(std::deque<double> A, std::deque<double> B, std::map<st
 
 	this->m_A = A;
 	this->m_B = B;
-	if(m_Y.empty())
-		this->m_delay = others["k"];
+	this->m_delay = others["k"];
 	this->m_stat = others["stationary"];
 	this->m_noise = others["noise"];
 
@@ -164,5 +163,5 @@ void ARX::get_parameters(std::deque<double> & A, std::deque<double> & B, std::ma
 	B = m_B;
 	others["k"] = m_delay;
 	others["stationary"] = m_stat;
-	others["noise"] = this->m_noise;
+	others["noise"] = m_noise;
 }

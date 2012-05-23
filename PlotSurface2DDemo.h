@@ -89,7 +89,7 @@ namespace PSS {
 	private: System::Windows::Forms::ToolStripMenuItem^  plikToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^  infoToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^  zamknijToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripMenuItem^  pomocToolStripMenuItem;
+
 	private: System::Windows::Forms::Button^  button1;
 	private: System::Windows::Forms::Button^  button2;
 	private: System::Windows::Forms::Label^  label1;
@@ -197,7 +197,6 @@ namespace PSS {
 		this->plikToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 		this->infoToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 		this->zamknijToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-		this->pomocToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 		this->openFileDialog1 = (gcnew System::Windows::Forms::OpenFileDialog());
 		this->tabControl2 = (gcnew System::Windows::Forms::TabControl());
 		this->tabPage1 = (gcnew System::Windows::Forms::TabPage());
@@ -215,19 +214,19 @@ namespace PSS {
 		this->label5 = (gcnew System::Windows::Forms::Label());
 		this->label4 = (gcnew System::Windows::Forms::Label());
 		this->tabPage4 = (gcnew System::Windows::Forms::TabPage());
-		this->textBox6 = (gcnew System::Windows::Forms::TextBox());
-		this->label10 = (gcnew System::Windows::Forms::Label());
-		this->label11 = (gcnew System::Windows::Forms::Label());
-		this->textBox7 = (gcnew System::Windows::Forms::TextBox());
-		this->label12 = (gcnew System::Windows::Forms::Label());
-		this->textBox8 = (gcnew System::Windows::Forms::TextBox());
-		this->label13 = (gcnew System::Windows::Forms::Label());
-		this->label14 = (gcnew System::Windows::Forms::Label());
-		this->textBox9 = (gcnew System::Windows::Forms::TextBox());
-		this->label15 = (gcnew System::Windows::Forms::Label());
-		this->textBox10 = (gcnew System::Windows::Forms::TextBox());
-		this->label16 = (gcnew System::Windows::Forms::Label());
 		this->textBox11 = (gcnew System::Windows::Forms::TextBox());
+		this->label16 = (gcnew System::Windows::Forms::Label());
+		this->textBox10 = (gcnew System::Windows::Forms::TextBox());
+		this->label15 = (gcnew System::Windows::Forms::Label());
+		this->textBox9 = (gcnew System::Windows::Forms::TextBox());
+		this->label14 = (gcnew System::Windows::Forms::Label());
+		this->label13 = (gcnew System::Windows::Forms::Label());
+		this->textBox8 = (gcnew System::Windows::Forms::TextBox());
+		this->label12 = (gcnew System::Windows::Forms::Label());
+		this->textBox7 = (gcnew System::Windows::Forms::TextBox());
+		this->label11 = (gcnew System::Windows::Forms::Label());
+		this->label10 = (gcnew System::Windows::Forms::Label());
+		this->textBox6 = (gcnew System::Windows::Forms::TextBox());
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->trackBar1))->BeginInit();
 		this->tabControl1->SuspendLayout();
 		this->Wykres->SuspendLayout();
@@ -277,7 +276,7 @@ namespace PSS {
 		this->plotSurface->Name = L"plotSurface";
 		this->plotSurface->RightMenu = nullptr;
 		this->plotSurface->ShowCoordinates = true;
-		this->plotSurface->Size = System::Drawing::Size(689, 301);
+		this->plotSurface->Size = System::Drawing::Size(1011, 301);
 		this->plotSurface->SmoothingMode = System::Drawing::Drawing2D::SmoothingMode::None;
 		this->plotSurface->TabIndex = 0;
 		this->plotSurface->Text = L"plotSurface2D1";
@@ -292,7 +291,7 @@ namespace PSS {
 		// 
 		this->trackBar1->AccessibleName = L"";
 		this->trackBar1->BackColor = System::Drawing::SystemColors::ControlLightLight;
-		this->trackBar1->Location = System::Drawing::Point(534, 327);
+		this->trackBar1->Location = System::Drawing::Point(856, 327);
 		this->trackBar1->Maximum = 5;
 		this->trackBar1->Minimum = 1;
 		this->trackBar1->Name = L"trackBar1";
@@ -303,7 +302,7 @@ namespace PSS {
 		// 
 		// textBox1
 		// 
-		this->textBox1->Location = System::Drawing::Point(644, 329);
+		this->textBox1->Location = System::Drawing::Point(966, 327);
 		this->textBox1->Name = L"textBox1";
 		this->textBox1->Size = System::Drawing::Size(51, 20);
 		this->textBox1->TabIndex = 10;
@@ -315,7 +314,7 @@ namespace PSS {
 		this->tabControl1->Location = System::Drawing::Point(11, 28);
 		this->tabControl1->Name = L"tabControl1";
 		this->tabControl1->SelectedIndex = 0;
-		this->tabControl1->Size = System::Drawing::Size(709, 409);
+		this->tabControl1->Size = System::Drawing::Size(1043, 409);
 		this->tabControl1->TabIndex = 11;
 		// 
 		// Wykres
@@ -328,7 +327,7 @@ namespace PSS {
 		this->Wykres->Location = System::Drawing::Point(4, 22);
 		this->Wykres->Name = L"Wykres";
 		this->Wykres->Padding = System::Windows::Forms::Padding(3);
-		this->Wykres->Size = System::Drawing::Size(701, 383);
+		this->Wykres->Size = System::Drawing::Size(1035, 383);
 		this->Wykres->TabIndex = 0;
 		this->Wykres->Text = L"Wykres";
 		this->Wykres->UseVisualStyleBackColor = true;
@@ -500,11 +499,10 @@ namespace PSS {
 		// 
 		// menuStrip1
 		// 
-		this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {this->plikToolStripMenuItem, 
-			this->pomocToolStripMenuItem});
+		this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) {this->plikToolStripMenuItem});
 		this->menuStrip1->Location = System::Drawing::Point(0, 0);
 		this->menuStrip1->Name = L"menuStrip1";
-		this->menuStrip1->Size = System::Drawing::Size(732, 24);
+		this->menuStrip1->Size = System::Drawing::Size(1066, 24);
 		this->menuStrip1->TabIndex = 12;
 		this->menuStrip1->Text = L"menuStrip1";
 		// 
@@ -521,6 +519,7 @@ namespace PSS {
 		this->infoToolStripMenuItem->Name = L"infoToolStripMenuItem";
 		this->infoToolStripMenuItem->Size = System::Drawing::Size(117, 22);
 		this->infoToolStripMenuItem->Text = L"Info";
+		this->infoToolStripMenuItem->Click += gcnew System::EventHandler(this, &CPlotSurface2DDemo::infoToolStripMenuItem_Click);
 		// 
 		// zamknijToolStripMenuItem
 		// 
@@ -528,12 +527,6 @@ namespace PSS {
 		this->zamknijToolStripMenuItem->Size = System::Drawing::Size(117, 22);
 		this->zamknijToolStripMenuItem->Text = L"Zamknij";
 		this->zamknijToolStripMenuItem->Click += gcnew System::EventHandler(this, &CPlotSurface2DDemo::zamknijToolStripMenuItem_Click);
-		// 
-		// pomocToolStripMenuItem
-		// 
-		this->pomocToolStripMenuItem->Name = L"pomocToolStripMenuItem";
-		this->pomocToolStripMenuItem->Size = System::Drawing::Size(57, 20);
-		this->pomocToolStripMenuItem->Text = L"Pomoc";
 		// 
 		// openFileDialog1
 		// 
@@ -711,114 +704,22 @@ namespace PSS {
 		this->tabPage4->Controls->Add(this->label11);
 		this->tabPage4->Controls->Add(this->label10);
 		this->tabPage4->Controls->Add(this->textBox6);
+		this->tabPage4->Enabled = false;
 		this->tabPage4->Location = System::Drawing::Point(4, 22);
 		this->tabPage4->Name = L"tabPage4";
 		this->tabPage4->Padding = System::Windows::Forms::Padding(3);
 		this->tabPage4->Size = System::Drawing::Size(701, 153);
 		this->tabPage4->TabIndex = 2;
-		this->tabPage4->Enabled = false;
 		this->tabPage4->Text = L"RegulatorPID";
 		this->tabPage4->UseVisualStyleBackColor = true;
 		// 
-		// textBox6
+		// textBox11
 		// 
-		this->textBox6->Location = System::Drawing::Point(113, 63);
-		this->textBox6->Name = L"textBox6";
-		this->textBox6->Size = System::Drawing::Size(100, 20);
-		this->textBox6->TabIndex = 0;
-		this->textBox6->TextChanged += gcnew System::EventHandler(this, &CPlotSurface2DDemo::TI_TextBox_TextChanged);
-		// 
-		// label10
-		// 
-		this->label10->AutoSize = true;
-		this->label10->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.25F));
-		this->label10->Location = System::Drawing::Point(74, 63);
-		this->label10->Name = L"label10";
-		this->label10->Size = System::Drawing::Size(20, 16);
-		this->label10->TabIndex = 1;
-		this->label10->Text = L"Ti";
-		// 
-		// label11
-		// 
-		this->label11->AutoSize = true;
-		this->label11->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12.25F));
-		this->label11->Location = System::Drawing::Point(6, 13);
-		this->label11->Name = L"label11";
-		this->label11->Size = System::Drawing::Size(359, 20);
-		this->label11->TabIndex = 2;
-		this->label11->Text = L"Prosimy o dobranie parametrów regulatora PID";
-		// 
-		// textBox7
-		// 
-		this->textBox7->Location = System::Drawing::Point(113, 102);
-		this->textBox7->Name = L"textBox7";
-		this->textBox7->Size = System::Drawing::Size(100, 20);
-		this->textBox7->TabIndex = 3;
-		this->textBox7->TextChanged += gcnew System::EventHandler(this, &CPlotSurface2DDemo::TD_TextBox_TextChanged);
-		// 
-		// label12
-		// 
-		this->label12->AutoSize = true;
-		this->label12->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.25F));
-		this->label12->Location = System::Drawing::Point(69, 102);
-		this->label12->Name = L"label12";
-		this->label12->Size = System::Drawing::Size(25, 16);
-		this->label12->TabIndex = 4;
-		this->label12->Text = L"Td";
-		// 
-		// textBox8
-		// 
-		this->textBox8->Location = System::Drawing::Point(308, 63);
-		this->textBox8->Name = L"textBox8";
-		this->textBox8->Size = System::Drawing::Size(100, 20);
-		this->textBox8->TabIndex = 5;
-		this->textBox8->TextChanged += gcnew System::EventHandler(this, &CPlotSurface2DDemo::K_TextBox_TextChanged);
-		// 
-		// label13
-		// 
-		this->label13->AutoSize = true;
-		this->label13->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.25F));
-		this->label13->Location = System::Drawing::Point(272, 63);
-		this->label13->Name = L"label13";
-		this->label13->Size = System::Drawing::Size(15, 16);
-		this->label13->TabIndex = 6;
-		this->label13->Text = L"k";
-		// 
-		// label14
-		// 
-		this->label14->AutoSize = true;
-		this->label14->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.25F));
-		this->label14->Location = System::Drawing::Point(269, 102);
-		this->label14->Name = L"label14";
-		this->label14->Size = System::Drawing::Size(18, 16);
-		this->label14->TabIndex = 7;
-		this->label14->Text = L"N";
-		// 
-		// textBox9
-		// 
-		this->textBox9->Location = System::Drawing::Point(308, 98);
-		this->textBox9->Name = L"textBox9";
-		this->textBox9->Size = System::Drawing::Size(98, 20);
-		this->textBox9->TabIndex = 8;
-		this->textBox9->TextChanged += gcnew System::EventHandler(this, &CPlotSurface2DDemo::N_TextBox_TextChanged);
-		// 
-		// label15
-		// 
-		this->label15->AutoSize = true;
-		this->label15->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.25F));
-		this->label15->Location = System::Drawing::Point(476, 65);
-		this->label15->Name = L"label15";
-		this->label15->Size = System::Drawing::Size(25, 16);
-		this->label15->TabIndex = 9;
-		this->label15->Text = L"Tp";
-		// 
-		// textBox10
-		// 
-		this->textBox10->Location = System::Drawing::Point(521, 63);
-		this->textBox10->Name = L"textBox10";
-		this->textBox10->Size = System::Drawing::Size(100, 20);
-		this->textBox10->TabIndex = 10;
-		this->textBox10->TextChanged += gcnew System::EventHandler(this, &CPlotSurface2DDemo::TP_TextBox_TextChanged);
+		this->textBox11->Location = System::Drawing::Point(521, 98);
+		this->textBox11->Name = L"textBox11";
+		this->textBox11->Size = System::Drawing::Size(100, 20);
+		this->textBox11->TabIndex = 12;
+		this->textBox11->TextChanged += gcnew System::EventHandler(this, &CPlotSurface2DDemo::B_TextBox_TextChanged);
 		// 
 		// label16
 		// 
@@ -830,25 +731,117 @@ namespace PSS {
 		this->label16->TabIndex = 11;
 		this->label16->Text = L"b";
 		// 
-		// textBox11
+		// textBox10
 		// 
-		this->textBox11->Location = System::Drawing::Point(521, 98);
-		this->textBox11->Name = L"textBox11";
-		this->textBox11->Size = System::Drawing::Size(100, 20);
-		this->textBox11->TabIndex = 12;
-		this->textBox11->TextChanged += gcnew System::EventHandler(this, &CPlotSurface2DDemo::B_TextBox_TextChanged);
+		this->textBox10->Location = System::Drawing::Point(521, 63);
+		this->textBox10->Name = L"textBox10";
+		this->textBox10->Size = System::Drawing::Size(100, 20);
+		this->textBox10->TabIndex = 10;
+		this->textBox10->TextChanged += gcnew System::EventHandler(this, &CPlotSurface2DDemo::TP_TextBox_TextChanged);
+		// 
+		// label15
+		// 
+		this->label15->AutoSize = true;
+		this->label15->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.25F));
+		this->label15->Location = System::Drawing::Point(476, 65);
+		this->label15->Name = L"label15";
+		this->label15->Size = System::Drawing::Size(25, 16);
+		this->label15->TabIndex = 9;
+		this->label15->Text = L"Tp";
+		// 
+		// textBox9
+		// 
+		this->textBox9->Location = System::Drawing::Point(308, 98);
+		this->textBox9->Name = L"textBox9";
+		this->textBox9->Size = System::Drawing::Size(98, 20);
+		this->textBox9->TabIndex = 8;
+		this->textBox9->TextChanged += gcnew System::EventHandler(this, &CPlotSurface2DDemo::N_TextBox_TextChanged);
+		// 
+		// label14
+		// 
+		this->label14->AutoSize = true;
+		this->label14->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.25F));
+		this->label14->Location = System::Drawing::Point(269, 102);
+		this->label14->Name = L"label14";
+		this->label14->Size = System::Drawing::Size(18, 16);
+		this->label14->TabIndex = 7;
+		this->label14->Text = L"N";
+		// 
+		// label13
+		// 
+		this->label13->AutoSize = true;
+		this->label13->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.25F));
+		this->label13->Location = System::Drawing::Point(272, 63);
+		this->label13->Name = L"label13";
+		this->label13->Size = System::Drawing::Size(15, 16);
+		this->label13->TabIndex = 6;
+		this->label13->Text = L"k";
+		// 
+		// textBox8
+		// 
+		this->textBox8->Location = System::Drawing::Point(308, 63);
+		this->textBox8->Name = L"textBox8";
+		this->textBox8->Size = System::Drawing::Size(100, 20);
+		this->textBox8->TabIndex = 5;
+		this->textBox8->TextChanged += gcnew System::EventHandler(this, &CPlotSurface2DDemo::K_TextBox_TextChanged);
+		// 
+		// label12
+		// 
+		this->label12->AutoSize = true;
+		this->label12->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.25F));
+		this->label12->Location = System::Drawing::Point(69, 102);
+		this->label12->Name = L"label12";
+		this->label12->Size = System::Drawing::Size(25, 16);
+		this->label12->TabIndex = 4;
+		this->label12->Text = L"Td";
+		// 
+		// textBox7
+		// 
+		this->textBox7->Location = System::Drawing::Point(113, 102);
+		this->textBox7->Name = L"textBox7";
+		this->textBox7->Size = System::Drawing::Size(100, 20);
+		this->textBox7->TabIndex = 3;
+		this->textBox7->TextChanged += gcnew System::EventHandler(this, &CPlotSurface2DDemo::TD_TextBox_TextChanged);
+		// 
+		// label11
+		// 
+		this->label11->AutoSize = true;
+		this->label11->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12.25F));
+		this->label11->Location = System::Drawing::Point(6, 13);
+		this->label11->Name = L"label11";
+		this->label11->Size = System::Drawing::Size(359, 20);
+		this->label11->TabIndex = 2;
+		this->label11->Text = L"Prosimy o dobranie parametrów regulatora PID";
+		// 
+		// label10
+		// 
+		this->label10->AutoSize = true;
+		this->label10->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.25F));
+		this->label10->Location = System::Drawing::Point(74, 63);
+		this->label10->Name = L"label10";
+		this->label10->Size = System::Drawing::Size(20, 16);
+		this->label10->TabIndex = 1;
+		this->label10->Text = L"Ti";
+		// 
+		// textBox6
+		// 
+		this->textBox6->Location = System::Drawing::Point(113, 63);
+		this->textBox6->Name = L"textBox6";
+		this->textBox6->Size = System::Drawing::Size(100, 20);
+		this->textBox6->TabIndex = 0;
+		this->textBox6->TextChanged += gcnew System::EventHandler(this, &CPlotSurface2DDemo::TI_TextBox_TextChanged);
 		// 
 		// CPlotSurface2DDemo
 		// 
 		this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 		this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-		this->ClientSize = System::Drawing::Size(732, 645);
+		this->ClientSize = System::Drawing::Size(1066, 645);
 		this->Controls->Add(this->tabControl2);
 		this->Controls->Add(this->tabControl1);
 		this->Controls->Add(this->menuStrip1);
 		this->MainMenuStrip = this->menuStrip1;
 		this->Name = L"CPlotSurface2DDemo";
-		this->Text = L"PSS 1.5";
+		this->Text = L"PSS 1.9";
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->trackBar1))->EndInit();
 		this->tabControl1->ResumeLayout(false);
 		this->Wykres->ResumeLayout(false);
@@ -868,14 +861,14 @@ namespace PSS {
 		this->ResumeLayout(false);
 		this->PerformLayout();
 
-			 }
+	 }
 #pragma endregion
 
 	// Handle the TrackBar.ValueChanged event by calculating a value for
 	// TextBox1 based on the TrackBar value.  
 	private: System::Void trackBar1_ValueChanged( Object^ /*sender*/, System::EventArgs^ /*e*/ )
 	{
-		this->textBox1->Text = String::Concat( "", trackBar1->Value );
+		this->textBox1->Text = String::Concat("", trackBar1->Value );
 		this->n = trackBar1->Value * 1000;
 	}
 
@@ -1208,6 +1201,7 @@ namespace PSS {
 			Config::getInstance().get_config_regulator(regulator, listBox2->SelectedIndex);
 
 			RegulatorManager manager;
+
 			try
 			{	
 				if(regulator["name"] == 1) // Regulator GPC
@@ -1263,6 +1257,7 @@ namespace PSS {
 		{
 			// Fill loop with object and regulator
 			std::tuple <std::map<int,double>, std::map<int,double>, std::map<std::string, double>> m_vector_objects_ptr;
+
 			Config::getInstance().get_config(m_vector_objects_ptr, listBox1->SelectedIndex);
 
 			std::deque<double> m_A;
@@ -1270,7 +1265,7 @@ namespace PSS {
 
 			for( auto it =  std::get<0>(m_vector_objects_ptr).begin(); it !=  std::get<0>(m_vector_objects_ptr).end(); it++ )	m_A.push_back( it->second );
 			for( auto ite = std::get<1>(m_vector_objects_ptr).begin(); ite != std::get<1>(m_vector_objects_ptr).end(); ite++ )	m_B.push_back( ite->second );
-				
+	
 			arx_object->set_parameters(m_A, m_B, std::get<2>(m_vector_objects_ptr));
 		}
 	}
@@ -1781,6 +1776,18 @@ namespace PSS {
 		 }
 		 else
 			 MessageBox::Show("Brak zdefiniowanego obiektu", "Obiekt");
+	}
+
+	/**
+	 * Info button from Menu
+	 *
+	 * @param		System::Object^  sender
+	 * @param		System::EventArgs^  e
+	 * @return		void
+	 */
+	private: System::Void infoToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) 
+	{
+		MessageBox::Show("Aplikacja PSS, wersja 1.9", "PSS");
 	}
 
 }; // END OF CLASS

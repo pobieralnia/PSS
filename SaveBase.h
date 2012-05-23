@@ -13,8 +13,7 @@
 /**
  * @class		SaveBase SaveBase.h
  * @brief		Abstract class for saving files
- * @date		2012-02-28
- * @author		Tomasz L
+ * @copyright	Tomasz L
  */
 class SaveBase
 {
@@ -25,7 +24,6 @@ class SaveBase
 		virtual void close() = 0;
 		virtual ~SaveBase() {};
 
-		//static SaveBase * Create(std::string type);
 };
 
 #endif

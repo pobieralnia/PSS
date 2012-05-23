@@ -16,10 +16,10 @@
 /**
  * Constructor -clear all main variables
  * 
- * @param	struct someStruct * state - struct with config variables
+ * @param	struct ConfigStruct * state - struct with config variables
  * @return	void
  */
-ConfigRegulator::ConfigRegulator(struct someStruct & state)
+ConfigRegulator::ConfigRegulator(struct ConfigStruct & state)
 {
 	m_vector_regulator_ptr = &state.m_vector_regulator;
 	this->clear();

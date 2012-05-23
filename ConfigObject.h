@@ -34,16 +34,16 @@ class ConfigObject : public ConfigBase, private ConfigParser
 	static const int POLYNOMIAL_B = 1;
 
 	std::map<std::string, double> m_other_parameters;
-	std::map<int,double> m_a_parameters;	// config - container for a - parameters
-	std::map<int,double> m_b_parameters;	// config - container for b - parameters
+	std::map<int,double> m_a_parameters;	/*< config - container for a - parameters */
+	std::map<int,double> m_b_parameters;	/*< config - container for b - parameters */
 
-	std::vector<object_details> * m_vector_objects_ptr;	// container for all configs
+	std::vector<object_details> * m_vector_objects_ptr;	/*< container for all configs */
 
 	private:
 		void clear(void);
 
 	public:
-		ConfigObject(struct someStruct * state);
+		ConfigObject(struct ConfigStruct * state);
 		~ConfigObject(void) { this->clear_all(); };
 		void parse_line(std::string line);
 		void clear_all(void);

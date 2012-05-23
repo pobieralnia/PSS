@@ -17,10 +17,10 @@
  * Constructor
  * clear all main variables
  * 
- * @param	struct someStruct * state - struct with config variables
+ * @param	struct ConfigStruct * state - struct with config variables
  * @return	void
  */
-ConfigGenerator::ConfigGenerator(struct someStruct & state)
+ConfigGenerator::ConfigGenerator(struct ConfigStruct & state)
 {
 	m_vector_generator_ptr = &state.m_vector_generator;
 	this->clear();

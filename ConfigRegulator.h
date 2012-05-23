@@ -16,7 +16,6 @@
 /**
  * @class	ConfigGenerator ConfigGenerator.h
  * @brief	Generator config class
- * @date	2012-04-04
  */
 class ConfigRegulator : public ConfigBase, private ConfigParser
 {
@@ -24,7 +23,7 @@ class ConfigRegulator : public ConfigBase, private ConfigParser
 	std::map<std::string, double> m_parameters;
 
 	public:
-		ConfigRegulator(struct someStruct & state);
+		ConfigRegulator(struct ConfigStruct & state);
 		~ConfigRegulator(void);
 		void parse_line(std::string line);
 		void clear_all(void);

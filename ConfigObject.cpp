@@ -20,10 +20,10 @@
  * Constructor
  * clear all main variables
  * 
- * @param	struct someStruct * state - struct with config variables
+ * @param	struct ConfigStruct * state - struct with config variables
  * @return	void
  */
-ConfigObject::ConfigObject(struct someStruct * state)
+ConfigObject::ConfigObject(struct ConfigStruct * state)
 {
 	m_vector_objects_ptr = &state->m_vector_objects;
 	this->clear();
@@ -61,11 +61,12 @@ void ConfigObject::clear_all()
 void ConfigObject::parse_line(std::string line)
 {
 	// Clean values
-	double m_tmp_parm_val = 0;
+	double m_tmp_parm_val = 0.0;
 	int m_tmp_parm_key = 0;
 	int m_tmp_da = 0;
 	int m_tmp_db = 0;
-	double m_tmp_k = 0;
+	double m_tmp_k = 0.0;
+	double noise = 0.0;
 
 	// Check what kind of variables are in the line
 	if(ConfigParser::regex_a_parameter(line, &m_tmp_parm_val, &m_tmp_parm_key))
@@ -91,6 +92,10 @@ void ConfigObject::parse_line(std::string line)
 	else if(ConfigParser::regex_db(line, &m_tmp_db))
 	{
 		this->m_other_parameters["db"] = m_tmp_db;
+	}
+	else if(ConfigParser::regex_noise(line, &noise))
+	{
+		this->m_other_parameters["noise"] = noise;
 	}
 	else if(ConfigParser::regex_end_of_config(line))
 	{

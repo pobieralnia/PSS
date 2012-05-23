@@ -4,6 +4,10 @@
 #include "Signal.h"
 #include <deque>
 
+/**
+ * @class	Dekorator SignalDecorator.h
+ * @brief	Decorator for signal proces
+ */
 class Dekorator : public SignalBase
 {
 	public:
@@ -16,6 +20,10 @@ class Dekorator : public SignalBase
 		std::deque<int> s_simulation_step;
 };
  
+/**
+ * @class	SignalRectangle	SignalDecorator.h
+ * @brief	Generating rectangle signal
+ */
 class SignalRectangle : public Dekorator
 {
 	public:
@@ -32,6 +40,10 @@ class SignalRectangle : public Dekorator
 		bool m_continues;
 };
 
+/**
+ * @class	SignalStep	SignalDecorator.h
+ * @brief	Generating step signal
+ */
 class SignalStep : public Dekorator
 {
 	public:
@@ -45,7 +57,11 @@ class SignalStep : public Dekorator
 		int m_end;
 		bool m_continues;
 };
- 
+
+/**
+ * @class	SignalTriangle	SignalDecorator.h
+ * @brief	Generating triangle signal
+ */
 class SignalTriangle : public Dekorator
 {
 	public:
@@ -61,6 +77,10 @@ class SignalTriangle : public Dekorator
 		bool m_continues;
 };
 
+/**
+ * @class	SignalSinus	SignalDecorator.h
+ * @brief	Generating sinus signal
+ */
 class SignalSinus : public Dekorator
 {
 	public:

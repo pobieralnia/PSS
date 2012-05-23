@@ -28,7 +28,7 @@ class ARX : public Object
 	std::deque<double> m_B;		// container for B polynomial
 	int m_delay;	// delay
 	int m_stat;		// stationary
-	int m_noise;	// noise
+	double m_noise;	// noise
 
 	public:
 		ARX();

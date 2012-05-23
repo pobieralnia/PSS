@@ -27,12 +27,12 @@ class ConfigBase; // forward declaration (ConfigObject)
  * Config::getInstance().clear_all();	
  * Config::getInstance().set_config();
  */
-class Config : someStruct
+class Config : ConfigStruct
 {
 	private:
-		bool m_config_object_loaded;	// object config flag
-		bool m_config_generator_loaded;	// generator config flag
-		bool m_config_regulator_loaded;	// regulator config flag
+		bool m_config_object_loaded;	/*< object config flag */
+		bool m_config_generator_loaded;	/*< generator config flag */
+		bool m_config_regulator_loaded;	/*< regulator config flag */
 
 		// Interface
 		enum ConfigType
@@ -42,7 +42,7 @@ class Config : someStruct
 			GENERATOR = 2
 		};
 
-		struct someStruct structo;
+		struct ConfigStruct structo;
 
 	private:
 		Config(void){ this->clear_flag(); };		// disable constructor
@@ -56,29 +56,10 @@ class Config : someStruct
 		void set_config(ConfigType cty);	// set exact config flag to true
 		void clear_flag(ConfigType cty);	// clear flag for exact config
 		void clear_flag();					// clear all flags
-		void get_config(std::tuple <std::map<int,double>, std::map<int,double>, std::map<std::string, double>> & conf, int unsigned i)
-		{
-			if( this->structo.m_vector_objects.size() > 0 && i <= this->structo.m_vector_objects.size())
-			{
-				conf = this->structo.m_vector_objects[i];
-			}
-		};
+		void get_config(std::tuple <std::map<int,double>, std::map<int,double>, std::map<std::string, double>> & conf, int unsigned i);
+		void get_config_generator(std::vector<std::map<std::string,double>> & conf);
+		void get_config_regulator(std::map<std::string,double> & conf, int unsigned i);
 
-		void get_config_generator(std::vector<std::map<std::string,double>> & conf)
-		{
-			if( this->structo.m_vector_generator.size() > 0)
-			{
-				conf = this->structo.m_vector_generator;
-			}
-		};
-
-		void get_config_regulator(std::map<std::string,double> & conf, int unsigned i)
-		{
-			if( this->structo.m_vector_regulator.size() > 0 && i <= this->structo.m_vector_regulator.size())
-			{
-				conf = this->structo.m_vector_regulator[i];
-			}
-		};
 
 		// ------------------------------------------------------------------------------
 

@@ -86,8 +86,8 @@ bool ConfigParser::regex_a_parameter(std::string line, double * a_val, int * a_k
 
 			std::istringstream s_key(res[1]);
 			s_key >> * a_key;
-			
 			return true; // success
+			
 		}
 		
 	}
@@ -115,7 +115,6 @@ bool ConfigParser::regex_k(std::string line, double * k)
 			
 			return true; // success
 		}
-		
 	}
 	
 	return false; // fail
@@ -159,8 +158,8 @@ bool ConfigParser::regex_da(std::string line, int * da)
 		{
 			std::istringstream s_da(res[1]);
 			s_da >> * da;
-			
 			return true; // success
+			
 		}
 	}
 	
@@ -183,8 +182,37 @@ bool ConfigParser::regex_db(std::string line, int * db)
 		{
 			std::istringstream s_da(res[1]);
 			s_da >> * db;
-			
 			return true; // success
+			
+		}
+	}
+	
+	return false; // fail
+}
+
+/**
+ * Get noise parameter
+ *
+ * @param		string line
+ * @return		bool - True for success
+ */
+bool ConfigParser::regex_noise(std::string line, double * noise)
+{
+	double val;
+
+	std::tr1::cmatch res;
+	std::tr1::regex rx("noise=([^<]+);");
+    if( std::tr1::regex_search(line.c_str(), res, rx) )
+	{
+		if(res[1] != "")
+		{
+			std::istringstream s_noise(res[1]);
+			s_noise >> val;
+			if(val > 0.0)
+			{
+				* noise = val;
+				return true; // success
+			}
 		}
 	}
 	
@@ -212,8 +240,8 @@ void ConfigParser::regex_generator_parameter(std::string line, std::map<std::str
 			std::string name = res[1];
 			std::istringstream s_val(res[2]);
 			s_val >> val;
-
-			parm[name] = val;
+			if(val > 0.0)	parm[name] = val;
+			
 		}
 	}
 }
@@ -239,8 +267,7 @@ void ConfigParser::regex_regulator_parameter(std::string line, std::map<std::str
 			std::string name = res[1];
 			std::istringstream s_val(res[2]);
 			s_val >> val;
-
-			parm[name] = val;
+			if(val > 0.0)	parm[name] = val;
 		}
 	}
 }
