@@ -13,7 +13,7 @@
  *
  * @return		void
  */
-RegulatorGPC::RegulatorGPC(void) : m_H(3), m_L(2), m_alpha(0.3), m_ro(0.5), m_rankA(1), m_rankB(0), m_initial_steps(10), m_initial_steps_left(0), m_lambda(0.9)
+RegulatorGPC::RegulatorGPC(void) : m_H(3), m_L(2), m_alpha(0.3), m_ro(0.5), m_rankA(1), m_rankB(0), m_initial_steps(10), m_initial_steps_left(0), m_lambda(0.9),  m_e(0.0)
 {
 	m_proces = NULL;
 	m_identify = NULL;
@@ -54,16 +54,16 @@ double RegulatorGPC::simulate(double input)
 		m_w = m_proces->simulate();
 		const double y = input;
 
-		m_history_E.push_front(m_w - y);
+		m_e = m_w - y;
 		m_history_Y.push_front(y);
 		m_identify->add_sample(input, m_history_U.front());
 
-		std::deque<double> A,B;
-		m_poly_A.clear();
-		m_poly_B.clear();
+		//std::deque<double> A,B;
+		//m_poly_A.clear();
+		//m_poly_B.clear();
 
-		A.push_back(-0.6);
-		B.push_back(0.4);
+		//A.push_back(-0.6);
+		//B.push_back(0.4);
 
 		m_identify->get_polynomial_a(m_poly_A);
 		m_identify->get_polynomial_b(m_poly_B);
@@ -122,28 +122,11 @@ double RegulatorGPC::simulate(double input)
 		// http://platforma.polsl.pl/rau1/file.php/62/Cz_4_regulacja_predykcyjna.pdf
 		// page 8
 		Eigen::VectorXd w0(m_H);
-
-		std::map<std::string, double> others;
-		others["k"] = 0;
-		others["stationary"] = 0;
-		others["noise"] = 0;
-
-		std::deque<double> AA,BB;
-		AA.push_back(0);
-		BB.push_back(1);
-
-		ARX ob3;
-		ob3.set_parameters(AA,BB,others);
-		ob3.set_initial_state(m_history_U, m_history_Y);
-	//	w0[0] = (1-m_alpha)*m_w + m_alpha*y;
-	//	for(int i=1; i<m_H; i++)
-		//{
-		//	w0[i] = (1-m_alpha)*m_w + m_alpha*w0[i-1];
-		//}
-		for(int i=0; i<m_H; i++)
+		w0[0] = (1-m_alpha)*m_w + m_alpha*y;
+		for(int i=1; i<m_H; i++)
 		{
-			 w0[i] = ob3.simulate(m_w);
-	}
+			w0[i] = (1-m_alpha)*m_w + m_alpha*w0[i-1];
+		}
 		
 
 		// 4. Calculating q
@@ -316,21 +299,7 @@ void RegulatorGPC::get_parameters(std::map<std::string, double> & parm) const
  */
 double RegulatorGPC::get_error()
 {
-	return m_history_E.front();
-}
-
-/** 
- * Get error for current simulation regulation
- *
- * @return	double
- */
-void RegulatorGPC::get_error(std::vector<double> & err)
-{
-	std::vector<double> v;
-	for(auto it =  m_history_E.rbegin(); it != m_history_E.rend() ; it++)
-		v.push_back(*it);
-	
-	err = v;
+	return m_e;
 }
 
 /**

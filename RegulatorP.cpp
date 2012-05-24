@@ -14,19 +14,8 @@
  *
  * @return		void
  */
-RegulatorP::RegulatorP(void)
+RegulatorP::RegulatorP(void) : m_w(0.0), m_e(0.0), m_k(0.0), m_proces(NULL)
 {
-	m_proces = NULL;
-	m_k = 1;
-	m_w = 0;
-
-	m_history_E.clear();
-	m_history_U.clear();
-	m_history_Y.clear();
-
-	m_history_U.push_front(0);
-	m_history_E.push_front(0);
-    m_history_Y.push_front(0);
 }
 
 /**
@@ -93,17 +82,11 @@ double RegulatorP::simulate(double input)
 {
 	if(m_proces)
 	{
-		const double w = m_proces->simulate();
-		m_w = w;
+		m_w = m_proces->simulate();
 
-		m_history_Y.push_front(input);
-		const double e = m_w - input;
-		const double u = e * m_k;
+		m_e = m_w - input;
 
-		m_history_E.push_front(e);
-		m_history_U.push_front(u);
-
-		return u;
+		return m_e * m_k;
 	}
 	else
 	{
@@ -118,21 +101,7 @@ double RegulatorP::simulate(double input)
  */
 double RegulatorP::get_error()
 {
-	return m_history_E.front(); 
-}
-
-/** 
- * Get error for all simulation steps
- *
- * @return	double
- */
-void RegulatorP::get_error(std::vector<double> & err)
-{
-	std::vector<double> v;
-	for(auto it =  m_history_E.rbegin(); it != m_history_E.rend() ; it++)
-		v.push_back(*it);
-	
-	err = v;
+	return m_e; 
 }
 
 /**

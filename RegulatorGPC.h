@@ -32,10 +32,10 @@ class RegulatorGPC : public Regulator
 	private:
 		// GPC parameters
 		int m_H, m_L;
-		double m_alpha, m_ro, m_w;
+		double m_alpha, m_ro, m_w, m_e;
 		int m_initial_steps;
 		int m_initial_steps_left;
-		std::deque<double> m_history_U, m_history_Y, m_history_E, m_history_DU;
+		std::deque<double> m_history_U, m_history_Y;
 		std::deque<double> m_poly_A;		/*< container for A polynomial */
 		std::deque<double> m_poly_B;		/*< container for B polynomial */
 		std::map<std::string, double> m_tmp_parameter;		/*< container for other parameters */

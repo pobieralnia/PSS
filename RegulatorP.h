@@ -11,11 +11,6 @@
 #include "Regulator.h"
 #include "Signal.h"
 
-#include <vector>
-#include <deque>
-#include <map>
-#include <string>
-
 /**
  * @class	RegulatorP	RegulatorP.h
  * @brief	Implements regulator P
@@ -25,11 +20,9 @@
 class RegulatorP : public Regulator
 {
 	private:
-		std::deque<double> m_history_U; /**< History for outputs - new in the front, old in the end */
-		std::deque<double> m_history_Y; /**< History for inputs - new in the front, old in the end */
-		std::deque<double> m_history_E;	/**< History for error - new in the front, old in the end */
 		double m_k;
 		double m_w;
+		double m_e;
 		SignalBase * m_proces;
 
 	public:
@@ -37,7 +30,6 @@ class RegulatorP : public Regulator
 		~RegulatorP(void);
 		double simulate(double input);
 		double get_error(void);
-		void get_error(std::vector<double> & err);
 		void set_parameters(std::map<std::string, double> & parm);
 		void set_parameters(const std::string & param_name, double value);
 		void get_parameters(std::map<std::string, double> & parm) const;

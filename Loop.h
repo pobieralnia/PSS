@@ -21,17 +21,19 @@ class Loop
 		std::deque<int> m_simulation_step_counter;
 		std::vector<double> m_outputs_vector;
 		std::vector<double> m_errors_vector;
-
+		double m_e;
 	public:
 		Loop(void);
 		~Loop(void);
 		void Loop::set_regulator(Regulator * regulator);
 		void Loop::set_object(Object * arx);
 		double simulation_step();
+		double get_error();
 		void get_outputs(std::deque<double> & out);
 		void get_outputs(std::vector<double> & out);
 		void get_errors(std::vector<double> & err);
 		std::deque<int>	get_simulation_step(void);
+		int get_current_simulation_step(void);
 };
 
 #endif

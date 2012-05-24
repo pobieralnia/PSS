@@ -32,7 +32,7 @@
 #include "StdAfx.h"
 #include "PlotSurface2DDemo.h"
 #include <algorithm>
-#include <vector>
+#include <stdio.h>
 
 namespace PSS {
 
@@ -41,7 +41,7 @@ namespace PSS {
 		m_regulator_selected_flag = false;
 		m_save_file_flag = false;
 
-		this->n = 500;
+		this->n = 200;
 		InitializeComponent();
 		InitializeBackgoundWorker();
 		
@@ -65,6 +65,8 @@ namespace PSS {
 		arx_object = new ARX;
 		m_save = new Save;
 
+		av10 = gcnew ArrayList();
+		av20 = gcnew ArrayList();
 		// Config
 		m_config_regulator = Config::getInstance().create("regulator");
 		config_object = Config::getInstance().create("object");
@@ -211,66 +213,70 @@ namespace PSS {
 	{
 		if(m_regulator_selected_flag)
 		{
-			m_loop->set_regulator(m_regulator);
 			m_regulator->set_setpoint(m_proces);
+			m_loop->set_regulator(m_regulator);
 			m_regulator_selected_flag = false;
+		}
+		
+		if(av10->Count > 200)
+		{
+			av10->Clear();
+			av20->Clear();
 		}
 
 		const double y = m_loop->simulation_step();
-		std::vector<double> tmp_outputs;
-		m_loop->get_outputs(tmp_outputs);
+		const double error = m_loop->get_error();
+		av10->Add( y );
+		av20->Add( error );
 
+		
+		// Outputs
+		//std::vector<double> tmp_outputs;
+
+	//	m_loop->get_outputs(tmp_outputs);
+	//	array<double>^ managedValues = gcnew array<double>(tmp_outputs.size());
+	//	pin_ptr<double> dest = &managedValues[0];
+	//	std::memcpy(dest, &tmp_outputs[0], tmp_outputs.size()*sizeof(double));
+
+		// Errors
+	//	std::vector<double> tmp_errors;
+
+	//	m_loop->get_errors(tmp_errors);
+	//	array<double>^ managedValuess = gcnew array<double>(tmp_errors.size());
+	//	pin_ptr<double> desto = &managedValuess[0];
+	//	std::memcpy(desto, &tmp_errors[0], tmp_errors.size()*sizeof(double));
+
+		// Saving
 		if(m_save_file_flag)
 		{
 			if(m_save_file)
 				m_save_file->save_online(y);
 		}
 
-		std::vector<double> tmp_errors;
-		m_loop->get_errors(tmp_errors);
-		
-
-		// Outputs conversion
-		// ----------------------------------------------------------------------------------------------------------------------------------------------
-		array<double>^ managedValues = gcnew array<double>(tmp_outputs.size());
-		// cast to managed object type IntPtr representing an object pointer.
-		System::IntPtr ptr = (System::IntPtr)&tmp_outputs[0];
-		// copy data to managed array using System::Runtime::Interopservices namespace
-		Marshal::Copy(ptr, managedValues, 0, tmp_outputs.size());
-
-		// Error conversion
-		// ----------------------------------------------------------------------------------------------------------------------------------------------
-		array<double>^ managedValuess = gcnew array<double>(tmp_errors.size());
-		// cast to managed object type IntPtr representing an object pointer.
-		System::IntPtr ptrr = (System::IntPtr)&tmp_errors[0];
-		// copy data to managed array using System::Runtime::Interopservices namespace
-		Marshal::Copy(ptrr, managedValuess, 0, tmp_errors.size());
-
-		CPlotSurface2DDemo::PlotSincFunction(managedValues, managedValuess);
+		// Plot
+		CPlotSurface2DDemo::PlotSincFunction(av10, av20);
 
 	}
 	
 	#pragma region PlotSincFunction
-	System::Void CPlotSurface2DDemo::PlotSincFunction(array<double>^ managedValues, array<double>^ uchyb) 
+	System::Void CPlotSurface2DDemo::PlotSincFunction(ArrayList^ managedValues, ArrayList^ uchyb) 
 	{
         plotSurface->Clear(); // clear everything. reset fonts. remove plot components etc.
 
 		Grid^ fineGrid = gcnew Grid();
 		fineGrid->VerticalGridType = Grid::GridType::Fine;
-		fineGrid->HorizontalGridType = Grid::GridType::Fine;
+	//	fineGrid->HorizontalGridType = Grid::GridType::Fine;
 		plotSurface->Add( fineGrid );
 
 		LinePlot^ lp = gcnew LinePlot();
 		lp->OrdinateData = managedValues;
-		//lp->AbscissaData = gcnew StartStep( -500.0, 10.0 );
-		//lp->AbscissaData = gcnew StartStep( min_x, max_x );
 		lp->Pen = gcnew Pen( Color::Blue, 2.0f );
 		lp->Label = L"OdpowiedŸ obiektu";
 
 		LinePlot^ top = gcnew LinePlot();
 		top->OrdinateData = uchyb;
 		top->Color = Color::Red;
-		top->Pen->Width = 2.0f;
+		top->Pen->Width = 1.0f;
 		top->Label = L"Uchyb";
 
 		plotSurface->Add(lp);
@@ -290,6 +296,8 @@ namespace PSS {
 		plotSurface->LegendZOrder = 1; // default zorder for adding idrawables is 0, so this puts legend on top.
 
 		plotSurface->Title = "Wykres symulacji";
+		plotSurface->AddInteraction(gcnew NPlot::Windows::PlotSurface2D::Interactions::RubberBandSelection());
+
 		plotSurface->Refresh();
 	}
 	#pragma endregion

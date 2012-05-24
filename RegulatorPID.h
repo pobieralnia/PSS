@@ -35,7 +35,7 @@ class RegulatorPID : public Regulator
 		double m_N;
 		double m_Td;
 		double m_w;
-		std::deque<double> m_history_U, m_history_Y, m_history_E, m_history_Integral, m_history_Proportional, m_history_Differential;
+		std::deque<double> m_history_U, m_history_Y, m_history_Integral, m_history_Proportional, m_history_Differential;
 		SignalBase * m_proces;
 		std::map<std::string, double> m_tmp_parameter;
 

@@ -17,7 +17,6 @@ RegulatorPID::RegulatorPID(void) : m_Tp(1), m_b(1), m_k(1), m_Ti(2), m_e(0), m_N
 {
 	m_history_Y.push_front(0.0);
 	m_history_U.push_front(0.0);
-	m_history_E.push_front(0.0);
 	m_history_Integral.push_front(0.0);
 	m_history_Proportional.push_front(0.0);
 	m_history_Differential.push_front(0.0);
@@ -53,9 +52,10 @@ double RegulatorPID::simulate(double input)
 {
 	if(m_proces)
 	{
+		m_history_Y.push_front(input);
+
 		m_w = m_proces->simulate();
 		m_e = m_w -  m_history_Y.front();
-		m_history_E.push_front(m_e);
 
 		const double p = proportional(m_w, input);
 		const double i = integral(m_e);
@@ -66,7 +66,6 @@ double RegulatorPID::simulate(double input)
 		m_history_Integral.push_front(i);
 		m_history_Differential.push_front(d);
 		m_history_U.push_front(u);
-		m_history_Y.push_front(input);
 
 		return u;
 	}
@@ -217,21 +216,7 @@ void RegulatorPID::get_parameters(std::map<std::string, double> & parm) const
  */
 double RegulatorPID::get_error()
 {
-	return m_history_E.front();
-}
-
-/** 
- * Get error for all simulation steps
- *
- * @return	double
- */
-void RegulatorPID::get_error(std::vector<double> & err)
-{
-	std::vector<double> v;
-	for(auto it =  m_history_E.rbegin(); it != m_history_E.rend() ; it++)
-		v.push_back(*it);
-	
-	err = v;
+	return m_e;
 }
 
 /**

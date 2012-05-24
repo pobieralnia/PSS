@@ -40,6 +40,7 @@
 #include "Save.h"
 #include "SaveBase.h"
 
+#include <algorithm>
 #include <sstream>
 #include <tuple>
 #include <map>
@@ -77,6 +78,8 @@ namespace PSS {
 	private: SignalBase * m_proces;
 	private: Save * m_save;
 	private: SaveBase * m_save_file;
+	private: ArrayList^ av10;
+	private: ArrayList^ av20;
 	private: System::Windows::Forms::Button^  startAsyncButton;
 	private: System::Windows::Forms::Button^  cancelAsyncButton;
 	private: System::ComponentModel::BackgroundWorker^ backgroundWorker1;
@@ -137,7 +140,7 @@ namespace PSS {
 
 	public:
 		CPlotSurface2DDemo(void);
-		System::Void PlotSincFunction(array<double>^ managedValues, array<double>^ uchyb);
+		System::Void PlotSincFunction(ArrayList^ managedValues, ArrayList^ uchyb);
 		~CPlotSurface2DDemo();
 
 	// Note that a NPlot.Windows.PlotSurface2D class
@@ -351,7 +354,7 @@ namespace PSS {
 		this->tabPage2->Location = System::Drawing::Point(4, 22);
 		this->tabPage2->Name = L"tabPage2";
 		this->tabPage2->Padding = System::Windows::Forms::Padding(3);
-		this->tabPage2->Size = System::Drawing::Size(701, 383);
+		this->tabPage2->Size = System::Drawing::Size(1035, 383);
 		this->tabPage2->TabIndex = 1;
 		this->tabPage2->Text = L"Konfiguracja";
 		this->tabPage2->UseVisualStyleBackColor = true;
@@ -540,7 +543,7 @@ namespace PSS {
 		this->tabControl2->Location = System::Drawing::Point(11, 454);
 		this->tabControl2->Name = L"tabControl2";
 		this->tabControl2->SelectedIndex = 0;
-		this->tabControl2->Size = System::Drawing::Size(709, 179);
+		this->tabControl2->Size = System::Drawing::Size(1039, 179);
 		this->tabControl2->TabIndex = 13;
 		// 
 		// tabPage1
@@ -552,7 +555,7 @@ namespace PSS {
 		this->tabPage1->Location = System::Drawing::Point(4, 22);
 		this->tabPage1->Name = L"tabPage1";
 		this->tabPage1->Padding = System::Windows::Forms::Padding(3);
-		this->tabPage1->Size = System::Drawing::Size(701, 153);
+		this->tabPage1->Size = System::Drawing::Size(1031, 153);
 		this->tabPage1->TabIndex = 0;
 		this->tabPage1->Text = L"RegulatorP";
 		this->tabPage1->UseVisualStyleBackColor = true;
@@ -602,7 +605,7 @@ namespace PSS {
 		this->tabPage3->Location = System::Drawing::Point(4, 22);
 		this->tabPage3->Name = L"tabPage3";
 		this->tabPage3->Padding = System::Windows::Forms::Padding(3);
-		this->tabPage3->Size = System::Drawing::Size(701, 153);
+		this->tabPage3->Size = System::Drawing::Size(1031, 153);
 		this->tabPage3->TabIndex = 1;
 		this->tabPage3->Text = L"RegulatorGPC";
 		this->tabPage3->UseVisualStyleBackColor = true;
@@ -708,7 +711,7 @@ namespace PSS {
 		this->tabPage4->Location = System::Drawing::Point(4, 22);
 		this->tabPage4->Name = L"tabPage4";
 		this->tabPage4->Padding = System::Windows::Forms::Padding(3);
-		this->tabPage4->Size = System::Drawing::Size(701, 153);
+		this->tabPage4->Size = System::Drawing::Size(1031, 153);
 		this->tabPage4->TabIndex = 2;
 		this->tabPage4->Text = L"RegulatorPID";
 		this->tabPage4->UseVisualStyleBackColor = true;
