@@ -18,9 +18,7 @@ class Loop
 		Regulator * m_REGULATOR;
 		Object * m_ARX;
 		std::deque<double> m_outputs;
-		std::deque<int> m_simulation_step_counter;
-		std::vector<double> m_outputs_vector;
-		std::vector<double> m_errors_vector;
+		int m_simulation_step_counter;
 		double m_e;
 	public:
 		Loop(void);
@@ -29,11 +27,8 @@ class Loop
 		void Loop::set_object(Object * arx);
 		double simulation_step();
 		double get_error();
-		void get_outputs(std::deque<double> & out);
-		void get_outputs(std::vector<double> & out);
-		void get_errors(std::vector<double> & err);
-		std::deque<int>	get_simulation_step(void);
-		int get_current_simulation_step(void);
+		double get_setpoint(void) const;
+		int get_current_simulation_step(void) const;
 };
 
 #endif

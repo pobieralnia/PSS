@@ -15,7 +15,10 @@
 #include <deque>
 #include <vector>
 #include <map>
+#include <memory>
 #include "Eigen\Dense"
+
+class Identification;
 
 /**
  * @class	RegulatorGPC	RegulatorGPC.h

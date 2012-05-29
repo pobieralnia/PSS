@@ -80,11 +80,12 @@ namespace PSS {
 	private: SaveBase * m_save_file;
 	private: ArrayList^ av10;
 	private: ArrayList^ av20;
+	private: ArrayList^ av30;
 	private: System::Windows::Forms::Button^  startAsyncButton;
 	private: System::Windows::Forms::Button^  cancelAsyncButton;
 	private: System::ComponentModel::BackgroundWorker^ backgroundWorker1;
 	private: System::Windows::Forms::TrackBar^  trackBar1;
-	private: System::Windows::Forms::TextBox^  textBox1;
+
 	private: System::Windows::Forms::TabControl^  tabControl1;
 	private: System::Windows::Forms::TabPage^  Wykres;
 	private: System::Windows::Forms::TabPage^  tabPage2;
@@ -136,11 +137,12 @@ namespace PSS {
 	private: System::Windows::Forms::Label^  label16;
 	private: System::Windows::Forms::TextBox^  textBox10;
 	private: System::Windows::Forms::Label^  label15;
+	private: System::Windows::Forms::Label^  label17;
 	private: System::Windows::Forms::OpenFileDialog^  openFileDialog1;
 
 	public:
 		CPlotSurface2DDemo(void);
-		System::Void PlotSincFunction(ArrayList^ managedValues, ArrayList^ uchyb);
+		System::Void PlotSincFunction(ArrayList^ managedValues, ArrayList^ uchyb, ArrayList^ st);
 		~CPlotSurface2DDemo();
 
 	// Note that a NPlot.Windows.PlotSurface2D class
@@ -178,9 +180,9 @@ namespace PSS {
 		this->backgroundWorker1 = (gcnew System::ComponentModel::BackgroundWorker());
 		this->plotSurface = (gcnew NPlot::Windows::PlotSurface2D());
 		this->trackBar1 = (gcnew System::Windows::Forms::TrackBar());
-		this->textBox1 = (gcnew System::Windows::Forms::TextBox());
 		this->tabControl1 = (gcnew System::Windows::Forms::TabControl());
 		this->Wykres = (gcnew System::Windows::Forms::TabPage());
+		this->label17 = (gcnew System::Windows::Forms::Label());
 		this->tabPage2 = (gcnew System::Windows::Forms::TabPage());
 		this->button10 = (gcnew System::Windows::Forms::Button());
 		this->button9 = (gcnew System::Windows::Forms::Button());
@@ -244,7 +246,7 @@ namespace PSS {
 		// 
 		// startAsyncButton
 		// 
-		this->startAsyncButton->Location = System::Drawing::Point(6, 327);
+		this->startAsyncButton->Location = System::Drawing::Point(14, 393);
 		this->startAsyncButton->Name = L"startAsyncButton";
 		this->startAsyncButton->Size = System::Drawing::Size(75, 23);
 		this->startAsyncButton->TabIndex = 7;
@@ -254,7 +256,7 @@ namespace PSS {
 		// 
 		// cancelAsyncButton
 		// 
-		this->cancelAsyncButton->Location = System::Drawing::Point(87, 327);
+		this->cancelAsyncButton->Location = System::Drawing::Point(101, 393);
 		this->cancelAsyncButton->Name = L"cancelAsyncButton";
 		this->cancelAsyncButton->Size = System::Drawing::Size(75, 23);
 		this->cancelAsyncButton->TabIndex = 8;
@@ -279,7 +281,7 @@ namespace PSS {
 		this->plotSurface->Name = L"plotSurface";
 		this->plotSurface->RightMenu = nullptr;
 		this->plotSurface->ShowCoordinates = true;
-		this->plotSurface->Size = System::Drawing::Size(1011, 301);
+		this->plotSurface->Size = System::Drawing::Size(1011, 368);
 		this->plotSurface->SmoothingMode = System::Drawing::Drawing2D::SmoothingMode::None;
 		this->plotSurface->TabIndex = 0;
 		this->plotSurface->Text = L"plotSurface2D1";
@@ -294,7 +296,7 @@ namespace PSS {
 		// 
 		this->trackBar1->AccessibleName = L"";
 		this->trackBar1->BackColor = System::Drawing::SystemColors::ControlLightLight;
-		this->trackBar1->Location = System::Drawing::Point(856, 327);
+		this->trackBar1->Location = System::Drawing::Point(855, 380);
 		this->trackBar1->Maximum = 5;
 		this->trackBar1->Minimum = 1;
 		this->trackBar1->Name = L"trackBar1";
@@ -303,13 +305,6 @@ namespace PSS {
 		this->trackBar1->Value = 1;
 		this->trackBar1->ValueChanged += gcnew System::EventHandler(this, &CPlotSurface2DDemo::trackBar1_ValueChanged);
 		// 
-		// textBox1
-		// 
-		this->textBox1->Location = System::Drawing::Point(966, 327);
-		this->textBox1->Name = L"textBox1";
-		this->textBox1->Size = System::Drawing::Size(51, 20);
-		this->textBox1->TabIndex = 10;
-		// 
 		// tabControl1
 		// 
 		this->tabControl1->Controls->Add(this->Wykres);
@@ -317,23 +312,32 @@ namespace PSS {
 		this->tabControl1->Location = System::Drawing::Point(11, 28);
 		this->tabControl1->Name = L"tabControl1";
 		this->tabControl1->SelectedIndex = 0;
-		this->tabControl1->Size = System::Drawing::Size(1043, 409);
+		this->tabControl1->Size = System::Drawing::Size(1043, 467);
 		this->tabControl1->TabIndex = 11;
 		// 
 		// Wykres
 		// 
+		this->Wykres->Controls->Add(this->label17);
 		this->Wykres->Controls->Add(this->plotSurface);
-		this->Wykres->Controls->Add(this->textBox1);
 		this->Wykres->Controls->Add(this->startAsyncButton);
 		this->Wykres->Controls->Add(this->trackBar1);
 		this->Wykres->Controls->Add(this->cancelAsyncButton);
 		this->Wykres->Location = System::Drawing::Point(4, 22);
 		this->Wykres->Name = L"Wykres";
 		this->Wykres->Padding = System::Windows::Forms::Padding(3);
-		this->Wykres->Size = System::Drawing::Size(1035, 383);
+		this->Wykres->Size = System::Drawing::Size(1035, 441);
 		this->Wykres->TabIndex = 0;
 		this->Wykres->Text = L"Wykres";
 		this->Wykres->UseVisualStyleBackColor = true;
+		// 
+		// label17
+		// 
+		this->label17->AutoSize = true;
+		this->label17->Location = System::Drawing::Point(979, 380);
+		this->label17->Name = L"label17";
+		this->label17->Size = System::Drawing::Size(38, 13);
+		this->label17->TabIndex = 10;
+		this->label17->Text = L"200ms";
 		// 
 		// tabPage2
 		// 
@@ -354,7 +358,7 @@ namespace PSS {
 		this->tabPage2->Location = System::Drawing::Point(4, 22);
 		this->tabPage2->Name = L"tabPage2";
 		this->tabPage2->Padding = System::Windows::Forms::Padding(3);
-		this->tabPage2->Size = System::Drawing::Size(1035, 383);
+		this->tabPage2->Size = System::Drawing::Size(1035, 441);
 		this->tabPage2->TabIndex = 1;
 		this->tabPage2->Text = L"Konfiguracja";
 		this->tabPage2->UseVisualStyleBackColor = true;
@@ -383,7 +387,7 @@ namespace PSS {
 		// 
 		this->label9->AutoSize = true;
 		this->label9->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12.25F));
-		this->label9->Location = System::Drawing::Point(15, 245);
+		this->label9->Location = System::Drawing::Point(220, 257);
 		this->label9->Name = L"label9";
 		this->label9->Size = System::Drawing::Size(606, 40);
 		this->label9->TabIndex = 11;
@@ -392,7 +396,7 @@ namespace PSS {
 		// 
 		// button8
 		// 
-		this->button8->Location = System::Drawing::Point(410, 304);
+		this->button8->Location = System::Drawing::Point(556, 340);
 		this->button8->Name = L"button8";
 		this->button8->Size = System::Drawing::Size(120, 63);
 		this->button8->TabIndex = 10;
@@ -403,7 +407,7 @@ namespace PSS {
 		// button7
 		// 
 		this->button7->BackColor = System::Drawing::Color::Transparent;
-		this->button7->Location = System::Drawing::Point(174, 304);
+		this->button7->Location = System::Drawing::Point(327, 340);
 		this->button7->Name = L"button7";
 		this->button7->Size = System::Drawing::Size(122, 63);
 		this->button7->TabIndex = 9;
@@ -462,7 +466,7 @@ namespace PSS {
 		// 
 		// button3
 		// 
-		this->button3->Location = System::Drawing::Point(455, 58);
+		this->button3->Location = System::Drawing::Point(778, 54);
 		this->button3->Name = L"button3";
 		this->button3->Size = System::Drawing::Size(75, 23);
 		this->button3->TabIndex = 3;
@@ -474,7 +478,7 @@ namespace PSS {
 		// 
 		this->label1->AutoSize = true;
 		this->label1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.25F));
-		this->label1->Location = System::Drawing::Point(564, 42);
+		this->label1->Location = System::Drawing::Point(886, 31);
 		this->label1->Name = L"label1";
 		this->label1->Size = System::Drawing::Size(101, 17);
 		this->label1->TabIndex = 2;
@@ -482,7 +486,7 @@ namespace PSS {
 		// 
 		// button2
 		// 
-		this->button2->Location = System::Drawing::Point(455, 25);
+		this->button2->Location = System::Drawing::Point(778, 25);
 		this->button2->Name = L"button2";
 		this->button2->Size = System::Drawing::Size(75, 23);
 		this->button2->TabIndex = 1;
@@ -540,7 +544,7 @@ namespace PSS {
 		this->tabControl2->Controls->Add(this->tabPage1);
 		this->tabControl2->Controls->Add(this->tabPage3);
 		this->tabControl2->Controls->Add(this->tabPage4);
-		this->tabControl2->Location = System::Drawing::Point(11, 454);
+		this->tabControl2->Location = System::Drawing::Point(15, 515);
 		this->tabControl2->Name = L"tabControl2";
 		this->tabControl2->SelectedIndex = 0;
 		this->tabControl2->Size = System::Drawing::Size(1039, 179);
@@ -564,7 +568,7 @@ namespace PSS {
 		// 
 		this->label3->AutoSize = true;
 		this->label3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.25F));
-		this->label3->Location = System::Drawing::Point(182, 100);
+		this->label3->Location = System::Drawing::Point(394, 104);
 		this->label3->Name = L"label3";
 		this->label3->Size = System::Drawing::Size(100, 16);
 		this->label3->TabIndex = 2;
@@ -572,7 +576,7 @@ namespace PSS {
 		// 
 		// numericUpDown1
 		// 
-		this->numericUpDown1->Location = System::Drawing::Point(327, 100);
+		this->numericUpDown1->Location = System::Drawing::Point(532, 100);
 		this->numericUpDown1->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) {2500, 0, 0, 0});
 		this->numericUpDown1->Name = L"numericUpDown1";
 		this->numericUpDown1->Size = System::Drawing::Size(120, 20);
@@ -612,7 +616,7 @@ namespace PSS {
 		// 
 		// textBox5
 		// 
-		this->textBox5->Location = System::Drawing::Point(483, 90);
+		this->textBox5->Location = System::Drawing::Point(778, 86);
 		this->textBox5->Name = L"textBox5";
 		this->textBox5->Size = System::Drawing::Size(100, 20);
 		this->textBox5->TabIndex = 17;
@@ -620,7 +624,7 @@ namespace PSS {
 		// 
 		// textBox4
 		// 
-		this->textBox4->Location = System::Drawing::Point(483, 54);
+		this->textBox4->Location = System::Drawing::Point(778, 54);
 		this->textBox4->Name = L"textBox4";
 		this->textBox4->Size = System::Drawing::Size(100, 20);
 		this->textBox4->TabIndex = 16;
@@ -628,7 +632,7 @@ namespace PSS {
 		// 
 		// textBox3
 		// 
-		this->textBox3->Location = System::Drawing::Point(147, 90);
+		this->textBox3->Location = System::Drawing::Point(159, 90);
 		this->textBox3->Name = L"textBox3";
 		this->textBox3->Size = System::Drawing::Size(100, 20);
 		this->textBox3->TabIndex = 15;
@@ -636,7 +640,7 @@ namespace PSS {
 		// 
 		// textBox2
 		// 
-		this->textBox2->Location = System::Drawing::Point(147, 54);
+		this->textBox2->Location = System::Drawing::Point(159, 54);
 		this->textBox2->Name = L"textBox2";
 		this->textBox2->Size = System::Drawing::Size(100, 20);
 		this->textBox2->TabIndex = 14;
@@ -646,7 +650,7 @@ namespace PSS {
 		// 
 		this->label8->AutoSize = true;
 		this->label8->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.25F));
-		this->label8->Location = System::Drawing::Point(398, 95);
+		this->label8->Location = System::Drawing::Point(701, 87);
 		this->label8->Name = L"label8";
 		this->label8->Size = System::Drawing::Size(26, 16);
 		this->label8->TabIndex = 8;
@@ -656,7 +660,7 @@ namespace PSS {
 		// 
 		this->label7->AutoSize = true;
 		this->label7->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.25F));
-		this->label7->Location = System::Drawing::Point(398, 58);
+		this->label7->Location = System::Drawing::Point(701, 58);
 		this->label7->Name = L"label7";
 		this->label7->Size = System::Drawing::Size(43, 16);
 		this->label7->TabIndex = 6;
@@ -666,7 +670,7 @@ namespace PSS {
 		// 
 		this->label6->AutoSize = true;
 		this->label6->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.25F));
-		this->label6->Location = System::Drawing::Point(84, 95);
+		this->label6->Location = System::Drawing::Point(97, 94);
 		this->label6->Name = L"label6";
 		this->label6->Size = System::Drawing::Size(15, 16);
 		this->label6->TabIndex = 4;
@@ -676,7 +680,7 @@ namespace PSS {
 		// 
 		this->label5->AutoSize = true;
 		this->label5->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.25F));
-		this->label5->Location = System::Drawing::Point(84, 58);
+		this->label5->Location = System::Drawing::Point(97, 58);
 		this->label5->Name = L"label5";
 		this->label5->Size = System::Drawing::Size(18, 16);
 		this->label5->TabIndex = 2;
@@ -718,7 +722,7 @@ namespace PSS {
 		// 
 		// textBox11
 		// 
-		this->textBox11->Location = System::Drawing::Point(521, 98);
+		this->textBox11->Location = System::Drawing::Point(796, 92);
 		this->textBox11->Name = L"textBox11";
 		this->textBox11->Size = System::Drawing::Size(100, 20);
 		this->textBox11->TabIndex = 12;
@@ -728,7 +732,7 @@ namespace PSS {
 		// 
 		this->label16->AutoSize = true;
 		this->label16->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.25F));
-		this->label16->Location = System::Drawing::Point(485, 102);
+		this->label16->Location = System::Drawing::Point(735, 94);
 		this->label16->Name = L"label16";
 		this->label16->Size = System::Drawing::Size(16, 16);
 		this->label16->TabIndex = 11;
@@ -736,7 +740,7 @@ namespace PSS {
 		// 
 		// textBox10
 		// 
-		this->textBox10->Location = System::Drawing::Point(521, 63);
+		this->textBox10->Location = System::Drawing::Point(796, 55);
 		this->textBox10->Name = L"textBox10";
 		this->textBox10->Size = System::Drawing::Size(100, 20);
 		this->textBox10->TabIndex = 10;
@@ -746,7 +750,7 @@ namespace PSS {
 		// 
 		this->label15->AutoSize = true;
 		this->label15->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.25F));
-		this->label15->Location = System::Drawing::Point(476, 65);
+		this->label15->Location = System::Drawing::Point(735, 59);
 		this->label15->Name = L"label15";
 		this->label15->Size = System::Drawing::Size(25, 16);
 		this->label15->TabIndex = 9;
@@ -754,7 +758,7 @@ namespace PSS {
 		// 
 		// textBox9
 		// 
-		this->textBox9->Location = System::Drawing::Point(308, 98);
+		this->textBox9->Location = System::Drawing::Point(457, 93);
 		this->textBox9->Name = L"textBox9";
 		this->textBox9->Size = System::Drawing::Size(98, 20);
 		this->textBox9->TabIndex = 8;
@@ -764,7 +768,7 @@ namespace PSS {
 		// 
 		this->label14->AutoSize = true;
 		this->label14->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.25F));
-		this->label14->Location = System::Drawing::Point(269, 102);
+		this->label14->Location = System::Drawing::Point(393, 102);
 		this->label14->Name = L"label14";
 		this->label14->Size = System::Drawing::Size(18, 16);
 		this->label14->TabIndex = 7;
@@ -774,7 +778,7 @@ namespace PSS {
 		// 
 		this->label13->AutoSize = true;
 		this->label13->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.25F));
-		this->label13->Location = System::Drawing::Point(272, 63);
+		this->label13->Location = System::Drawing::Point(396, 59);
 		this->label13->Name = L"label13";
 		this->label13->Size = System::Drawing::Size(15, 16);
 		this->label13->TabIndex = 6;
@@ -782,7 +786,7 @@ namespace PSS {
 		// 
 		// textBox8
 		// 
-		this->textBox8->Location = System::Drawing::Point(308, 63);
+		this->textBox8->Location = System::Drawing::Point(457, 55);
 		this->textBox8->Name = L"textBox8";
 		this->textBox8->Size = System::Drawing::Size(100, 20);
 		this->textBox8->TabIndex = 5;
@@ -838,13 +842,15 @@ namespace PSS {
 		// 
 		this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 		this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-		this->ClientSize = System::Drawing::Size(1066, 645);
+		this->ClientSize = System::Drawing::Size(1066, 706);
 		this->Controls->Add(this->tabControl2);
 		this->Controls->Add(this->tabControl1);
 		this->Controls->Add(this->menuStrip1);
+		this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedSingle;
 		this->MainMenuStrip = this->menuStrip1;
+		this->MaximizeBox = false;
 		this->Name = L"CPlotSurface2DDemo";
-		this->Text = L"PSS 1.9";
+		this->Text = L"PSS 2.0";
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->trackBar1))->EndInit();
 		this->tabControl1->ResumeLayout(false);
 		this->Wykres->ResumeLayout(false);
@@ -871,8 +877,8 @@ namespace PSS {
 	// TextBox1 based on the TrackBar value.  
 	private: System::Void trackBar1_ValueChanged( Object^ /*sender*/, System::EventArgs^ /*e*/ )
 	{
-		this->textBox1->Text = String::Concat("", trackBar1->Value );
-		this->n = trackBar1->Value * 1000;
+		this->label17->Text = String::Concat(trackBar1->Value * 100,"ms");
+		this->n = trackBar1->Value * 100;
 	}
 
 	// -------------------------------------------------------------------------------------------------------

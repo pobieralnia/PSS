@@ -7,7 +7,7 @@
 
 #include "StdAfx.h"
 #include "RegulatorGPC.h"
-
+#include <memory>
 /**
  * Constructor - set member variables with defualt values
  *
@@ -71,7 +71,7 @@ double RegulatorGPC::simulate(double input)
 		// Return disruption
 		if (m_initial_steps_left > 0)
 		{
-			const double u = static_cast<double>(rand())/RAND_MAX*m_w;
+			const double u = m_w - y;
 			m_history_U.push_front(u);
 			m_initial_steps_left--;
 			return u;
@@ -168,7 +168,6 @@ double RegulatorGPC::simulate(double input)
 		const double u = m_history_U.front() + du;
 
 		m_history_U.push_front(u);
-
 		return u;
 	}
 	else
@@ -194,12 +193,12 @@ void RegulatorGPC::set_parameters(std::map<std::string, double> & parm)
 	{
 		if(check_parameters())
 		{
-			m_H = parm["H"];
-			m_L = parm["L"];
-			m_alpha = parm["alpha"];
-			m_ro = parm["ro"];
-			m_rankA = parm["rankA"];
-			m_rankB = parm["rankB"];
+			m_H = static_cast<int>(parm["H"]);
+			m_L = static_cast<int>(parm["L"]);
+			m_alpha = static_cast<double>(parm["alpha"]);
+			m_ro =  static_cast<double>(parm["ro"]);
+			m_rankA = static_cast<int>(parm["rankA"]);
+			m_rankB = static_cast<int>(parm["rankB"]);
 			m_lambda = parm["lambda"];
 		}
      }
@@ -254,17 +253,17 @@ void RegulatorGPC::set_parameters(const std::string & param_name, double value)
 		{
 			// TODO Bezsens nie mam pomys³u jak tego nie dublowac
 			if(param_name == "H")
-				m_H = value;
+				m_H = static_cast<int>(value);
 			else if(param_name == "L")
-				m_L = value;
+				m_L = static_cast<int>(value);
 			else if(param_name == "alpha")
 				m_alpha = value;
 			else if(param_name == "lambda")
 				m_lambda = value;
 			else if(param_name == "rankA")
-				m_rankA = value;
+				m_rankA = static_cast<int>(value);
 			else if(param_name == "rankB")
-				m_rankB = value;
+				m_rankB = static_cast<int>(value);
 			else if(param_name == "ro")
 				m_ro = value;
 		}
@@ -392,8 +391,8 @@ bool RegulatorGPC::check_parameters()
  */
 void RegulatorGPC::start_identification()
 {
-	m_identify = new Identification;
+	m_identify = new Identification();
 	m_identify->set_parameters(m_rankA,m_rankB,m_lambda,0.00001,100);
 	m_identify->identify();
-	m_initial_steps_left = 1;
+	m_initial_steps_left = 5;
 }

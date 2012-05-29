@@ -41,7 +41,7 @@ namespace PSS {
 		m_regulator_selected_flag = false;
 		m_save_file_flag = false;
 
-		this->n = 200;
+		this->n = 100;
 		InitializeComponent();
 		InitializeBackgoundWorker();
 		
@@ -67,10 +67,14 @@ namespace PSS {
 
 		av10 = gcnew ArrayList();
 		av20 = gcnew ArrayList();
+		av30 = gcnew ArrayList();
+
 		// Config
 		m_config_regulator = Config::getInstance().create("regulator");
 		config_object = Config::getInstance().create("object");
 		config_generator = Config::getInstance().create("generator");
+
+		plotSurface->RightMenu = NPlot::Windows::PlotSurface2D::DefaultContextMenu;
 	}
 
 	/**
@@ -218,33 +222,20 @@ namespace PSS {
 			m_regulator_selected_flag = false;
 		}
 		
+		// Clear List
 		if(av10->Count > 200)
 		{
 			av10->Clear();
 			av20->Clear();
+			av30->Clear();
 		}
 
 		const double y = m_loop->simulation_step();
 		const double error = m_loop->get_error();
+		const double setpoint = m_loop->get_setpoint();
 		av10->Add( y );
 		av20->Add( error );
-
-		
-		// Outputs
-		//std::vector<double> tmp_outputs;
-
-	//	m_loop->get_outputs(tmp_outputs);
-	//	array<double>^ managedValues = gcnew array<double>(tmp_outputs.size());
-	//	pin_ptr<double> dest = &managedValues[0];
-	//	std::memcpy(dest, &tmp_outputs[0], tmp_outputs.size()*sizeof(double));
-
-		// Errors
-	//	std::vector<double> tmp_errors;
-
-	//	m_loop->get_errors(tmp_errors);
-	//	array<double>^ managedValuess = gcnew array<double>(tmp_errors.size());
-	//	pin_ptr<double> desto = &managedValuess[0];
-	//	std::memcpy(desto, &tmp_errors[0], tmp_errors.size()*sizeof(double));
+		av30->Add( setpoint );
 
 		// Saving
 		if(m_save_file_flag)
@@ -254,12 +245,12 @@ namespace PSS {
 		}
 
 		// Plot
-		CPlotSurface2DDemo::PlotSincFunction(av10, av20);
+		CPlotSurface2DDemo::PlotSincFunction(av10, av20, av30);
 
 	}
 	
 	#pragma region PlotSincFunction
-	System::Void CPlotSurface2DDemo::PlotSincFunction(ArrayList^ managedValues, ArrayList^ uchyb) 
+	System::Void CPlotSurface2DDemo::PlotSincFunction(ArrayList^ managedValues, ArrayList^ uchyb, ArrayList^ st) 
 	{
         plotSurface->Clear(); // clear everything. reset fonts. remove plot components etc.
 
@@ -279,21 +270,25 @@ namespace PSS {
 		top->Pen->Width = 1.0f;
 		top->Label = L"Uchyb";
 
+		Marker^ m = gcnew Marker(Marker::MarkerType::Cross1,6,gcnew Pen(Color::Green,1.0F));
+		PointPlot^ pp = gcnew PointPlot( m );
+		pp->OrdinateData = st;
+		pp->Label = L"Wartoœæ zadana";
+
 		plotSurface->Add(lp);
 		plotSurface->Add(top);
+		plotSurface->Add(pp);
 
 		plotSurface->Title = "Wykres symulacji";
 		plotSurface->YAxis1->Label = "Y";
 		plotSurface->XAxis1->Label = "Krok symulacji";
 
-		Legend^ legend = gcnew Legend();
-		legend->AttachTo( PlotSurface2D::XAxisPosition::Top, PlotSurface2D::YAxisPosition::Left );
-		legend->VerticalEdgePlacement = Legend::Placement::Inside;
-		legend->HorizontalEdgePlacement = Legend::Placement::Inside;
-        legend->YOffset = 8;
-
-        plotSurface->Legend = legend;
-		plotSurface->LegendZOrder = 1; // default zorder for adding idrawables is 0, so this puts legend on top.
+		plotSurface->Legend = gcnew Legend();
+		plotSurface->Legend->AttachTo( PlotSurface2D::XAxisPosition::Top, PlotSurface2D::YAxisPosition::Left );
+		plotSurface->Legend->VerticalEdgePlacement = Legend::Placement::Inside;
+		plotSurface->Legend->HorizontalEdgePlacement = Legend::Placement::Inside;
+        plotSurface->Legend->YOffset = 8;
+		plotSurface->LegendZOrder = 0;
 
 		plotSurface->Title = "Wykres symulacji";
 		plotSurface->AddInteraction(gcnew NPlot::Windows::PlotSurface2D::Interactions::RubberBandSelection());
