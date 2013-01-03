@@ -105,6 +105,16 @@ namespace PSS {
 			delete m_config_regulator;
 		}
 
+		if(config_generator)
+		{
+			delete config_generator;
+		}
+
+		if(m_save)
+		{
+			delete m_save;
+		}
+
 		if(m_regulator)
 		{
 			delete m_regulator;

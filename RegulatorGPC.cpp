@@ -16,7 +16,6 @@
 RegulatorGPC::RegulatorGPC(void) : m_H(3), m_L(2), m_alpha(0.3), m_ro(0.5), m_rankA(1), m_rankB(0), m_initial_steps(10), m_initial_steps_left(0), m_lambda(0.9),  m_e(0.0)
 {
 	m_proces = NULL;
-	m_identify = NULL;
 	m_history_U.push_front(0);
     m_history_Y.push_front(0);
 	start_identification();
@@ -56,17 +55,17 @@ double RegulatorGPC::simulate(double input)
 
 		m_e = m_w - y;
 		m_history_Y.push_front(y);
-		m_identify->add_sample(input, m_history_U.front());
+		m_identify.add_sample(input, m_history_U.front());
 
 		//std::deque<double> A,B;
-		//m_poly_A.clear();
-		//m_poly_B.clear();
+		m_poly_A.clear();
+		m_poly_B.clear();
 
 		//A.push_back(-0.6);
 		//B.push_back(0.4);
 
-		m_identify->get_polynomial_a(m_poly_A);
-		m_identify->get_polynomial_b(m_poly_B);
+		m_identify.get_polynomial_a(m_poly_A);
+		m_identify.get_polynomial_b(m_poly_B);
 
 		// Return disruption
 		if (m_initial_steps_left > 0)
@@ -391,8 +390,8 @@ bool RegulatorGPC::check_parameters()
  */
 void RegulatorGPC::start_identification()
 {
-	m_identify = new Identification();
-	m_identify->set_parameters(m_rankA,m_rankB,m_lambda,0.00001,100);
-	m_identify->identify();
+	//m_identify = new Identification();
+	m_identify.set_parameters(m_rankA,m_rankB,m_lambda,0.00001,100);
+	m_identify.identify();
 	m_initial_steps_left = 5;
 }

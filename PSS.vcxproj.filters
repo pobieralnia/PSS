@@ -52,6 +52,7 @@
     <None Include="asx_jbh.xml">
       <Filter>Pliki zasobów</Filter>
     </None>
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PSS.cpp">

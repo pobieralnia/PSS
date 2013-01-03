@@ -18,8 +18,6 @@
 #include <memory>
 #include "Eigen\Dense"
 
-class Identification;
-
 /**
  * @class	RegulatorGPC	RegulatorGPC.h
  * @brief	Class for simulating GPC regulator (Generalized Predictive Control)
@@ -51,7 +49,7 @@ class RegulatorGPC : public Regulator
 		SignalBase * m_proces;
 
 		// Identification
-		Identification * m_identify;
+		Identification m_identify;
 	public:
 		RegulatorGPC(void);
 		~RegulatorGPC(void);

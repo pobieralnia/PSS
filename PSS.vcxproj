@@ -90,6 +90,7 @@
   <ItemGroup>
     <None Include="app.ico" />
     <None Include="asx_jbh.xml" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
